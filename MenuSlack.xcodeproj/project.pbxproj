@@ -1,0 +1,544 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		604E1E391A636F9C0025CF28 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E381A636F9C0025CF28 /* AppDelegate.swift */; };
+		604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 604E1E3A1A636F9C0025CF28 /* Images.xcassets */; };
+		604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 604E1E3C1A636F9C0025CF28 /* MainMenu.xib */; };
+		604E1E4A1A636F9C0025CF28 /* MenuSlackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E491A636F9C0025CF28 /* MenuSlackTests.swift */; };
+		604E1E551A6371880025CF28 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E541A6371880025CF28 /* MessageView.swift */; };
+		604E1E701A6648E40025CF28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E6F1A6648E40025CF28 /* Foundation.framework */; };
+		604E1E721A6648EB0025CF28 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E711A6648EB0025CF28 /* CFNetwork.framework */; };
+		604E1E741A6648F70025CF28 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E731A6648F70025CF28 /* libicucore.dylib */; };
+		604E1E761A6648FC0025CF28 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E751A6648FC0025CF28 /* Security.framework */; };
+		604E1E971A664EB60025CF28 /* Renderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E961A664EB60025CF28 /* Renderer.swift */; };
+		604E1E9B1A66EACA0025CF28 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E9A1A66EACA0025CF28 /* Channel.swift */; };
+		604E1E9D1A66ED1C0025CF28 /* SocketReceiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E9C1A66ED1C0025CF28 /* SocketReceiver.swift */; };
+		604E1EA11A6710700025CF28 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 604E1EA01A6710700025CF28 /* SRWebSocket.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		604E1E441A636F9C0025CF28 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604E1E2B1A636F9C0025CF28 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 604E1E321A636F9C0025CF28;
+			remoteInfo = MenuSlack;
+		};
+		604E1E8D1A6649820025CF28 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F6B2082D1450F597009315AF;
+			remoteInfo = SocketRocket;
+		};
+		604E1E8F1A6649820025CF28 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F668C880153E91210044DBAC;
+			remoteInfo = SocketRocketOSX;
+		};
+		604E1E911A6649820025CF28 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F6BDA802145900D200FE3253;
+			remoteInfo = SRWebSocketTests;
+		};
+		604E1E931A6649820025CF28 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F62417E314D52F3C003CE997;
+			remoteInfo = TestChat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		604E1E331A636F9C0025CF28 /* MenuSlack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MenuSlack.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		604E1E371A636F9C0025CF28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		604E1E381A636F9C0025CF28 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		604E1E3A1A636F9C0025CF28 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		604E1E3D1A636F9C0025CF28 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		604E1E431A636F9C0025CF28 /* MenuSlackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MenuSlackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		604E1E481A636F9C0025CF28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		604E1E491A636F9C0025CF28 /* MenuSlackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSlackTests.swift; sourceTree = "<group>"; };
+		604E1E541A6371880025CF28 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageView.swift; path = Views/MessageView.swift; sourceTree = "<group>"; };
+		604E1E6E1A66487E0025CF28 /* MenuSlack-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MenuSlack-Bridging-Header.h"; sourceTree = "<group>"; };
+		604E1E6F1A6648E40025CF28 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		604E1E711A6648EB0025CF28 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		604E1E731A6648F70025CF28 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		604E1E751A6648FC0025CF28 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = MenuSlack/SocketRocket.xcodeproj; sourceTree = "<group>"; };
+		604E1E961A664EB60025CF28 /* Renderer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Renderer.swift; path = Models/Renderer.swift; sourceTree = "<group>"; };
+		604E1E9A1A66EACA0025CF28 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Channel.swift; path = Models/Channel.swift; sourceTree = "<group>"; };
+		604E1E9C1A66ED1C0025CF28 /* SocketReceiver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SocketReceiver.swift; path = Models/SocketReceiver.swift; sourceTree = "<group>"; };
+		604E1EA01A6710700025CF28 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRWebSocket.m; path = MenuSlack/SocketRocket/SRWebSocket.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		604E1E301A636F9C0025CF28 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				604E1E761A6648FC0025CF28 /* Security.framework in Frameworks */,
+				604E1E741A6648F70025CF28 /* libicucore.dylib in Frameworks */,
+				604E1E721A6648EB0025CF28 /* CFNetwork.framework in Frameworks */,
+				604E1E701A6648E40025CF28 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604E1E401A636F9C0025CF28 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		604E1E2A1A636F9C0025CF28 = {
+			isa = PBXGroup;
+			children = (
+				604E1EA01A6710700025CF28 /* SRWebSocket.m */,
+				604E1E751A6648FC0025CF28 /* Security.framework */,
+				604E1E731A6648F70025CF28 /* libicucore.dylib */,
+				604E1E711A6648EB0025CF28 /* CFNetwork.framework */,
+				604E1E6F1A6648E40025CF28 /* Foundation.framework */,
+				604E1E351A636F9C0025CF28 /* MenuSlack */,
+				604E1E461A636F9C0025CF28 /* MenuSlackTests */,
+				604E1E341A636F9C0025CF28 /* Products */,
+				604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */,
+			);
+			sourceTree = "<group>";
+		};
+		604E1E341A636F9C0025CF28 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				604E1E331A636F9C0025CF28 /* MenuSlack.app */,
+				604E1E431A636F9C0025CF28 /* MenuSlackTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		604E1E351A636F9C0025CF28 /* MenuSlack */ = {
+			isa = PBXGroup;
+			children = (
+				604E1E561A6371980025CF28 /* Models */,
+				604E1E531A6371630025CF28 /* Views */,
+				604E1E381A636F9C0025CF28 /* AppDelegate.swift */,
+				604E1E3C1A636F9C0025CF28 /* MainMenu.xib */,
+				604E1E3A1A636F9C0025CF28 /* Images.xcassets */,
+				604E1E361A636F9C0025CF28 /* Supporting Files */,
+				604E1E6E1A66487E0025CF28 /* MenuSlack-Bridging-Header.h */,
+			);
+			path = MenuSlack;
+			sourceTree = "<group>";
+		};
+		604E1E361A636F9C0025CF28 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				604E1E371A636F9C0025CF28 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		604E1E461A636F9C0025CF28 /* MenuSlackTests */ = {
+			isa = PBXGroup;
+			children = (
+				604E1E491A636F9C0025CF28 /* MenuSlackTests.swift */,
+				604E1E471A636F9C0025CF28 /* Supporting Files */,
+			);
+			path = MenuSlackTests;
+			sourceTree = "<group>";
+		};
+		604E1E471A636F9C0025CF28 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				604E1E481A636F9C0025CF28 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		604E1E531A6371630025CF28 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				604E1E541A6371880025CF28 /* MessageView.swift */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		604E1E561A6371980025CF28 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				604E1E9A1A66EACA0025CF28 /* Channel.swift */,
+				604E1E961A664EB60025CF28 /* Renderer.swift */,
+				604E1E9C1A66ED1C0025CF28 /* SocketReceiver.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		604E1E871A66497D0025CF28 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				604E1E8E1A6649820025CF28 /* libSocketRocket.a */,
+				604E1E901A6649820025CF28 /* SocketRocket.framework */,
+				604E1E921A6649820025CF28 /* SRWebSocketTests.octest */,
+				604E1E941A6649820025CF28 /* TestChat.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		604E1E321A636F9C0025CF28 /* MenuSlack */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 604E1E4D1A636F9C0025CF28 /* Build configuration list for PBXNativeTarget "MenuSlack" */;
+			buildPhases = (
+				604E1E2F1A636F9C0025CF28 /* Sources */,
+				604E1E301A636F9C0025CF28 /* Frameworks */,
+				604E1E311A636F9C0025CF28 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MenuSlack;
+			productName = MenuSlack;
+			productReference = 604E1E331A636F9C0025CF28 /* MenuSlack.app */;
+			productType = "com.apple.product-type.application";
+		};
+		604E1E421A636F9C0025CF28 /* MenuSlackTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 604E1E501A636F9C0025CF28 /* Build configuration list for PBXNativeTarget "MenuSlackTests" */;
+			buildPhases = (
+				604E1E3F1A636F9C0025CF28 /* Sources */,
+				604E1E401A636F9C0025CF28 /* Frameworks */,
+				604E1E411A636F9C0025CF28 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				604E1E451A636F9C0025CF28 /* PBXTargetDependency */,
+			);
+			name = MenuSlackTests;
+			productName = MenuSlackTests;
+			productReference = 604E1E431A636F9C0025CF28 /* MenuSlackTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		604E1E2B1A636F9C0025CF28 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Zanopan;
+				TargetAttributes = {
+					604E1E321A636F9C0025CF28 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					604E1E421A636F9C0025CF28 = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = 604E1E321A636F9C0025CF28;
+					};
+				};
+			};
+			buildConfigurationList = 604E1E2E1A636F9C0025CF28 /* Build configuration list for PBXProject "MenuSlack" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 604E1E2A1A636F9C0025CF28;
+			productRefGroup = 604E1E341A636F9C0025CF28 /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 604E1E871A66497D0025CF28 /* Products */;
+					ProjectRef = 604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				604E1E321A636F9C0025CF28 /* MenuSlack */,
+				604E1E421A636F9C0025CF28 /* MenuSlackTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		604E1E8E1A6649820025CF28 /* libSocketRocket.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSocketRocket.a;
+			remoteRef = 604E1E8D1A6649820025CF28 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		604E1E901A6649820025CF28 /* SocketRocket.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SocketRocket.framework;
+			remoteRef = 604E1E8F1A6649820025CF28 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		604E1E921A6649820025CF28 /* SRWebSocketTests.octest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SRWebSocketTests.octest;
+			remoteRef = 604E1E911A6649820025CF28 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		604E1E941A6649820025CF28 /* TestChat.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = TestChat.app;
+			remoteRef = 604E1E931A6649820025CF28 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		604E1E311A636F9C0025CF28 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */,
+				604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604E1E411A636F9C0025CF28 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		604E1E2F1A636F9C0025CF28 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				604E1E971A664EB60025CF28 /* Renderer.swift in Sources */,
+				604E1E9B1A66EACA0025CF28 /* Channel.swift in Sources */,
+				604E1E551A6371880025CF28 /* MessageView.swift in Sources */,
+				604E1EA11A6710700025CF28 /* SRWebSocket.m in Sources */,
+				604E1E391A636F9C0025CF28 /* AppDelegate.swift in Sources */,
+				604E1E9D1A66ED1C0025CF28 /* SocketReceiver.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604E1E3F1A636F9C0025CF28 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				604E1E4A1A636F9C0025CF28 /* MenuSlackTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		604E1E451A636F9C0025CF28 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 604E1E321A636F9C0025CF28 /* MenuSlack */;
+			targetProxy = 604E1E441A636F9C0025CF28 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		604E1E3C1A636F9C0025CF28 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				604E1E3D1A636F9C0025CF28 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		604E1E4B1A636F9C0025CF28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "MenuSlack/MenuSlack-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		604E1E4C1A636F9C0025CF28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "MenuSlack/MenuSlack-Bridging-Header.h";
+			};
+			name = Release;
+		};
+		604E1E4E1A636F9C0025CF28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = MenuSlack/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		604E1E4F1A636F9C0025CF28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = MenuSlack/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		604E1E511A636F9C0025CF28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MenuSlackTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MenuSlack.app/Contents/MacOS/MenuSlack";
+			};
+			name = Debug;
+		};
+		604E1E521A636F9C0025CF28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = MenuSlackTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MenuSlack.app/Contents/MacOS/MenuSlack";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		604E1E2E1A636F9C0025CF28 /* Build configuration list for PBXProject "MenuSlack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604E1E4B1A636F9C0025CF28 /* Debug */,
+				604E1E4C1A636F9C0025CF28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		604E1E4D1A636F9C0025CF28 /* Build configuration list for PBXNativeTarget "MenuSlack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604E1E4E1A636F9C0025CF28 /* Debug */,
+				604E1E4F1A636F9C0025CF28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		604E1E501A636F9C0025CF28 /* Build configuration list for PBXNativeTarget "MenuSlackTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604E1E511A636F9C0025CF28 /* Debug */,
+				604E1E521A636F9C0025CF28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 604E1E2B1A636F9C0025CF28 /* Project object */;
+}
