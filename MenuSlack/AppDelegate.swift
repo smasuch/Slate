@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var statusItem: NSStatusItem
     
-    var socketReceiver: SocketReceiver?
+    var connectionManager: ConnectionManager?
     
     override init() {
         self.statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1.0)
@@ -29,8 +29,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItemWithTitle("Quit", action: "terminate", keyEquivalent: "")
         self.statusItem.menu = menu
         
-        self.socketReceiver = SocketReceiver()
-        socketReceiver?.initiateConnection()
+        self.connectionManager = ConnectionManager()
+        connectionManager?.initiateConnection()
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
