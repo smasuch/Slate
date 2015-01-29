@@ -7,11 +7,23 @@
 //
 
 import Foundation
+import SwiftyJSON
 
 class Event {
-    var eventJSON: AnyObject?
+    var eventJSON: JSON
+    var user: User?
+    var message: Message?
     
-    init(eventJSON: AnyObject?) {
+    init(eventJSON: JSON) {
         self.eventJSON = eventJSON
+        
+        if let type = eventJSON["type"].string {
+            switch type {
+                case "message":
+                    self.message = Message(messageJSON: eventJSON)
+                default:
+                    println("We got no type on this event!")
+            }
+        }
     }
 }

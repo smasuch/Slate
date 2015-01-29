@@ -23,14 +23,17 @@ class DataManager: QueueObserver {
     
     init() {
         users = [String: User]()
-        currentTeamState = TeamState(users: users)
+        currentTeamState = TeamState()
     }
     
     func queueAddedObject() {
         while (eventQueue?.isEmpty() != true) {
-            let event = eventQueue?.popTopItem()
-            println(event?.eventJSON?.description)
+            if let event = eventQueue?.popTopItem() {
+                println(event.eventJSON.description)
+                currentTeamState = currentTeamState.incorporateEvent(event)
+            }
         }
-    }
-
+        
+        stateQueue?.addItem(currentTeamState)
+    }   
 }

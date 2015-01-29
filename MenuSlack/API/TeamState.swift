@@ -8,18 +8,27 @@
 
 import Foundation
 
-struct TeamState {
-    let users:      Dictionary<String, User>
-    let channels:   Array<Channel>
-    let messages:   Array<Message>
+class TeamState {
+    var users:      Dictionary<String, User>
+    var channels:   Array<Channel>
+    var messages:   Array<Message>
     
-    init(users: Dictionary<String, User>) {
-        self.users = users
-        self.channels = [Channel]()
-        self.messages = [Message]()
+    init() {
+        users = [String: User]()
+        channels = [Channel]()
+        messages = [Message]()
     }
     
     func incorporateEvent(event: Event) -> TeamState {
+        if let user = event.user {
+            users[user.id] = user
+        }
+        
+        if let message = event.message {
+            message.user = users[message.userID!]
+            messages.append(message)
+        }
+        
         return self
     }
 }

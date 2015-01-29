@@ -19,6 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var dataManager: DataManager
     
+    var menuController: MenuController
+    
     override init() {
         self.statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1.0)
         connectionManager = ConnectionManager()
@@ -26,6 +28,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         connectionManager.eventQueue = eventQueue
         dataManager = DataManager()
         dataManager.eventQueue = eventQueue
+        menuController = MenuController()
+        let stateQueue = Queue<TeamState>()
+        dataManager.stateQueue = stateQueue
+        menuController.stateQueue = stateQueue
     }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -35,6 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let menu = NSMenu()
         menu.addItemWithTitle("Quit", action: "terminate", keyEquivalent: "")
         self.statusItem.menu = menu
+        menuController.menu = menu
         
         connectionManager.initiateConnection()
     }

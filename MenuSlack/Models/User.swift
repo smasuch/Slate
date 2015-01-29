@@ -11,10 +11,18 @@ import SwiftyJSON
 
 class User {
     var name: String?
-    var id: Int
+    var id: String
     
     init(data: JSON) {
         name = data["name"].string
-        id = data["id"].intValue
+        id = data["id"].string!
+    }
+    
+    func description() -> String {
+        if let name = self.name {
+            return "User " + id + ", name: " + name
+        } else {
+            return "User " + id + ", but no name!"
+        }
     }
 }
