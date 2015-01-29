@@ -15,10 +15,7 @@ import Alamofire
 class ConnectionManager: NSObject, SRWebSocketDelegate {
     
     var webSocket: SRWebSocket?
-    
-    func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
-        println(message.description)
-    }
+    var eventQueue: Queue<Event>?
     
     func initiateConnection() {
         Alamofire.request(.POST, "https://slack.com/api/rtm.start", parameters: ["token": "xoxp-2151428947-2433938776-2459009873-874a82"]).response { (request, response, data, error) in
@@ -42,6 +39,17 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
     
     func webSocketDidOpen(webSocket: SRWebSocket!) {
         println("Socket opened!")
+    }
+    
+    func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
+        println(message.description)
+        if let eventString = message as? String {
+            let jsonData = eventString.dataUsingEncoding(NSUTF8StringEncoding)
+            if let resultingData = jsonData {
+                let event = Event(eventJSON: NSJSONSerialization.JSONObjectWithData(resultingData, options: NSJSONReadingOptions.MutableContainers, error: nil))
+                eventQueue?.addItem(event)
+            }
+        }
     }
     
     func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {

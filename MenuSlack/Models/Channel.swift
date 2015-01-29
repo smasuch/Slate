@@ -7,3 +7,11 @@
 //
 
 import Foundation
+
+class Channel {
+    let messages: Array<Message>
+    
+    init (messages: Array<Message>) {
+        self.messages = messages
+    }
+}

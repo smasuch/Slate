@@ -15,10 +15,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var statusItem: NSStatusItem
     
-    var connectionManager: ConnectionManager?
+    var connectionManager: ConnectionManager
+    
+    var dataManager: DataManager
     
     override init() {
         self.statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1.0)
+        connectionManager = ConnectionManager()
+        let eventQueue = Queue<Event>()
+        connectionManager.eventQueue = eventQueue
+        dataManager = DataManager()
+        dataManager.eventQueue = eventQueue
     }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
@@ -29,8 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         menu.addItemWithTitle("Quit", action: "terminate", keyEquivalent: "")
         self.statusItem.menu = menu
         
-        self.connectionManager = ConnectionManager()
-        connectionManager?.initiateConnection()
+        connectionManager.initiateConnection()
     }
 
     func applicationWillTerminate(aNotification: NSNotification) {
