@@ -27,14 +27,19 @@ class MenuController: QueueObserver {
         let teamState = stateQueue?.popTopItem()
         if let messages = teamState?.messages {
             for message in messages {
-                var messageLabel = ": "
+                var loadedViews: NSArray?
+                NSBundle.mainBundle().loadNibNamed("MessageView", owner: nil, topLevelObjects: &loadedViews)
+                let messageView = loadedViews![1] as MessageView
+                
                 if let username = message.user?.name {
-                    messageLabel = username + messageLabel
+                    messageView.usernameLabel.stringValue = username
                 }
                 if let messageText = message.text {
-                    messageLabel += messageText
+                    messageView.messageTextLabel.stringValue = messageText
                 }
-                menu?.addItemWithTitle(messageLabel, action: "terminate", keyEquivalent: "")
+                var menuItem = NSMenuItem(title: "Message", action: "terminate", keyEquivalent: "")
+                menuItem.view = messageView
+                menu?.addItem(menuItem)
             }
         }
     }
