@@ -19,29 +19,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     var dataManager: DataManager
     
-    var menuController: MenuController
+    var menuController: MenuController?
     
     override init() {
         self.statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1.0)
         connectionManager = ConnectionManager()
-        let eventQueue = Queue<Event>()
-        connectionManager.eventQueue = eventQueue
         dataManager = DataManager()
-        dataManager.eventQueue = eventQueue
-        menuController = MenuController()
-        let stateQueue = Queue<TeamState>()
-        dataManager.stateQueue = stateQueue
-        menuController.stateQueue = stateQueue
     }
 
     func applicationDidFinishLaunching(aNotification: NSNotification) {
-        
-        self.statusItem.title = "Slack"
-        println(statusItem)
         let menu = NSMenu()
         menu.addItemWithTitle("Quit", action: "terminate", keyEquivalent: "")
         self.statusItem.menu = menu
-        menuController.menu = menu
+        
+        
+        let eventQueue = Queue<Event>()
+        connectionManager.eventQueue = eventQueue
+        
+        dataManager.eventQueue = eventQueue
+        menuController = MenuController(menu: menu)
+        let stateQueue = Queue<TeamState>()
+        dataManager.stateQueue = stateQueue
+        menuController?.stateQueue = stateQueue
+        
+        self.statusItem.title = "Slack"
         
         connectionManager.initiateConnection()
     }

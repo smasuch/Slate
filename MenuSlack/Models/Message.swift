@@ -53,11 +53,13 @@ class Message {
         timestamp = messageJSON["ts"].string
         
         self.attachments = [Attachment]()
+        
         if let attachments = messageJSON["attachments"].array {
             for attachmentJSON: JSON in attachments {
                 self.attachments.append(Attachment(attachmentJSON: attachmentJSON))
             }
         }
+        
         if messageJSON["message"].type == .Dictionary {
             submessage = Message(messageJSON: messageJSON["message"])
         }
