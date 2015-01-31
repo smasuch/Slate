@@ -15,12 +15,11 @@
 		603C7F901A7990B6008655DD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F8F1A7990B6008655DD /* User.swift */; };
 		603C7F921A79912F008655DD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F911A79912F008655DD /* Message.swift */; };
 		603C7F991A7ACA21008655DD /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F981A7ACA21008655DD /* MenuController.swift */; };
-		603C7FD01A7B1716008655DD /* MessageView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 603C7FCF1A7B1716008655DD /* MessageView.xib */; };
+		603C7FD21A7C43F3008655DD /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7FD11A7C43F3008655DD /* Attachment.swift */; };
 		604E1E391A636F9C0025CF28 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E381A636F9C0025CF28 /* AppDelegate.swift */; };
 		604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 604E1E3A1A636F9C0025CF28 /* Images.xcassets */; };
 		604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 604E1E3C1A636F9C0025CF28 /* MainMenu.xib */; };
 		604E1E4A1A636F9C0025CF28 /* MenuSlackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E491A636F9C0025CF28 /* MenuSlackTests.swift */; };
-		604E1E551A6371880025CF28 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E541A6371880025CF28 /* MessageView.swift */; };
 		604E1E701A6648E40025CF28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E6F1A6648E40025CF28 /* Foundation.framework */; };
 		604E1E721A6648EB0025CF28 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E711A6648EB0025CF28 /* CFNetwork.framework */; };
 		604E1E741A6648F70025CF28 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E731A6648F70025CF28 /* libicucore.dylib */; };
@@ -77,7 +76,7 @@
 		603C7F8F1A7990B6008655DD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Models/User.swift; sourceTree = "<group>"; };
 		603C7F911A79912F008655DD /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = Models/Message.swift; sourceTree = "<group>"; };
 		603C7F981A7ACA21008655DD /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuController.swift; path = Views/MenuController.swift; sourceTree = "<group>"; };
-		603C7FCF1A7B1716008655DD /* MessageView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MessageView.xib; path = Views/MessageView.xib; sourceTree = "<group>"; };
+		603C7FD11A7C43F3008655DD /* Attachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Attachment.swift; path = Models/Attachment.swift; sourceTree = "<group>"; };
 		604E1E331A636F9C0025CF28 /* MenuSlack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MenuSlack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		604E1E371A636F9C0025CF28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		604E1E381A636F9C0025CF28 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -86,7 +85,6 @@
 		604E1E431A636F9C0025CF28 /* MenuSlackTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MenuSlackTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		604E1E481A636F9C0025CF28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		604E1E491A636F9C0025CF28 /* MenuSlackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuSlackTests.swift; sourceTree = "<group>"; };
-		604E1E541A6371880025CF28 /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageView.swift; path = Views/MessageView.swift; sourceTree = "<group>"; };
 		604E1E6E1A66487E0025CF28 /* MenuSlack-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "MenuSlack-Bridging-Header.h"; sourceTree = "<group>"; };
 		604E1E6F1A6648E40025CF28 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		604E1E711A6648EB0025CF28 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -202,9 +200,7 @@
 		604E1E531A6371630025CF28 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				604E1E541A6371880025CF28 /* MessageView.swift */,
 				603C7F981A7ACA21008655DD /* MenuController.swift */,
-				603C7FCF1A7B1716008655DD /* MessageView.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -217,6 +213,7 @@
 				603C7F8F1A7990B6008655DD /* User.swift */,
 				604E1E9A1A66EACA0025CF28 /* Channel.swift */,
 				603C7F911A79912F008655DD /* Message.swift */,
+				603C7FD11A7C43F3008655DD /* Attachment.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -369,7 +366,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				603C7FD01A7B1716008655DD /* MessageView.xib in Resources */,
 				604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */,
 				604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */,
 			);
@@ -439,9 +435,9 @@
 			files = (
 				603C7F8A1A7985DB008655DD /* Event.swift in Sources */,
 				604E1E9B1A66EACA0025CF28 /* Channel.swift in Sources */,
-				604E1E551A6371880025CF28 /* MessageView.swift in Sources */,
 				603C7F8E1A798E0D008655DD /* TeamState.swift in Sources */,
 				603C7F991A7ACA21008655DD /* MenuController.swift in Sources */,
+				603C7FD21A7C43F3008655DD /* Attachment.swift in Sources */,
 				60153A0A1A7836A2008C0F7D /* ConnectionManager.swift in Sources */,
 				604E1EA11A6710700025CF28 /* SRWebSocket.m in Sources */,
 				603C7F861A798490008655DD /* Queue.swift in Sources */,

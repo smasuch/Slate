@@ -22,7 +22,7 @@ class Event {
                 case "message":
                     self.message = Message(messageJSON: eventJSON)
                 default:
-                    println("We got no type on this event!")
+                    println("We recognize no type on this event!")
             }
         }
     }
