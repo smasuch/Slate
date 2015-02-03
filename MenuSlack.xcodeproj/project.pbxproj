@@ -26,6 +26,7 @@
 		604E1E761A6648FC0025CF28 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E751A6648FC0025CF28 /* Security.framework */; };
 		604E1E9B1A66EACA0025CF28 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E9A1A66EACA0025CF28 /* Channel.swift */; };
 		604E1EA11A6710700025CF28 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 604E1EA01A6710700025CF28 /* SRWebSocket.m */; };
+		60EB3E0F1A80812900C72876 /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB3E0E1A80812900C72876 /* TeamView.swift */; };
 		B97E13A2612F68E3484130AC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7633BBB41F07396015C8D81C /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -93,6 +94,7 @@
 		604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = MenuSlack/SocketRocket.xcodeproj; sourceTree = "<group>"; };
 		604E1E9A1A66EACA0025CF28 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Channel.swift; path = Models/Channel.swift; sourceTree = "<group>"; };
 		604E1EA01A6710700025CF28 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRWebSocket.m; path = MenuSlack/SocketRocket/SRWebSocket.m; sourceTree = "<group>"; };
+		60EB3E0E1A80812900C72876 /* TeamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamView.swift; path = Views/TeamView.swift; sourceTree = "<group>"; };
 		7633BBB41F07396015C8D81C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2AE037EE0A34A018A6B8351 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		F8C47390C9594902E3B0D0B2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				603C7F981A7ACA21008655DD /* MenuController.swift */,
+				60EB3E0E1A80812900C72876 /* TeamView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -438,6 +441,7 @@
 				603C7F8E1A798E0D008655DD /* TeamState.swift in Sources */,
 				603C7F991A7ACA21008655DD /* MenuController.swift in Sources */,
 				603C7FD21A7C43F3008655DD /* Attachment.swift in Sources */,
+				60EB3E0F1A80812900C72876 /* TeamView.swift in Sources */,
 				60153A0A1A7836A2008C0F7D /* ConnectionManager.swift in Sources */,
 				604E1EA11A6710700025CF28 /* SRWebSocket.m in Sources */,
 				603C7F861A798490008655DD /* Queue.swift in Sources */,

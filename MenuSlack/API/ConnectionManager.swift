@@ -16,7 +16,13 @@ import SwiftyJSON
 class ConnectionManager: NSObject, SRWebSocketDelegate {
     
     var webSocket: SRWebSocket?
-    var eventQueue: Queue<Event>?
+    let dataManager: DataManager
+    var stateQueue: Queue<TeamState>
+    
+    override init() {
+        dataManager = DataManager()
+        stateQueue = Queue<TeamState>()
+    }
     
     func initiateConnection() {
         Alamofire.request(.POST, "https://slack.com/api/rtm.start", parameters: ["token": "xoxp-2152506032-2152506034-3552581508-c06294"]).response { (request, response, data, error) in
@@ -42,7 +48,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
                         let user = User(data: subJson)
                         let event = Event(eventJSON: subJson)
                         event.user = user
-                        self.eventQueue?.addItem(event)
+                        self.dataManager.handleEvent(event)
                     }
                 }
             }
@@ -59,7 +65,8 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
             let jsonData = eventString.dataUsingEncoding(NSUTF8StringEncoding)
             if let resultingData = jsonData {
                 let event = Event(eventJSON: JSON(data: resultingData))
-                eventQueue?.addItem(event)
+                dataManager.handleEvent(event)
+                stateQueue.addItem(dataManager.currentTeamState)
             }
         }
     }

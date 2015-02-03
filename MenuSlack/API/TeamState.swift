@@ -43,6 +43,7 @@ class TeamState {
                     }
                     if changedMessage != nil {
                         changedMessage!.text = message.submessage?.text
+                        changedMessage!.attachments = message.submessage!.attachments
                     }
                     
                 case .Deleted:
@@ -86,5 +87,11 @@ class TeamState {
             println(existingMessage.text)
         }
         return self
+    }
+    
+    func messagesViewed() {
+        if messages.count > 1 {
+            messages.removeRange(0..<(messages.count - 1))
+        }
     }
 }

@@ -55,7 +55,8 @@ class Message {
         self.attachments = [Attachment]()
         
         if let attachments = messageJSON["attachments"].array {
-            for attachmentJSON: JSON in attachments {
+            println("Attachments from message:")
+            for attachmentJSON in attachments {
                 self.attachments.append(Attachment(attachmentJSON: attachmentJSON))
             }
         }

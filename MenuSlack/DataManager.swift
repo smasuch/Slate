@@ -8,17 +8,8 @@
 
 import Foundation
 
-class DataManager: QueueObserver {
+class DataManager {
     var users: Dictionary<String, User>
-    var eventQueue: Queue<Event>? {
-        willSet(newEventQueue) {
-            newEventQueue?.observer = self
-        }
-        didSet {
-            oldValue?.observer = nil
-        }
-    }
-    var stateQueue: Queue<TeamState>?
     var currentTeamState: TeamState
     
     init() {
@@ -26,14 +17,15 @@ class DataManager: QueueObserver {
         currentTeamState = TeamState()
     }
     
-    func queueAddedObject() {
-        while (eventQueue?.isEmpty() != true) {
-            if let event = eventQueue?.popTopItem() {
-                println(event.eventJSON.description)
-                currentTeamState = currentTeamState.incorporateEvent(event)
-            }
-        }
+    func handleEvent(event: Event){
+        currentTeamState = currentTeamState.incorporateEvent(event)
+    }
+    
+    func menuViewed() {
+        currentTeamState.messagesViewed()
+    }
+    
+    func scrubReadMessages () {
         
-        stateQueue?.addItem(currentTeamState)
-    }   
+    }
 }

@@ -30,5 +30,8 @@ struct Attachment {
         imageHeight = attachmentJSON["image_height"].int
         imageWidth = attachmentJSON["image_width"].int
         imageURL = attachmentJSON["image_url"].string
+        
+        println("Attachment URL: ")
+        println(imageURL)
     }
 }
