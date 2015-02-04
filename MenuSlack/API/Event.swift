@@ -13,6 +13,7 @@ class Event {
     var eventJSON: JSON
     var user: User?
     var message: Message?
+    var channel: Channel?
     
     init(eventJSON: JSON) {
         self.eventJSON = eventJSON

@@ -42,8 +42,11 @@ class Message {
     var hidden: Bool
     var timestamp: String?
     var submessage: Message?
+    var channelID: String?
+    var isRead: Bool
 
     init(messageJSON: JSON) {
+        isRead = false
         text = messageJSON["text"].string
         if let slackString = text {
             let attributedString = NSAttributedString.attributedSlackString(slackString)
@@ -55,6 +58,7 @@ class Message {
         }
         hidden = messageJSON["hidden"].boolValue
         timestamp = messageJSON["ts"].string
+        channelID = messageJSON["channel"].string
         
         self.attachments = [Attachment]()
         

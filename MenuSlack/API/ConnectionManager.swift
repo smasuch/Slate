@@ -50,6 +50,19 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
                         event.user = user
                         self.dataManager.handleEvent(event)
                     }
+                    
+                    // Do the same for channels
+                    
+                    let channels = jsonData["channels"]
+                    
+                    for (index: String, subJson: JSON) in channels {
+                        println(subJson)
+                        let channel = Channel(data: subJson)
+                        println(channel.id)
+                        let event = Event(eventJSON: subJson)
+                        event.channel = channel
+                        self.dataManager.handleEvent(event)
+                    }
                 }
             }
         }

@@ -12,13 +12,12 @@ import Foundation
 
 class TeamState {
     var users:      Dictionary<String, User>
-    var channels:   Array<Channel>
-    var messages:   Array<Message>
+    var channels:   Dictionary<String, Channel>
+    // Messages are contained within channels
     
     init() {
         users = [String: User]()
-        channels = [Channel]()
-        messages = [Message]()
+        channels = [String: Channel]()
     }
     
     func incorporateEvent(event: Event) -> TeamState {
@@ -26,72 +25,27 @@ class TeamState {
             users[user.id] = user
         }
         
+        if let channel = event.channel {
+            channels[channel.id] = channel
+            println("channel :" + channel.id)
+        }
+        
         if let message = event.message {
             if let userID = message.userID {
                  message.user = users[userID]
             }
-           
-            if let subtype = message.subtype {
-                switch subtype {
-                case .Changed:
-                    var changedMessage : Message?
-                    for existingMessage in messages {
-                        if existingMessage.timestamp == message.submessage?.timestamp {
-                            changedMessage = existingMessage
-                            break
-                        }
-                    }
-                    if changedMessage != nil {
-                        changedMessage!.text = message.submessage?.text
-                        changedMessage!.attachments = message.submessage!.attachments
-                    }
-                    
-                case .Deleted:
-                    var deletedMessage : Message?
-                    var index = 0
-                    for existingMessage in messages {
-                        if existingMessage.timestamp == message.submessage?.timestamp {
-                            deletedMessage = existingMessage
-                            break
-                        } else {
-                            index++
-                        }
-                    }
-                    if deletedMessage != nil {
-                        messages.removeAtIndex(index)
-                    }
-                default:
-                    println("No useful subtype")
+            
+            if let channelID = message.channelID {
+                if let channelForMessage = channels[channelID] {
+                    channelForMessage.incorporateMessage(message)
                 }
-            } else {
-                var index = 0
-                if let messageTimestamp = message.timestamp as NSString? {
-                    var comparisonResult: NSComparisonResult = NSComparisonResult.OrderedDescending
-                    for existingMessage in messages {
-                        if let existingTimestamp = existingMessage.timestamp as NSString? {
-                            comparisonResult = messageTimestamp.compare(existingTimestamp, options: NSStringCompareOptions.NumericSearch)
-                        }
-                        if comparisonResult == NSComparisonResult.OrderedAscending{
-                            break
-                        } else {
-                            index++
-                        }
-                    }
-                    messages.insert(message, atIndex: index)
-                }
-                
             }
         }
         
-        for existingMessage in messages {
-            println(existingMessage.text)
-        }
         return self
     }
     
     func messagesViewed() {
-        if messages.count > 1 {
-            messages.removeRange(0..<(messages.count - 1))
-        }
+        // Tell the channels the messages were viewed
     }
 }
