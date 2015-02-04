@@ -30,6 +30,7 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
         connectionManager = ConnectionManager()
         stateQueue = connectionManager.stateQueue
         menu = NSMenu()
+        menu.minimumWidth = 300.0
         menuItem = NSMenuItem()
         
         super.init()

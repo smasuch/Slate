@@ -12,10 +12,14 @@ import SwiftyJSON
 class User {
     var name: String?
     var id: String
+    var image24URL: String?
+    var image48URL: String?
     
     init(data: JSON) {
         name = data["name"].string
         id = data["id"].string!
+        image24URL = data["profile"]["image_24"].string
+        image48URL = data["profile"]["image_28"].string
     }
     
     func description() -> String {
