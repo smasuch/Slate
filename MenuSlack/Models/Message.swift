@@ -48,9 +48,6 @@ class Message {
     init(messageJSON: JSON) {
         isRead = false
         text = messageJSON["text"].string
-        if let slackString = text {
-            let attributedString = NSAttributedString.attributedSlackString(slackString)
-        }
         
         userID = messageJSON["user"].string
         if let subtypeString = messageJSON["subtype"].string {
@@ -87,13 +84,21 @@ extension NSAttributedString {
     
     class func attributedSlackString(string: String) -> NSAttributedString {
         // Initially formatted string
-        var slackString = NSAttributedString(string: string)
+        var slackString = NSMutableAttributedString(string: string)
+        if let defaultFont = NSFont(name: "Lato", size: 16.0) {
+            slackString.addAttribute(NSFontAttributeName, value: defaultFont, range: NSRange(location: 0, length:slackString.length))
+        }
         
         // Bold
-        slackString = slackString.stringByReplacingCapturesWithAttributes("\\*.+?\\*", attributes: [String: String]())
+        if let boldFont = NSFont(name: "Lato-Bold", size: 16.0) {
+            slackString = slackString.stringByReplacingCapturesWithAttributes("\\*.+?\\*", attributes: [NSFontAttributeName: boldFont])
+        }
         
         // Italic
-        slackString = slackString.stringByReplacingCapturesWithAttributes("_.+?_", attributes: [String: String]())
+        if let italicFont = NSFont(name: "Lato-Italic", size: 16.0) {
+             slackString = slackString.stringByReplacingCapturesWithAttributes("_.+?_", attributes: [NSFontAttributeName: italicFont])
+        }
+       
         
         // Code
         slackString = slackString.stringByReplacingCapturesWithAttributes("`.+?`", attributes: [String: String]())
@@ -106,7 +111,7 @@ extension NSAttributedString {
         return slackString
     }
     
-    func stringByReplacingCapturesWithAttributes(regex: String, attributes: Dictionary<String, String>) -> NSMutableAttributedString {
+    func stringByReplacingCapturesWithAttributes(regex: String, attributes: Dictionary<String, AnyObject>) -> NSMutableAttributedString {
         var replacedString = NSMutableAttributedString.init(attributedString: self)
         
         let regularExpression = NSRegularExpression.init(pattern: regex, options: NSRegularExpressionOptions.DotMatchesLineSeparators, error: nil)
@@ -118,6 +123,10 @@ extension NSAttributedString {
         
         for result : NSTextCheckingResult in matches.reverse() {
             println(result)
+            // Remove the bounding characters
+            replacedString.deleteCharactersInRange(NSRange(location: result.range.location + result.range.length - 1, length: 1))
+            replacedString.deleteCharactersInRange(NSRange(location: result.range.location, length: 1))
+            replacedString.addAttributes(attributes, range: NSRange(location: result.range.location, length: result.range.length - 2))
         }
         
         return replacedString

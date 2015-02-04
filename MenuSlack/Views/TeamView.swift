@@ -44,11 +44,11 @@ class TeamView: NSView {
                     if let messageText = message.text {
                         
                         let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
-                        messageLabel.stringValue = messageText
-                        messageLabel.font = NSFont(name: "Lato", size: 16.0)
+                        messageLabel.attributedStringValue = NSAttributedString.attributedSlackString(messageText)
                         messageLabel.bordered = false
                         messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
                         messageLabel.frame.size.width += 10.0
+                        messageLabel.backgroundColor = NSColor.clearColor()
                         self.addSubview(messageLabel)
                         
                         let messageViewHeightIncrease = messageLabel.frame.size.height + 20.0;
