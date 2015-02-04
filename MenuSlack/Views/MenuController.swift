@@ -23,6 +23,8 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
     var statusItem: NSStatusItem
     
     var connectionManager: ConnectionManager
+    
+    var optionsController: OptionsPanelController?
 
     
     override init() {
@@ -36,7 +38,15 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
         super.init()
         
         stateQueue.observer = self
-        menu.addItemWithTitle("Quit", action: "terminate", keyEquivalent: "")
+        
+        let quitMenuItem = NSMenuItem(title: "Quit", action: "terminate", keyEquivalent: "")
+        quitMenuItem.target = self
+        menu.addItem(quitMenuItem)
+        
+        let optionsMenuItem = NSMenuItem(title: "Options", action: "showOptionsPanel", keyEquivalent:"")
+        optionsMenuItem.target = self
+        menu.addItem(optionsMenuItem)
+        
         statusItem.menu = menu
         menu.delegate = self
         statusItem.title = "Slack"
@@ -53,5 +63,10 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
     
     func menuDidClose(menu: NSMenu) {
         connectionManager.dataManager.menuViewed()
+    }
+    
+    func showOptionsPanel() {
+        optionsController = OptionsPanelController(windowNibName: "OptionsPanelController")
+        optionsController?.showWindow(nil)
     }
 }

@@ -16,6 +16,8 @@
 		603C7F921A79912F008655DD /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F911A79912F008655DD /* Message.swift */; };
 		603C7F991A7ACA21008655DD /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F981A7ACA21008655DD /* MenuController.swift */; };
 		603C7FD21A7C43F3008655DD /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7FD11A7C43F3008655DD /* Attachment.swift */; };
+		6045078F1A82C4670029CC20 /* OptionsPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6045078D1A82C4670029CC20 /* OptionsPanelController.swift */; };
+		604507901A82C4670029CC20 /* OptionsPanelController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6045078E1A82C4670029CC20 /* OptionsPanelController.xib */; };
 		604E1E391A636F9C0025CF28 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E381A636F9C0025CF28 /* AppDelegate.swift */; };
 		604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 604E1E3A1A636F9C0025CF28 /* Images.xcassets */; };
 		604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 604E1E3C1A636F9C0025CF28 /* MainMenu.xib */; };
@@ -78,6 +80,8 @@
 		603C7F911A79912F008655DD /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = Models/Message.swift; sourceTree = "<group>"; };
 		603C7F981A7ACA21008655DD /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuController.swift; path = Views/MenuController.swift; sourceTree = "<group>"; };
 		603C7FD11A7C43F3008655DD /* Attachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Attachment.swift; path = Models/Attachment.swift; sourceTree = "<group>"; };
+		6045078D1A82C4670029CC20 /* OptionsPanelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionsPanelController.swift; path = Views/OptionsPanelController.swift; sourceTree = "<group>"; };
+		6045078E1A82C4670029CC20 /* OptionsPanelController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OptionsPanelController.xib; path = Views/OptionsPanelController.xib; sourceTree = "<group>"; };
 		604E1E331A636F9C0025CF28 /* MenuSlack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MenuSlack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		604E1E371A636F9C0025CF28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		604E1E381A636F9C0025CF28 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -204,6 +208,8 @@
 			children = (
 				603C7F981A7ACA21008655DD /* MenuController.swift */,
 				60EB3E0E1A80812900C72876 /* TeamView.swift */,
+				6045078D1A82C4670029CC20 /* OptionsPanelController.swift */,
+				6045078E1A82C4670029CC20 /* OptionsPanelController.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -369,6 +375,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				604507901A82C4670029CC20 /* OptionsPanelController.xib in Resources */,
 				604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */,
 				604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */,
 			);
@@ -439,6 +446,7 @@
 				603C7F8A1A7985DB008655DD /* Event.swift in Sources */,
 				604E1E9B1A66EACA0025CF28 /* Channel.swift in Sources */,
 				603C7F8E1A798E0D008655DD /* TeamState.swift in Sources */,
+				6045078F1A82C4670029CC20 /* OptionsPanelController.swift in Sources */,
 				603C7F991A7ACA21008655DD /* MenuController.swift in Sources */,
 				603C7FD21A7C43F3008655DD /* Attachment.swift in Sources */,
 				60EB3E0F1A80812900C72876 /* TeamView.swift in Sources */,
