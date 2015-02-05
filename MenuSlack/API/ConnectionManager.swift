@@ -16,16 +16,21 @@ import SwiftyJSON
 class ConnectionManager: NSObject, SRWebSocketDelegate {
     
     var webSocket: SRWebSocket?
-    let dataManager: DataManager
+    var dataManager: DataManager?
     var stateQueue: Queue<TeamState>
+    var authToken: String?
     
     override init() {
-        dataManager = DataManager()
         stateQueue = Queue<TeamState>()
     }
     
-    func initiateConnection() {
-        Alamofire.request(.POST, "https://slack.com/api/rtm.start", parameters: ["token": "xoxp-2152506032-2152506034-3552581508-c06294"]).response { (request, response, data, error) in
+    func initiateConnection(token: String) {
+        
+        // Make a fresh data manager
+        dataManager = DataManager()
+        
+        authToken = token
+        Alamofire.request(.POST, "https://slack.com/api/rtm.start", parameters: ["token": token]).response { (request, response, data, error) in
             println(request)
             println(response)
             println(error)
@@ -48,7 +53,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
                         let user = User(data: subJson)
                         let event = Event(eventJSON: subJson)
                         event.user = user
-                        self.dataManager.handleEvent(event)
+                        self.dataManager?.handleEvent(event)
                     }
                     
                     // Do the same for channels
@@ -61,7 +66,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
                         println(channel.id)
                         let event = Event(eventJSON: subJson)
                         event.channel = channel
-                        self.dataManager.handleEvent(event)
+                        self.dataManager?.handleEvent(event)
                     }
                 }
             }
@@ -77,9 +82,11 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
         if let eventString = message as? String {
             let jsonData = eventString.dataUsingEncoding(NSUTF8StringEncoding)
             if let resultingData = jsonData {
-                let event = Event(eventJSON: JSON(data: resultingData))
-                dataManager.handleEvent(event)
-                stateQueue.addItem(dataManager.currentTeamState)
+                if let manager = self.dataManager {
+                    let event = Event(eventJSON: JSON(data: resultingData))
+                    manager.handleEvent(event)
+                    stateQueue.addItem(manager.currentTeamState)
+                }
             }
         }
     }

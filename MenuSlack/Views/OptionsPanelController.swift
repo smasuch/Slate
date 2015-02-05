@@ -11,15 +11,21 @@ import Cocoa
 class OptionsPanelController: NSWindowController {
     
     @IBOutlet weak var tokenTextField : NSTextField?
+    weak var menuController: MenuController?
+    var existingToken: String?
 
     override func windowDidLoad() {
         super.windowDidLoad()
-
-        // Implement this method to handle any initialization after your window controller's window has been loaded from its nib file.
+        if let existingToken = existingToken {
+            tokenTextField?.stringValue = existingToken
+        }
     }
     
     @IBAction func saveToken(sender: AnyObject) {
-        
+        if let newToken = tokenTextField?.stringValue {
+            menuController?.changeToken(newToken)
+            self.close()
+        }
     }
     
 }

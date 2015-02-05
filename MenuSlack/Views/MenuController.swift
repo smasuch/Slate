@@ -52,7 +52,11 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
         statusItem.title = "Slack"
         menu.addItem(menuItem)
         
-        connectionManager.initiateConnection()
+        if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as String? {
+            connectionManager.initiateConnection(savedToken)
+        }
+        
+        
     }
     
     func queueAddedObject() {
@@ -62,11 +66,21 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
     }
     
     func menuDidClose(menu: NSMenu) {
-        connectionManager.dataManager.menuViewed()
+        connectionManager.dataManager?.menuViewed()
     }
     
     func showOptionsPanel() {
         optionsController = OptionsPanelController(windowNibName: "OptionsPanelController")
+        if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as String? {
+            optionsController?.existingToken = savedToken
+        }
+        optionsController?.menuController = self
         optionsController?.showWindow(nil)
+    }
+    
+    func changeToken(token: String) {
+        menuItem.view = nil;
+        NSUserDefaults.standardUserDefaults().setValue(token, forKey: "AuthToken")
+        connectionManager.initiateConnection(token)
     }
 }
