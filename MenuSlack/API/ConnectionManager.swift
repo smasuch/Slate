@@ -19,6 +19,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
     var dataManager: DataManager?
     var stateQueue: Queue<TeamState>
     var authToken: String?
+    var reconnectionTimer: NSTimer?
     
     override init() {
         stateQueue = Queue<TeamState>()
@@ -32,8 +33,11 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
         authToken = token
         Alamofire.request(.POST, "https://slack.com/api/rtm.start", parameters: ["token": token]).response { (request, response, data, error) in
             println(request)
-            println(response)
-            println(error)
+            
+            if error == nil {
+                self.reconnectionTimer?.invalidate()
+            }
+            
             
             if let finalData : NSData = data as? NSData {
                 var error: AutoreleasingUnsafeMutablePointer<NSError?> = nil
@@ -91,15 +95,29 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
         }
     }
     
+    
+    
     func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
         println(error.description)
-        println(error.userInfo)
+        if error.code == 57 {
+            webSocket.close()
+            startReconnectionTimer()
+        }
     }
     
     func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
         println(code.description)
     }
     
+    func startReconnectionTimer() {
+        reconnectionTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "initiateConnectionWithExistingToken", userInfo: nil, repeats: true)
+    }
+    
+    func initiateConnectionWithExistingToken() {
+        if let token = authToken {
+          initiateConnection(token)
+        }
+    }
 }
 
 

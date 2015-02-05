@@ -23,7 +23,7 @@ class Channel {
         topic = data["topic"]["value"].string
         lastRead = data["last_read"].string
         isMember = data["is_member"].boolValue
-        messages = [Message]()        
+        messages = [Message]()
     }
     
     func incorporateMessage(message: Message) {
