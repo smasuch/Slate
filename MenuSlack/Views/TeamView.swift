@@ -22,10 +22,8 @@ class TeamView: NSView {
             let imageView = NSImageView(frame: NSRect(origin: userPicOrigin, size: CGSize(width: 24.0, height: 24.0)))
             self.addSubview(imageView)
             
-            if let imageURLString = user.image24URL {
-                if let imageURL = NSURL(string:imageURLString) {
-                    imageView.image = NSImage(contentsOfURL: imageURL)
-                }
+            if let image = user.image48Image {
+                imageView.image = image
             }
         }
         
@@ -41,10 +39,10 @@ class TeamView: NSView {
                     
                     previousUser = message.user
                     
-                    if let messageText = message.text {
+                    if let messageText = message.attributedText {
                         
                         let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
-                        messageLabel.attributedStringValue = NSAttributedString.attributedSlackString(messageText)
+                        messageLabel.attributedStringValue = messageText
                         messageLabel.bordered = false
                         messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
                         messageLabel.frame.size.width += 10.0
@@ -60,11 +58,14 @@ class TeamView: NSView {
                     for attachment in message.attachments {
                         if let imageURL = attachment.imageURL {
                             // download that image
-                            let image = NSImage(contentsOfURL: NSURL(string: imageURL)!)
                             let imageView = NSImageView(frame: NSRect(origin: messageLabelOrigin, size: CGSize(width: 200.0, height: 200.0)))
                             imageView.imageScaling = NSImageScaling.ImageScaleNone;
                             imageView.animates = true;
-                            imageView.image = image
+                            
+                            if let image = attachment.image {
+                                imageView.image = image
+                            }
+                            
                             self.addSubview(imageView)
                             let messageViewHeightIncrease = imageView.frame.size.height + 20.0
                             messageLabelOrigin.y += messageViewHeightIncrease

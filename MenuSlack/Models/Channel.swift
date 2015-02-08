@@ -9,7 +9,7 @@
 import Foundation
 import SwiftyJSON
 
-class Channel {
+struct Channel {
     var messages: Array<Message>
     let id: String
     var lastRead: String?
@@ -24,9 +24,10 @@ class Channel {
         lastRead = data["last_read"].string
         isMember = data["is_member"].boolValue
         messages = [Message]()
+        
     }
     
-    func incorporateMessage(message: Message) {
+    mutating func incorporateMessage(message: Message) {
         if let subtype = message.subtype {
             switch subtype {
             case .Changed:
@@ -76,5 +77,25 @@ class Channel {
                 messages.insert(message, atIndex: index)
             }
         }
+    }
+    
+    mutating func trimReadMessages() {
+        if let lastMessage = self.messages.last {
+            self.messages.removeAll(keepCapacity: false)
+            self.messages.append(lastMessage)
+        }
+    }
+    
+    func messageWithTimestamp(timestamp: String) -> Message? {
+        var selectedMessage: Message? = nil
+        println("looking for timestamp: " + timestamp)
+        for message in messages {
+            if message.timestamp == timestamp {
+                selectedMessage = message
+                break
+            }
+        }
+        
+        return selectedMessage
     }
 }

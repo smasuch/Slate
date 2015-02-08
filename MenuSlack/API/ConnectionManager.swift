@@ -13,22 +13,21 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-class ConnectionManager: NSObject, SRWebSocketDelegate {
+class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, SlackParserDelegate {
     
     var webSocket: SRWebSocket?
-    var dataManager: DataManager?
-    var stateQueue: Queue<TeamState>
+    let resultQueue = Queue<SlackResult>()
     var authToken: String?
     var reconnectionTimer: NSTimer?
     
+    var parser: SlackParser?
+    
     override init() {
-        stateQueue = Queue<TeamState>()
+        super.init()
+        parser = SlackParser(delegate: self)
     }
     
     func initiateConnection(token: String) {
-        
-        // Make a fresh data manager
-        dataManager = DataManager()
         
         authToken = token
         Alamofire.request(.POST, "https://slack.com/api/rtm.start", parameters: ["token": token]).response { (request, response, data, error) in
@@ -54,10 +53,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
                     let users = jsonData["users"]
                     
                     for (index: String, subJson: JSON) in users {
-                        let user = User(data: subJson)
-                        let event = Event(eventJSON: subJson)
-                        event.user = user
-                        self.dataManager?.handleEvent(event)
+                        self.parser?.parseResult(subJson)
                     }
                     
                     // Do the same for channels
@@ -65,12 +61,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
                     let channels = jsonData["channels"]
                     
                     for (index: String, subJson: JSON) in channels {
-                        println(subJson)
-                        let channel = Channel(data: subJson)
-                        println(channel.id)
-                        let event = Event(eventJSON: subJson)
-                        event.channel = channel
-                        self.dataManager?.handleEvent(event)
+                        self.parser?.parseResult(subJson)
                     }
                 }
             }
@@ -86,16 +77,10 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
         if let eventString = message as? String {
             let jsonData = eventString.dataUsingEncoding(NSUTF8StringEncoding)
             if let resultingData = jsonData {
-                if let manager = self.dataManager {
-                    let event = Event(eventJSON: JSON(data: resultingData))
-                    manager.handleEvent(event)
-                    stateQueue.addItem(manager.currentTeamState)
-                }
+                parser?.parseResultFromRequest(JSON(data: resultingData), request: nil)
             }
         }
     }
-    
-    
     
     func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
         println(error.description)
@@ -118,6 +103,69 @@ class ConnectionManager: NSObject, SRWebSocketDelegate {
           initiateConnection(token)
         }
     }
+    
+    func getChannelHistory(channel: Channel) {
+        
+        var comparisonResult = NSComparisonResult.OrderedSame
+        
+        if let oldestTime = channel.messages.first?.timestamp {
+            if let lastReadTime = channel.lastRead {
+                comparisonResult = oldestTime.compare(lastReadTime, options: NSStringCompareOptions.NumericSearch)
+                
+            }
+        } else {
+            comparisonResult = NSComparisonResult.OrderedDescending
+        }
+        
+        if comparisonResult == NSComparisonResult.OrderedDescending {
+            self.handleRequest(SlackRequest.ChannelHistory(channel, nil, nil, true, 10))
+        }
+    }
+
+    
+    func handleRequest(request: SlackRequest) {
+        switch request {
+        case .ChannelHistory(let channel, let latest, let oldest, let inclusive, let count):
+            
+            var parameters = ["channel": channel.id, "token": authToken!]
+            if latest != nil { parameters["latest"] = latest }
+            if oldest != nil { parameters["oldest"] = oldest }
+            if inclusive { parameters["inclusive"] = "1" }
+            if count != nil { parameters["count"] = count!.description }
+            
+            Alamofire.request(.GET, "https://slack.com/api/channels.history", parameters: parameters).response { (urlRequest, response, data, error) in
+                if let finalData : NSData = data as? NSData {
+                    self.parser?.parseResultFromRequest(JSON(data: finalData), request: request)
+                }
+            }
+            
+        case .AttachmentImage(let message, let attachment):
+            if let urlString = attachment.imageURL {
+                Alamofire.request(.GET, urlString).response { (urlRequest, response, data, error) in
+                    if let finalData : NSData = data as? NSData {
+                        let imageResult = SlackResult.AttachmentImageResult(message, attachment, NSImage(data: finalData))
+                        self.resultQueue.addItem(imageResult)
+                    }
+                }
+            }
+            
+        case .UserImage(let user, let imageKey):
+                // Not actually using the image key yet...
+            if let urlString = user.image48URL {
+                Alamofire.request(.GET, urlString).response { (urlRequest, response, data, error) in
+                    if let finalData : NSData = data as? NSData {
+                        let userImageResult = SlackResult.UserImageResult(user, imageKey, NSImage(data:finalData))
+                        self.resultQueue.addItem(userImageResult)
+                    }
+                }
+            }
+            
+        default:
+            println("Can't handle this request.")
+        }
+    }
+    
+    func handleParsingResult(result: SlackResult) {
+        resultQueue.addItem(result)
+    }
 }
-
-

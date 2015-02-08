@@ -36,6 +36,7 @@ enum MessageSubtype: String {
 class Message {
     var user: User?
     var text: String?
+    var attributedText: NSAttributedString?
     var userID: String?
     var attachments: Array<Attachment>
     var subtype: MessageSubtype?
@@ -48,6 +49,10 @@ class Message {
     init(messageJSON: JSON) {
         isRead = false
         text = messageJSON["text"].string
+        
+        if text != nil {
+            attributedText = NSAttributedString.attributedSlackString(text!)
+        }
         
         userID = messageJSON["user"].string
         if let subtypeString = messageJSON["subtype"].string {
@@ -77,6 +82,19 @@ class Message {
             description += messageText
         }
         return description
+    }
+    
+    func attachmentForID(id: Int) -> Attachment? {
+        var selectedAttachment: Attachment? = nil
+        
+        for attachment in attachments {
+            if attachment.id == id {
+                selectedAttachment = attachment
+                break
+            }
+        }
+        
+        return selectedAttachment
     }
 }
 

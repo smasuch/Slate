@@ -14,12 +14,13 @@ class User {
     var id: String
     var image24URL: String?
     var image48URL: String?
+    var image48Image: NSImage?
     
     init(data: JSON) {
         name = data["name"].string
         id = data["id"].string!
         image24URL = data["profile"]["image_24"].string
-        image48URL = data["profile"]["image_28"].string
+        image48URL = data["profile"]["image_48"].string
     }
     
     func description() -> String {

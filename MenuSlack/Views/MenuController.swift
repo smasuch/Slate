@@ -11,6 +11,10 @@ import Cocoa
 class MenuController: NSObject, QueueObserver, NSMenuDelegate {
     let menu: NSMenu
     let menuItem: NSMenuItem
+    var statusItem: NSStatusItem
+    var connectionManager: ConnectionManager
+    var dataManager: DataManager
+    var optionsController: OptionsPanelController?
     var stateQueue: Queue<TeamState> {
         willSet(newStateQueue) {
             newStateQueue.observer = self
@@ -19,18 +23,18 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
             oldValue.observer = nil
         }
     }
-    
-    var statusItem: NSStatusItem
-    
-    var connectionManager: ConnectionManager
-    
-    var optionsController: OptionsPanelController?
 
     
     override init() {
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1.0)
         connectionManager = ConnectionManager()
-        stateQueue = connectionManager.stateQueue
+        dataManager = DataManager()
+        
+        dataManager.resultQueue = connectionManager.resultQueue
+        connectionManager.resultQueue.observer = dataManager
+        dataManager.requestHandler = connectionManager
+        
+        stateQueue = dataManager.stateQueue
         menu = NSMenu()
         menu.minimumWidth = 300.0
         menuItem = NSMenuItem()
@@ -66,7 +70,7 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
     }
     
     func menuDidClose(menu: NSMenu) {
-        connectionManager.dataManager?.menuViewed()
+        dataManager.menuViewed()
     }
     
     func showOptionsPanel() {

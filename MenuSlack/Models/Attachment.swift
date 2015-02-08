@@ -11,7 +11,7 @@ import SwiftyJSON
 
 struct Attachment {
     var fromURL: String?
-    var id : Int?
+    var id : Int
     var fallback: String?
     var thumbURL: String?
     var thumbHeight: Int?
@@ -19,10 +19,11 @@ struct Attachment {
     var imageWidth: Int?
     var imageHeight: Int?
     var imageURL: String?
+    var image: NSImage?
     
     init(attachmentJSON: JSON) {
         fromURL = attachmentJSON["from_URL"].string
-        id = attachmentJSON["id"].int
+        id = attachmentJSON["id"].int!
         fallback = attachmentJSON["fallback"].string
         thumbURL = attachmentJSON["thumb_url"].string
         thumbHeight = attachmentJSON["thumb_height"].int
