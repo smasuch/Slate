@@ -26,7 +26,7 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
 
     
     override init() {
-        statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-1.0)
+        statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-2.0)
         connectionManager = ConnectionManager()
         dataManager = DataManager()
         
@@ -53,7 +53,7 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
         
         statusItem.menu = menu
         menu.delegate = self
-        statusItem.title = "Slack"
+        statusItem.image = NSImage(named: "icon-white")
         menu.addItem(menuItem)
         
         if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as String? {
@@ -65,12 +65,16 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
     
     func queueAddedObject() {
         if let teamState = stateQueue.popTopItem() {
-            menuItem.view = TeamView(teamState: teamState)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.menuItem.view = TeamView(teamState: teamState)
+                self.statusItem.image = NSImage(named: "icon-coloured")
+            }
         }
     }
     
     func menuDidClose(menu: NSMenu) {
         dataManager.menuViewed()
+        statusItem.image = NSImage(named: "icon-white")
     }
     
     func showOptionsPanel() {
