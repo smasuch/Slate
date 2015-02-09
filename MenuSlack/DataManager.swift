@@ -12,22 +12,24 @@ protocol SlackRequestHandler: class {
     func handleRequest(request: SlackRequest)
 }
 
-class DataManager: QueueObserver {
+protocol TeamStateHandler: class {
+    func handleTeamState(state: TeamState)
+}
+
+class DataManager: SlackResultHandler {
     var users: Dictionary<String, User>
-    var resultQueue: Queue<SlackResult>?
-    let stateQueue: Queue<TeamState>
     let changeQueue : NSOperationQueue
     weak var requestHandler: SlackRequestHandler?
+    weak var teamStateHandler: TeamStateHandler?
     var currentTeamState: TeamState {
         didSet {
-            stateQueue.addItem(currentTeamState)
+            teamStateHandler?.handleTeamState(currentTeamState)
         }
     }
     
     init() {
         users = [String: User]()
         currentTeamState = TeamState()
-        stateQueue = Queue<TeamState>()
         changeQueue = NSOperationQueue()
         changeQueue.maxConcurrentOperationCount = 1 // To avoid race conditions
     }
@@ -54,9 +56,7 @@ class DataManager: QueueObserver {
         currentTeamState.trimReadMessages()
     }
     
-    func queueAddedObject() {
-        if let result = resultQueue?.popTopItem() {
-            incorporateResult(result)
-        }
+    func handleResult(result: SlackResult) {
+        incorporateResult(result)
     }
 }

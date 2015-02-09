@@ -13,14 +13,17 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
+protocol SlackResultHandler: class {
+    func handleResult(result: SlackResult)
+}
+
 class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, SlackParserDelegate {
     
     var webSocket: SRWebSocket?
-    let resultQueue = Queue<SlackResult>()
     var authToken: String?
     var reconnectionTimer: NSTimer?
-    
     var parser: SlackParser?
+    weak var resultHandler: SlackResultHandler?
     
     override init() {
         super.init()
@@ -144,7 +147,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
                 Alamofire.request(.GET, urlString).response { (urlRequest, response, data, error) in
                     if let finalData : NSData = data as? NSData {
                         let imageResult = SlackResult.AttachmentImageResult(message, attachment, NSImage(data: finalData))
-                        self.resultQueue.addItem(imageResult)
+                        self.resultHandler?.handleResult(imageResult)
                     }
                 }
             }
@@ -155,7 +158,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
                 Alamofire.request(.GET, urlString).response { (urlRequest, response, data, error) in
                     if let finalData : NSData = data as? NSData {
                         let userImageResult = SlackResult.UserImageResult(user, imageKey, NSImage(data:finalData))
-                        self.resultQueue.addItem(userImageResult)
+                        self.resultHandler?.handleResult(userImageResult)
                     }
                 }
             }
@@ -166,6 +169,6 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
     }
     
     func handleParsingResult(result: SlackResult) {
-        resultQueue.addItem(result)
+        self.resultHandler?.handleResult(result)
     }
 }

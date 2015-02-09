@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		60153A0A1A7836A2008C0F7D /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60153A091A7836A2008C0F7D /* ConnectionManager.swift */; };
-		603C7F861A798490008655DD /* Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F851A798490008655DD /* Queue.swift */; };
 		603C7F8C1A798CFA008655DD /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F8B1A798CFA008655DD /* DataManager.swift */; };
 		603C7F8E1A798E0D008655DD /* TeamState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F8D1A798E0D008655DD /* TeamState.swift */; };
 		603C7F901A7990B6008655DD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F8F1A7990B6008655DD /* User.swift */; };
@@ -78,7 +77,6 @@
 
 /* Begin PBXFileReference section */
 		60153A091A7836A2008C0F7D /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionManager.swift; path = API/ConnectionManager.swift; sourceTree = "<group>"; };
-		603C7F851A798490008655DD /* Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Queue.swift; sourceTree = "<group>"; };
 		603C7F8B1A798CFA008655DD /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		603C7F8D1A798E0D008655DD /* TeamState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamState.swift; path = API/TeamState.swift; sourceTree = "<group>"; };
 		603C7F8F1A7990B6008655DD /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Models/User.swift; sourceTree = "<group>"; };
@@ -180,7 +178,6 @@
 		604E1E351A636F9C0025CF28 /* MenuSlack */ = {
 			isa = PBXGroup;
 			children = (
-				603C7F851A798490008655DD /* Queue.swift */,
 				60153A041A783624008C0F7D /* API */,
 				604E1E561A6371980025CF28 /* Models */,
 				604E1E531A6371630025CF28 /* Views */,
@@ -482,7 +479,6 @@
 				60EB3E0F1A80812900C72876 /* TeamView.swift in Sources */,
 				60153A0A1A7836A2008C0F7D /* ConnectionManager.swift in Sources */,
 				604E1EA11A6710700025CF28 /* SRWebSocket.m in Sources */,
-				603C7F861A798490008655DD /* Queue.swift in Sources */,
 				6078A1F51A86A44400BE83A2 /* SlackParser.swift in Sources */,
 				603C7F8C1A798CFA008655DD /* DataManager.swift in Sources */,
 				603C7F921A79912F008655DD /* Message.swift in Sources */,

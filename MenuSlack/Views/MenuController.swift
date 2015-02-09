@@ -8,43 +8,31 @@
 
 import Cocoa
 
-class MenuController: NSObject, QueueObserver, NSMenuDelegate {
+class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
     let menu: NSMenu
     let menuItem: NSMenuItem
     var statusItem: NSStatusItem
     var connectionManager: ConnectionManager
     var dataManager: DataManager
     var optionsController: OptionsPanelController?
-    var stateQueue: Queue<TeamState> {
-        willSet(newStateQueue) {
-            newStateQueue.observer = self
-        }
-        didSet {
-            oldValue.observer = nil
-        }
-    }
-
     
     override init() {
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-2.0)
         connectionManager = ConnectionManager()
         dataManager = DataManager()
         
-        dataManager.resultQueue = connectionManager.resultQueue
-        connectionManager.resultQueue.observer = dataManager
-        dataManager.requestHandler = connectionManager
-        
-        stateQueue = dataManager.stateQueue
         menu = NSMenu()
         menu.minimumWidth = 300.0
         menuItem = NSMenuItem()
         
         super.init()
         
-        stateQueue.observer = self
+        connectionManager.resultHandler = dataManager
+        dataManager.requestHandler = connectionManager
+        dataManager.teamStateHandler = self
         
-        let quitMenuItem = NSMenuItem(title: "Quit", action: "terminate", keyEquivalent: "")
-        quitMenuItem.target = self
+        let quitMenuItem = NSMenuItem(title: "Quit", action: "terminate:", keyEquivalent: "")
+        quitMenuItem.target = NSApplication.sharedApplication()
         menu.addItem(quitMenuItem)
         
         let optionsMenuItem = NSMenuItem(title: "Options", action: "showOptionsPanel", keyEquivalent:"")
@@ -63,12 +51,10 @@ class MenuController: NSObject, QueueObserver, NSMenuDelegate {
         
     }
     
-    func queueAddedObject() {
-        if let teamState = stateQueue.popTopItem() {
-            dispatch_async(dispatch_get_main_queue()) {
-                self.menuItem.view = TeamView(teamState: teamState)
-                self.statusItem.image = NSImage(named: "icon-coloured")
-            }
+    func handleTeamState(state: TeamState) {
+        dispatch_async(dispatch_get_main_queue()) {
+            self.menuItem.view = TeamView(teamState: state)
+            self.statusItem.image = NSImage(named: "icon-coloured")
         }
     }
     
