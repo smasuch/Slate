@@ -55,7 +55,7 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
             result = SlackResult.UserResult(user)
             
         case "F": // file
-            println("File parsed in JSON")
+            println("File parsed in JSON: " + json.stringValue)
             
         case "G": // group
             println("Group parsed in JSON")

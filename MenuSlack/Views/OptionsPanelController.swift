@@ -16,6 +16,7 @@ class OptionsPanelController: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        window?.level = kCGStatusWindowLevelKey
         if let existingToken = existingToken {
             tokenTextField?.stringValue = existingToken
         }
@@ -26,6 +27,10 @@ class OptionsPanelController: NSWindowController {
             menuController?.changeToken(newToken)
             self.close()
         }
+    }
+    
+    @IBAction func cancel (sender: AnyObject) {
+        self.dismissController(sender)
     }
     
 }

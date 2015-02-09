@@ -73,17 +73,13 @@ struct TeamState {
                         if let correspondingMessage = channel.messageWithTimestamp(timestamp) {
                             var correspondingAttachment = correspondingMessage.attachmentForID(attachment.id)
                             correspondingAttachment?.image = image
-                        } else {
-                            println("couldn't find the right corresponding message")
+                            if correspondingAttachment != nil {
+                                correspondingMessage.attachments.append(correspondingAttachment!)
+                            }
+                            
                         }
-                    } else {
-                        println("couldn't find the right timestamp")
                     }
-                } else {
-                    println("couldn't find the right channel")
                 }
-            } else {
-                println("couldn't even find the channel id on the message?")
             }
             
         case .UserImageResult(let user, let key, let image):

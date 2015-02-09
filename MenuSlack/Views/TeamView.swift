@@ -57,14 +57,14 @@ class TeamView: NSView {
                     
                     for attachment in message.attachments {
                         if let imageURL = attachment.imageURL {
-                            // download that image
-                            let imageView = NSImageView(frame: NSRect(origin: messageLabelOrigin, size: CGSize(width: 200.0, height: 200.0)))
-                            imageView.imageScaling = NSImageScaling.ImageScaleNone;
-                            imageView.animates = true;
+                            let imageView = NSImageView(frame: NSRect(origin: messageLabelOrigin, size: CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)))
                             
                             if let image = attachment.image {
                                 imageView.image = image
                             }
+                            
+                            imageView.imageScaling = NSImageScaling.ImageScaleNone;
+                            imageView.animates = true;
                             
                             self.addSubview(imageView)
                             let messageViewHeightIncrease = imageView.frame.size.height + 20.0
