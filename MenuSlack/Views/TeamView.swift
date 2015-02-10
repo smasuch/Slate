@@ -13,9 +13,9 @@ class TeamView: NSView {
     init(teamState: TeamState) {
         
         super.init(frame: NSRect.zeroRect)
-        var messageViewSize = NSSize(width: 500.0, height: 40.0)
-        var messageLabelOrigin = CGPoint(x: 60.0, y: 20.0)
-        var userPicOrigin = CGPoint(x: 20.0, y: 20.0)
+        var messageViewSize = NSSize(width: 500.0, height: 10.0)
+        var messageLabelOrigin = CGPoint(x: 49.0, y: 8.0)
+        var userPicOrigin = CGPoint(x: 11.0, y: -30.0)
         var previousUser: User?
         
         func addUserPic(user: User) {
@@ -44,15 +44,16 @@ class TeamView: NSView {
                         let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
                         messageLabel.attributedStringValue = messageText
                         messageLabel.bordered = false
+                        messageLabel.editable = false
                         messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
                         messageLabel.frame.size.width += 10.0
                         messageLabel.backgroundColor = NSColor.clearColor()
                         self.addSubview(messageLabel)
                         
-                        let messageViewHeightIncrease = messageLabel.frame.size.height + 20.0;
+                        let messageViewHeightIncrease = messageLabel.frame.size.height + 10.0;
                         messageLabelOrigin.y += messageViewHeightIncrease
                         messageViewSize.height += messageViewHeightIncrease
-                        userPicOrigin.y += messageViewHeightIncrease - 54.0
+                        userPicOrigin.y += messageViewHeightIncrease
                     }
                     
                     for attachment in message.attachments {
@@ -70,6 +71,7 @@ class TeamView: NSView {
                             let messageViewHeightIncrease = imageView.frame.size.height + 20.0
                             messageLabelOrigin.y += messageViewHeightIncrease
                             messageViewSize.height += messageViewHeightIncrease
+                            userPicOrigin.y += messageViewHeightIncrease
                         }
                     }
                     
@@ -79,6 +81,22 @@ class TeamView: NSView {
                 if let actualPreviousUser = previousUser {
                     addUserPic(actualPreviousUser)
                 }
+                
+                // Add the channel title
+                
+                let gradientView = NSGradientView(frame: NSRect(x: 0.0, y: messageLabelOrigin.y, width: messageViewSize.width, height: 26.0))
+                gradientView.topColor = NSColor(calibratedRed: 234.0/255.0, green: 253.0/255.0, blue: 210.0/215.0, alpha: 1.0)
+                gradientView.bottomColor = NSColor(calibratedRed: 202.0/255.0, green: 250.0/255.0, blue: 179.0/255.0, alpha: 1.0)
+                self.addSubview(gradientView)
+                messageViewSize.height += 15.0
+                
+                let channelTitleView = NSTextField(frame: NSRect(x: userPicOrigin.x, y: messageLabelOrigin.y, width: messageViewSize.width, height: 26.0))
+                channelTitleView.font = NSFont(name: "AvenirNext-Bold", size: 15.0)
+                channelTitleView.stringValue = channel.name!
+                channelTitleView.bordered = false
+                channelTitleView.editable = false
+                channelTitleView.backgroundColor = NSColor.clearColor()
+                self.addSubview(channelTitleView)
             }
         }
         

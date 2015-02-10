@@ -31,18 +31,20 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         dataManager.requestHandler = connectionManager
         dataManager.teamStateHandler = self
         
-        let quitMenuItem = NSMenuItem(title: "Quit", action: "terminate:", keyEquivalent: "")
-        quitMenuItem.target = NSApplication.sharedApplication()
-        menu.addItem(quitMenuItem)
+        statusItem.menu = menu
+        menu.delegate = self
+        statusItem.image = NSImage(named: "icon-white")
+        menu.addItem(menuItem)
+        
+        menu.addItem(NSMenuItem.separatorItem())
         
         let optionsMenuItem = NSMenuItem(title: "Options", action: "showOptionsPanel", keyEquivalent:"")
         optionsMenuItem.target = self
         menu.addItem(optionsMenuItem)
         
-        statusItem.menu = menu
-        menu.delegate = self
-        statusItem.image = NSImage(named: "icon-white")
-        menu.addItem(menuItem)
+        let quitMenuItem = NSMenuItem(title: "Quit", action: "terminate:", keyEquivalent: "")
+        quitMenuItem.target = NSApplication.sharedApplication()
+        menu.addItem(quitMenuItem)
         
         if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as String? {
             connectionManager.initiateConnection(savedToken)
