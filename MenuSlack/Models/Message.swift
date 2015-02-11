@@ -84,17 +84,23 @@ class Message {
         return description
     }
     
-    func attachmentForID(id: Int) -> Attachment? {
+    func attachmentForID(id: Int) -> (Attachment?, Int?) {
         var selectedAttachment: Attachment? = nil
-        
+        var index: Int? = 0
         for attachment in attachments {
             if attachment.id == id {
                 selectedAttachment = attachment
                 break
+            } else {
+                index!++
             }
         }
         
-        return selectedAttachment
+        if selectedAttachment == nil {
+            index = nil
+        }
+        
+        return (selectedAttachment, index)
     }
 }
 

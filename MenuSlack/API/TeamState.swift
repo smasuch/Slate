@@ -71,12 +71,11 @@ struct TeamState {
                 if let channel = newState.channels[channelID] {
                     if let timestamp = message.timestamp {
                         if let correspondingMessage = channel.messageWithTimestamp(timestamp) {
-                            var correspondingAttachment = correspondingMessage.attachmentForID(attachment.id)
+                            var (correspondingAttachment, index) = correspondingMessage.attachmentForID(attachment.id)
                             correspondingAttachment?.image = image
-                            if correspondingAttachment != nil {
-                                correspondingMessage.attachments.append(correspondingAttachment!)
+                            if index != nil {
+                                correspondingMessage.attachments[index!] = correspondingAttachment!
                             }
-                            
                         }
                     }
                 }

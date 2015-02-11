@@ -37,27 +37,15 @@ class TeamView: NSView {
                         }
                     }
                     
-                    previousUser = message.user
-                    
-                    if let messageText = message.attributedText {
-                        
-                        let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
-                        messageLabel.attributedStringValue = messageText
-                        messageLabel.bordered = false
-                        messageLabel.editable = false
-                        messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
-                        messageLabel.frame.size.width += 10.0
-                        messageLabel.backgroundColor = NSColor.clearColor()
-                        self.addSubview(messageLabel)
-                        
-                        let messageViewHeightIncrease = messageLabel.frame.size.height + 10.0;
-                        messageLabelOrigin.y += messageViewHeightIncrease
-                        messageViewSize.height += messageViewHeightIncrease
-                        userPicOrigin.y += messageViewHeightIncrease
-                    }
+                    var displayText = true
                     
                     for attachment in message.attachments {
                         if let imageURL = attachment.imageURL {
+                            
+                            if let messageText = message.text {
+                                displayText = !messageText.hasPrefix("<" + imageURL)
+                            }
+                            
                             let imageView = NSImageView(frame: NSRect(origin: messageLabelOrigin, size: CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)))
                             
                             if let image = attachment.image {
@@ -73,6 +61,28 @@ class TeamView: NSView {
                             messageViewSize.height += messageViewHeightIncrease
                             userPicOrigin.y += messageViewHeightIncrease
                         }
+                    }
+
+                    
+                    previousUser = message.user
+                    
+                    if displayText && message.attributedText != nil {
+                        
+                        let messageText = message.attributedText!
+                        
+                        let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
+                        messageLabel.attributedStringValue = messageText
+                        messageLabel.bordered = false
+                        messageLabel.editable = false
+                        messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
+                        messageLabel.frame.size.width += 10.0
+                        messageLabel.backgroundColor = NSColor.clearColor()
+                        self.addSubview(messageLabel)
+                        
+                        let messageViewHeightIncrease = messageLabel.frame.size.height + 10.0;
+                        messageLabelOrigin.y += messageViewHeightIncrease
+                        messageViewSize.height += messageViewHeightIncrease
+                        userPicOrigin.y += messageViewHeightIncrease
                     }
                     
                 }
