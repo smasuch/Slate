@@ -59,6 +59,15 @@ struct TeamState {
                             requests.append(SlackRequest.AttachmentImage(submessage, attachment))
                         }
                     }
+                    
+                case .ContainsFile(let file):
+                    for channelID in file.channels {
+                        if var channelForMessage = newState.channels[channelID] {
+                            channelForMessage.incorporateEvent(event)
+                            newState.channels[channelID] = channelForMessage
+                        }
+                    }
+                    
                 default:
                     println("Unknown sort of event to incorporate")
                 }

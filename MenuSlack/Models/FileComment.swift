@@ -11,16 +11,16 @@ import SwiftyJSON
 
 struct FileComment {
     let id: String
-    let created: String
-    let timestamp: String
+    let created: Int
+    let timestamp: Int
     let userID: String
     let comment: String
     
     init(commentJSON: JSON) {
         id = commentJSON["id"].string!
-        created = commentJSON["created"].string!
-        timestamp = commentJSON["timestamp"].string!
-        userID = commentJSON["userID"].string!
+        created = commentJSON["created"].int!
+        timestamp = commentJSON["timestamp"].int!
+        userID = commentJSON["user"].string!
         comment = commentJSON["comment"].string!
     }
 }

@@ -91,6 +91,22 @@ class TeamView: NSView {
 
                         case .ContainsFile(let file):
                             println("Had a file to display in the view")
+                            if let commentText = file.initialComment?.comment {
+                                
+                                let commentLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
+                                commentLabel.stringValue = commentText
+                                commentLabel.bordered = false
+                                commentLabel.editable = false
+                                commentLabel.frame.size = commentLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
+                                commentLabel.frame.size.width += 10.0
+                                commentLabel.backgroundColor = NSColor.clearColor()
+                                self.addSubview(commentLabel)
+                                
+                                let messageViewHeightIncrease = commentLabel.frame.size.height + 10.0;
+                                messageLabelOrigin.y += messageViewHeightIncrease
+                                messageViewSize.height += messageViewHeightIncrease
+                                userPicOrigin.y += messageViewHeightIncrease
+                            }
                             
                         default:
                             println("Had an unknown type of event to display in the view")

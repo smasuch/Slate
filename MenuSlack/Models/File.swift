@@ -12,8 +12,8 @@ import Cocoa
 
 struct File {
     let id: String
-    let created: String
-    let timestamp: String
+    let created: Int
+    let timestamp: Int
     let name: String
     let title: String
     let url: String
@@ -26,8 +26,8 @@ struct File {
     
     init(fileJSON: JSON) {
         id = fileJSON["id"].string!
-        created = fileJSON["id"].string!
-        timestamp = fileJSON["timestamp"].string!
+        created = fileJSON["created"].int!
+        timestamp = fileJSON["timestamp"].int!
         name = fileJSON["name"].string!
         title = fileJSON["title"].string!
         url = fileJSON["url"].string!
@@ -48,7 +48,7 @@ struct File {
         }
         channels = channelsArray
         
-        let commentJSON = fileJSON["initialComment"]
+        let commentJSON = fileJSON["initial_comment"]
         if commentJSON.type != .Null {
             initialComment = FileComment(commentJSON: commentJSON)
         }
