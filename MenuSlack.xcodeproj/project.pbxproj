@@ -30,6 +30,9 @@
 		6078A1FB1A86AE2000BE83A2 /* SlackRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6078A1FA1A86AE2000BE83A2 /* SlackRequest.swift */; };
 		6078A1FD1A86AF2700BE83A2 /* SlackResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6078A1FC1A86AF2700BE83A2 /* SlackResult.swift */; };
 		608DC88C1A89AF98007F4AB4 /* NSGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DC88B1A89AF98007F4AB4 /* NSGradientView.swift */; };
+		608DC8921A8BEE39007F4AB4 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DC8911A8BEE38007F4AB4 /* File.swift */; };
+		608DC8941A8BFE11007F4AB4 /* FileComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DC8931A8BFE11007F4AB4 /* FileComment.swift */; };
+		608DC8961A8C0AAF007F4AB4 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DC8951A8C0AAF007F4AB4 /* Event.swift */; };
 		60A565AF1A880619002B6109 /* icon-white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565AD1A880619002B6109 /* icon-white@2x.png */; };
 		60A565B01A880619002B6109 /* icon-coloured@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565AE1A880619002B6109 /* icon-coloured@2x.png */; };
 		60A565B31A8809DD002B6109 /* icon-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565B11A8809DD002B6109 /* icon-white.png */; };
@@ -106,6 +109,9 @@
 		6078A1FA1A86AE2000BE83A2 /* SlackRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlackRequest.swift; path = API/SlackRequest.swift; sourceTree = "<group>"; };
 		6078A1FC1A86AF2700BE83A2 /* SlackResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlackResult.swift; path = API/SlackResult.swift; sourceTree = "<group>"; };
 		608DC88B1A89AF98007F4AB4 /* NSGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSGradientView.swift; path = Views/NSGradientView.swift; sourceTree = "<group>"; };
+		608DC8911A8BEE38007F4AB4 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = File.swift; path = Models/File.swift; sourceTree = "<group>"; };
+		608DC8931A8BFE11007F4AB4 /* FileComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileComment.swift; path = Models/FileComment.swift; sourceTree = "<group>"; };
+		608DC8951A8C0AAF007F4AB4 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Event.swift; path = Models/Event.swift; sourceTree = "<group>"; };
 		60A565AD1A880619002B6109 /* icon-white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-white@2x.png"; path = "Images/icon-white@2x.png"; sourceTree = "<group>"; };
 		60A565AE1A880619002B6109 /* icon-coloured@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-coloured@2x.png"; path = "Images/icon-coloured@2x.png"; sourceTree = "<group>"; };
 		60A565B11A8809DD002B6109 /* icon-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-white.png"; path = "Images/icon-white.png"; sourceTree = "<group>"; };
@@ -238,6 +244,9 @@
 				604E1E9A1A66EACA0025CF28 /* Channel.swift */,
 				603C7F911A79912F008655DD /* Message.swift */,
 				603C7FD11A7C43F3008655DD /* Attachment.swift */,
+				608DC8911A8BEE38007F4AB4 /* File.swift */,
+				608DC8931A8BFE11007F4AB4 /* FileComment.swift */,
+				608DC8951A8C0AAF007F4AB4 /* Event.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -479,11 +488,14 @@
 				6078A1FB1A86AE2000BE83A2 /* SlackRequest.swift in Sources */,
 				603C7F991A7ACA21008655DD /* MenuController.swift in Sources */,
 				603C7FD21A7C43F3008655DD /* Attachment.swift in Sources */,
+				608DC8961A8C0AAF007F4AB4 /* Event.swift in Sources */,
 				60EB3E0F1A80812900C72876 /* TeamView.swift in Sources */,
 				60153A0A1A7836A2008C0F7D /* ConnectionManager.swift in Sources */,
 				604E1EA11A6710700025CF28 /* SRWebSocket.m in Sources */,
+				608DC8941A8BFE11007F4AB4 /* FileComment.swift in Sources */,
 				608DC88C1A89AF98007F4AB4 /* NSGradientView.swift in Sources */,
 				6078A1F51A86A44400BE83A2 /* SlackParser.swift in Sources */,
+				608DC8921A8BEE39007F4AB4 /* File.swift in Sources */,
 				603C7F8C1A798CFA008655DD /* DataManager.swift in Sources */,
 				603C7F921A79912F008655DD /* Message.swift in Sources */,
 				6078A1FD1A86AF2700BE83A2 /* SlackResult.swift in Sources */,

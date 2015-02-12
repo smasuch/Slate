@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 Zanopan. All rights reserved.
 //
 
+//  The parser takes a lump of JSON and an optional SlackRequest to decide what to produce as a result.
+//  If there's no ID in the top-level JSON, it figures that this came via the RTM API 
+//  and it wraps it up as an event.
+
 import Foundation
 import SwiftyJSON
 
@@ -68,6 +72,9 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
         }
         
     } else {
+        // This is probably an event, then
+        var event = Event(contents: nil, timestamp: nil)
+        
         // Is this a message?
         if let type = json["type"].string {
             switch type {
@@ -81,7 +88,16 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
                         println("Request doesn't seem to have useful info to combo with this message")
                     }
                 }
-                result = SlackResult.MessageResult(message)
+                
+                event.contents = EventContents.ContainsMessage(message)
+                event.timestamp = json["ts"].string
+                result = SlackResult.EventResult(event)
+                
+            case "file_shared":
+                let file = File(fileJSON: json["file"])
+                event.contents = EventContents.ContainsFile(file)
+                event.timestamp = json["event_ts"].string
+                result = SlackResult.EventResult(event)
                 
             default:
                 result = SlackResult.ErrorResult("Could not parse this JSON, but did get a type: " + type);

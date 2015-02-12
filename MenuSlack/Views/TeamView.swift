@@ -29,62 +29,73 @@ class TeamView: NSView {
         
         for channel in teamState.channels.values {
             if channel.isMember {
-                for message in channel.messages.reverse() {
+                for event in channel.eventTimeline.reverse() {
                     
-                    if let actualPreviousUser = previousUser {
-                        if actualPreviousUser.id != message.userID {
-                            addUserPic(actualPreviousUser)
-                        }
-                    }
-                    
-                    var displayText = true
-                    
-                    for attachment in message.attachments {
-                        if let imageURL = attachment.imageURL {
+                    if let contents = event.contents {
+                        switch contents {
+                        case .ContainsMessage(let message):
                             
-                            if let messageText = message.text {
-                                displayText = !messageText.hasPrefix("<" + imageURL)
+                            if let actualPreviousUser = previousUser {
+                                if actualPreviousUser.id != message.userID {
+                                    addUserPic(actualPreviousUser)
+                                }
                             }
                             
-                            let imageView = NSImageView(frame: NSRect(origin: messageLabelOrigin, size: CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)))
+                            var displayText = true
                             
-                            if let image = attachment.image {
-                                imageView.image = image
+                            for attachment in message.attachments {
+                                if let imageURL = attachment.imageURL {
+                                    
+                                    if let messageText = message.text {
+                                        displayText = !messageText.hasPrefix("<" + imageURL)
+                                    }
+                                    
+                                    let imageView = NSImageView(frame: NSRect(origin: messageLabelOrigin, size: CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)))
+                                    
+                                    if let image = attachment.image {
+                                        imageView.image = image
+                                    }
+                                    
+                                    imageView.imageScaling = NSImageScaling.ImageScaleNone;
+                                    imageView.animates = true;
+                                    
+                                    self.addSubview(imageView)
+                                    let messageViewHeightIncrease = imageView.frame.size.height + 20.0
+                                    messageLabelOrigin.y += messageViewHeightIncrease
+                                    messageViewSize.height += messageViewHeightIncrease
+                                    userPicOrigin.y += messageViewHeightIncrease
+                                }
                             }
                             
-                            imageView.imageScaling = NSImageScaling.ImageScaleNone;
-                            imageView.animates = true;
                             
-                            self.addSubview(imageView)
-                            let messageViewHeightIncrease = imageView.frame.size.height + 20.0
-                            messageLabelOrigin.y += messageViewHeightIncrease
-                            messageViewSize.height += messageViewHeightIncrease
-                            userPicOrigin.y += messageViewHeightIncrease
-                        }
-                    }
+                            previousUser = message.user
+                            
+                            if displayText && message.attributedText != nil {
+                                
+                                let messageText = message.attributedText!
+                                
+                                let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
+                                messageLabel.attributedStringValue = messageText
+                                messageLabel.bordered = false
+                                messageLabel.editable = false
+                                messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
+                                messageLabel.frame.size.width += 10.0
+                                messageLabel.backgroundColor = NSColor.clearColor()
+                                self.addSubview(messageLabel)
+                                
+                                let messageViewHeightIncrease = messageLabel.frame.size.height + 10.0;
+                                messageLabelOrigin.y += messageViewHeightIncrease
+                                messageViewSize.height += messageViewHeightIncrease
+                                userPicOrigin.y += messageViewHeightIncrease
+                            }
 
-                    
-                    previousUser = message.user
-                    
-                    if displayText && message.attributedText != nil {
-                        
-                        let messageText = message.attributedText!
-                        
-                        let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
-                        messageLabel.attributedStringValue = messageText
-                        messageLabel.bordered = false
-                        messageLabel.editable = false
-                        messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
-                        messageLabel.frame.size.width += 10.0
-                        messageLabel.backgroundColor = NSColor.clearColor()
-                        self.addSubview(messageLabel)
-                        
-                        let messageViewHeightIncrease = messageLabel.frame.size.height + 10.0;
-                        messageLabelOrigin.y += messageViewHeightIncrease
-                        messageViewSize.height += messageViewHeightIncrease
-                        userPicOrigin.y += messageViewHeightIncrease
+                        case .ContainsFile(let file):
+                            println("Had a file to display in the view")
+                            
+                        default:
+                            println("Had an unknown type of event to display in the view")
+                        }
                     }
-                    
                 }
                 
                 // Add in the last userpic

@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Zanopan. All rights reserved.
 //
 
-//  The TeamState is an object representing the
+//  The TeamState is an object representing the current contents of the team.
+//  The channels array holds most of what will be displayed onscreen.
 
 import Foundation
-
 
 
 struct TeamState {
@@ -34,6 +34,37 @@ struct TeamState {
         
         switch result {
             
+        case .EventResult(let event):
+            if let contents = event.contents {
+                switch contents {
+                case .ContainsMessage(let message):
+                    if let userID = message.userID {
+                        message.user = state.users[userID]
+                    }
+                    
+                    if let channelID = message.channelID {
+                        if var channelForMessage = newState.channels[channelID] {
+                            channelForMessage.incorporateEvent(event)
+                            newState.channels[channelID] = channelForMessage // Unsure if this is necessary in Swift, honestly
+                        }
+                    }
+                    
+                    for attachment in message.attachments {
+                        requests.append(SlackRequest.AttachmentImage(message, attachment))
+                    }
+                    
+                    if let submessage = message.submessage {
+                        submessage.channelID = message.channelID
+                        for attachment in submessage.attachments {
+                            requests.append(SlackRequest.AttachmentImage(submessage, attachment))
+                        }
+                    }
+                default:
+                    println("Unknown sort of event to incorporate")
+                }
+            }
+            
+            
         case .UserResult(let user):
             newState.users[user.id] = user
             if user.image48Image == nil {
@@ -44,27 +75,13 @@ struct TeamState {
             newState.channels[channel.id] = channel
             
         case .MessageResult(let message):
-            if let userID = message.userID {
-                message.user = state.users[userID]
-            }
+            println("Raw message delivered")
             
-            if let channelID = message.channelID {
-                if var channelForMessage = newState.channels[channelID] {
-                    channelForMessage.incorporateMessage(message)
-                    newState.channels[channelID] = channelForMessage // Unsure if this is necessary in Swift, honestly
-                }
-            }
+        case .FileResult(let file):
+            println("Raw file delivered")
             
-            for attachment in message.attachments {
-                requests.append(SlackRequest.AttachmentImage(message, attachment))
-            }
-            
-            if let submessage = message.submessage {
-                submessage.channelID = message.channelID
-                for attachment in submessage.attachments {
-                    requests.append(SlackRequest.AttachmentImage(submessage, attachment))
-                }
-            }
+        case .FileThumbnailResult(let file, let image):
+            println("File thumbnail delivered")
             
         case .AttachmentImageResult(let message, let attachment, let image):
             if let channelID = message.channelID {
@@ -96,8 +113,8 @@ struct TeamState {
     func markMessagesAsRead() {
         // Tell the channels the messages were viewed
         for channel in channels.values {
-            for message in channel.messages {
-                message.isRead = true
+            for event in channel.eventTimeline {
+                //message.isRead = true
             }
         }
     }

@@ -111,7 +111,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
         
         var comparisonResult = NSComparisonResult.OrderedSame
         
-        if let oldestTime = channel.messages.first?.timestamp {
+        if let oldestTime = channel.eventTimeline.first?.timestamp {
             if let lastReadTime = channel.lastRead {
                 comparisonResult = oldestTime.compare(lastReadTime, options: NSStringCompareOptions.NumericSearch)
                 
@@ -151,14 +151,24 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
                     }
                 }
             }
+        
+        case .FileThumbnail(let file):
+            if let urlString = file.thumb360 {
+                Alamofire.request(.GET, urlString).response { (urlRequest, response, data, error) in
+                    if let finalData : NSData = data as? NSData {
+                        let fileThumbnailResult = SlackResult.FileThumbnailResult(file, NSImage(data: finalData))
+                        self.resultHandler?.handleResult(fileThumbnailResult)
+                    }
+                }
+            }
             
         case .UserImage(let user, let imageKey):
                 // Not actually using the image key yet...
             if let urlString = user.image48URL {
                 Alamofire.request(.GET, urlString).response { (urlRequest, response, data, error) in
                     if let finalData : NSData = data as? NSData {
-                        let userImageResult = SlackResult.UserImageResult(user, imageKey, NSImage(data:finalData))
-                        self.resultHandler?.handleResult(userImageResult)
+                        let fileThumbnailResult = SlackResult.UserImageResult(user, imageKey, NSImage(data:finalData))
+                        self.resultHandler?.handleResult(fileThumbnailResult)
                     }
                 }
             }
