@@ -77,7 +77,8 @@ class TeamView: NSView {
                                 let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
                                 messageLabel.attributedStringValue = messageText
                                 messageLabel.bordered = false
-                                messageLabel.editable = false
+                                messageLabel.selectable = true
+                                messageLabel.allowsEditingTextAttributes = true
                                 messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
                                 messageLabel.frame.size.width += 10.0
                                 messageLabel.backgroundColor = NSColor.clearColor()

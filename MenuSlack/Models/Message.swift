@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import Cocoa
 
 enum MessageSubtype: String {
     case Bot = "bot_message"
@@ -146,7 +147,6 @@ extension NSAttributedString {
         let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: range) as Array<NSTextCheckingResult>
         
         for result : NSTextCheckingResult in matches.reverse() {
-            println(result)
             // Remove the bounding characters
             replacedString.deleteCharactersInRange(NSRange(location: result.range.location + result.range.length - 1, length: 1))
             replacedString.deleteCharactersInRange(NSRange(location: result.range.location, length: 1))
@@ -165,7 +165,20 @@ extension NSAttributedString {
         let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: NSRange(location:0, length:self.length)) as Array<NSTextCheckingResult>
         
         for result : NSTextCheckingResult in matches.reverse() {
-            println(result)
+            println("number of matches: " + result.numberOfRanges.description)
+            var linkTextRange = result.rangeAtIndex(1)
+            if (result.rangeAtIndex(2).location != NSNotFound) {
+                linkTextRange = result.rangeAtIndex(2)
+            }
+            
+            let linkText = replacedString.attributedSubstringFromRange(linkTextRange)
+            var attributedLinkText = NSMutableAttributedString(attributedString: linkText)
+            if let url = NSURL(string: replacedString.attributedSubstringFromRange(result.rangeAtIndex(1)).string) {
+                attributedLinkText.addAttribute(NSLinkAttributeName, value: url, range: NSMakeRange(0, attributedLinkText.length))
+                attributedLinkText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyleSingle, range: NSMakeRange(0, attributedLinkText.length))
+                attributedLinkText.addAttribute(NSForegroundColorAttributeName, value: NSColor.blueColor(), range: NSMakeRange(0, attributedLinkText.length))
+            }
+            replacedString.replaceCharactersInRange(result.range, withAttributedString:attributedLinkText)
         }
         
         return replacedString
