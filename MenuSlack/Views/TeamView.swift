@@ -119,13 +119,15 @@ class TeamView: NSView {
                     addUserPic(actualPreviousUser)
                 }
                 
+                // Clear this out for the next channel
+                previousUser = nil
+                
                 // Add the channel title
                 
                 let gradientView = NSGradientView(frame: NSRect(x: 0.0, y: messageLabelOrigin.y, width: messageViewSize.width, height: 26.0))
                 gradientView.topColor = NSColor(calibratedRed: 234.0/255.0, green: 253.0/255.0, blue: 210.0/215.0, alpha: 1.0)
                 gradientView.bottomColor = NSColor(calibratedRed: 202.0/255.0, green: 250.0/255.0, blue: 179.0/255.0, alpha: 1.0)
                 self.addSubview(gradientView)
-                messageViewSize.height += 15.0
                 
                 let channelTitleView = NSTextField(frame: NSRect(x: userPicOrigin.x, y: messageLabelOrigin.y, width: messageViewSize.width, height: 26.0))
                 channelTitleView.font = NSFont(name: "AvenirNext-Bold", size: 15.0)
@@ -134,6 +136,11 @@ class TeamView: NSView {
                 channelTitleView.editable = false
                 channelTitleView.backgroundColor = NSColor.clearColor()
                 self.addSubview(channelTitleView)
+                
+                let messageViewHeightIncrease = gradientView.frame.size.height;
+                messageLabelOrigin.y += messageViewHeightIncrease
+                messageViewSize.height += messageViewHeightIncrease
+                userPicOrigin.y += messageViewHeightIncrease
             }
         }
         
