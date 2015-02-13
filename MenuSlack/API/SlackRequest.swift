@@ -17,4 +17,6 @@ enum SlackRequest {
         // User (for the ID), key for the user property of the image
     case FileThumbnail(File)
         // File that owns that thumbnail image
+    case MarkChannel(String, String)
+        // Channel ID and timestamp of last event
 }

@@ -48,8 +48,12 @@ class DataManager: SlackResultHandler {
         changeQueue.addOperation(changeBlock)
     }
     
-    func menuViewed() {
-        currentTeamState.markMessagesAsRead()
+    func teamViewed() {
+        for channel in currentTeamState.channels.values {
+            if let timestamp = channel.eventTimeline.last?.timestamp {
+              requestHandler?.handleRequest(SlackRequest.MarkChannel(channel.id, timestamp))
+            }
+        }
     }
     
     func clearReadMessages() {

@@ -56,12 +56,16 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
     func handleTeamState(state: TeamState) {
         dispatch_async(dispatch_get_main_queue()) {
             self.menuItem.view = TeamView(teamState: state)
-            self.statusItem.image = NSImage(named: "icon-coloured")
+            if state.hasUnreadMessages {
+                self.statusItem.image = NSImage(named: "icon-coloured")
+            } else {
+                self.statusItem.image = NSImage(named: "icon-white")
+            }
         }
     }
     
     func menuDidClose(menu: NSMenu) {
-        dataManager.menuViewed()
+        dataManager.teamViewed()
         statusItem.image = NSImage(named: "icon-white")
     }
     

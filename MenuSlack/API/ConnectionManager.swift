@@ -173,6 +173,13 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
                 }
             }
             
+        case .MarkChannel(let channelID, let timestamp):
+            Alamofire.request(.POST, "https://slack.com/api/channels.mark", parameters: ["token": authToken!, "channel": channelID, "ts": timestamp]).response{ (urlRequest, response, data, error) in
+                if let finalData : NSData = data as? NSData {
+                    self.parser?.parseResultFromRequest(JSON(data: finalData), request: request)
+                }
+            }
+            
         default:
             println("Can't handle this request.")
         }

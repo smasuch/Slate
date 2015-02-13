@@ -13,9 +13,19 @@ import Foundation
 
 
 struct TeamState {
-    var users:      Dictionary<String, User>
-    var channels:   Dictionary<String, Channel> // Messages are contained within channels
-    var looseEnds:  Array<SlackRequest>
+    var users:              Dictionary<String, User>
+    var channels:           Dictionary<String, Channel> // Messages are contained within channels
+    var looseEnds:          Array<SlackRequest>
+    var hasUnreadMessages:  Bool {
+        var channelHasUnreadMessages = false
+        
+        for channel in channels.values {
+            channelHasUnreadMessages = channel.hasUnreadMessages
+            if channelHasUnreadMessages { break }
+        }
+        
+        return channelHasUnreadMessages
+    }
     
     init() {
         users = [String: User]()
@@ -82,6 +92,12 @@ struct TeamState {
             
         case .ChannelResult(let channel):
             newState.channels[channel.id] = channel
+            
+        case .ChannelMarkedResult(let channelID, let timestamp):
+            if var markedChannel = newState.channels[channelID] {
+                markedChannel.lastRead = timestamp
+                newState.channels[channelID] = markedChannel
+            }
             
         case .MessageResult(let message):
             println("Raw message delivered")

@@ -16,6 +16,17 @@ struct Channel {
     var topic: String?
     var name: String?
     var isMember: Bool
+    var hasUnreadMessages: Bool {
+        
+        if let lastMessageTimestamp = eventTimeline.last?.timestamp as NSString? {
+            if let channelMark = lastRead as NSString? {
+                let markComparisonResult = lastMessageTimestamp.compare(channelMark, options: NSStringCompareOptions.NumericSearch)
+                return markComparisonResult == NSComparisonResult.OrderedDescending
+            }
+        }
+        
+        return false
+    }
     
     init(data: JSON) {
         name = data["name"].string
@@ -32,6 +43,7 @@ struct Channel {
                 switch contents  {
                 case .ContainsMessage(let message):
                     if let subtype = message.subtype {
+                        
                         switch subtype {
                         case .Changed:
                             var changedMessage : Message?
@@ -67,20 +79,23 @@ struct Channel {
                         default:
                             println("No useful subtype")
                         }
+                        
                     } else {
                         var index = 0
                         if let messageTimestamp = message.timestamp as NSString? {
                             var comparisonResult: NSComparisonResult = NSComparisonResult.OrderedDescending
+
                             for existingEvent in eventTimeline {
                                 if let existingTimestamp = existingEvent.timestamp as NSString? {
                                     comparisonResult = messageTimestamp.compare(existingTimestamp, options: NSStringCompareOptions.NumericSearch)
                                 }
-                                if comparisonResult == NSComparisonResult.OrderedAscending{
+                                if comparisonResult == NSComparisonResult.OrderedAscending {
                                     break
                                 } else {
                                     index++
                                 }
                             }
+                            
                             eventTimeline.insert(event, atIndex: index)
                         }
                     }

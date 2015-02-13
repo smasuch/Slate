@@ -98,6 +98,9 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
                 event.contents = EventContents.ContainsFile(file)
                 event.timestamp = json["event_ts"].string
                 result = SlackResult.EventResult(event)
+            
+            case "channel_marked":
+                result = SlackResult.ChannelMarkedResult(json["channel"].string!, json["ts"].string!)
                 
             default:
                 result = SlackResult.ErrorResult("Could not parse this JSON, but did get a type: " + type);

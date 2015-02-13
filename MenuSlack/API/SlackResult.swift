@@ -13,6 +13,7 @@ enum SlackResult {
     case EventResult(Event)
     case UserResult(User)
     case ChannelResult(Channel)
+    case ChannelMarkedResult(String, String)
     case MessageResult(Message)
     case FileResult(File)
     case FileThumbnailResult(File, NSImage?)
