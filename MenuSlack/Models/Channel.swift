@@ -12,7 +12,22 @@ import SwiftyJSON
 struct Channel {
     var eventTimeline: Array<Event>
     let id: String
-    var lastRead: String?
+    var lastRead: String? {
+        didSet {
+            if let lastReadTimestamp = lastRead as NSString? {
+                var prunedEvents = [Event]()
+                for event in eventTimeline {
+                    if let eventTimestamp = event.timestamp as NSString? {
+                        let markComparisonResult = eventTimestamp.compare(lastReadTimestamp, options: NSStringCompareOptions.NumericSearch)
+                        if markComparisonResult != NSComparisonResult.OrderedAscending {
+                            prunedEvents.append(event)
+                        }
+                    }
+                }
+                eventTimeline = prunedEvents
+            }
+        }
+    }
     var topic: String?
     var name: String?
     var isMember: Bool

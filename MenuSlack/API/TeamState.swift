@@ -92,6 +92,9 @@ struct TeamState {
             
         case .ChannelResult(let channel):
             newState.channels[channel.id] = channel
+            if let timestamp = channel.lastRead {
+                requests.append(SlackRequest.ChannelHistory(channel, nil, timestamp, true, 10))
+            }
             
         case .ChannelMarkedResult(let channelID, let timestamp):
             if var markedChannel = newState.channels[channelID] {

@@ -138,8 +138,11 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             
             Alamofire.request(.GET, "https://slack.com/api/channels.history", parameters: parameters).response { (urlRequest, response, data, error) in
                 if let finalData : NSData = data as? NSData {
-                    self.parser?.parseResultFromRequest(JSON(data: finalData), request: request)
-                }
+                    let historyJSON = JSON(data: finalData)
+                    for (string, messageJSON) in historyJSON["messages"] {
+                        self.parser?.parseResultFromRequest(messageJSON, request: request)
+                    }
+                }   
             }
             
         case .AttachmentImage(let message, let attachment):
