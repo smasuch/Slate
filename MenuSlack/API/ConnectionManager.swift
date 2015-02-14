@@ -98,7 +98,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
     }
     
     func startReconnectionTimer() {
-        reconnectionTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "initiateConnectionWithExistingToken", userInfo: nil, repeats: true)
+        reconnectionTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "initiateConnectionWithExistingToken", userInfo: nil, repeats: false)
     }
     
     func initiateConnectionWithExistingToken() {
