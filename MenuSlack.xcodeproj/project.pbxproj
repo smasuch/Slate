@@ -37,6 +37,7 @@
 		60A565B01A880619002B6109 /* icon-coloured@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565AE1A880619002B6109 /* icon-coloured@2x.png */; };
 		60A565B31A8809DD002B6109 /* icon-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565B11A8809DD002B6109 /* icon-white.png */; };
 		60A565B41A8809DD002B6109 /* icon-coloured.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565B21A8809DD002B6109 /* icon-coloured.png */; };
+		60C87BB21A900D44005ED592 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 60C87BB11A900D44005ED592 /* icon.icns */; };
 		60EB3E0F1A80812900C72876 /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB3E0E1A80812900C72876 /* TeamView.swift */; };
 		B97E13A2612F68E3484130AC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7633BBB41F07396015C8D81C /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -116,6 +117,7 @@
 		60A565AE1A880619002B6109 /* icon-coloured@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-coloured@2x.png"; path = "Images/icon-coloured@2x.png"; sourceTree = "<group>"; };
 		60A565B11A8809DD002B6109 /* icon-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-white.png"; path = "Images/icon-white.png"; sourceTree = "<group>"; };
 		60A565B21A8809DD002B6109 /* icon-coloured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-coloured.png"; path = "Images/icon-coloured.png"; sourceTree = "<group>"; };
+		60C87BB11A900D44005ED592 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		60EB3E0E1A80812900C72876 /* TeamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamView.swift; path = Views/TeamView.swift; sourceTree = "<group>"; };
 		7633BBB41F07396015C8D81C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2AE037EE0A34A018A6B8351 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -160,9 +162,10 @@
 		604E1E2A1A636F9C0025CF28 = {
 			isa = PBXGroup;
 			children = (
+				60C87BB11A900D44005ED592 /* icon.icns */,
 				604E1EA01A6710700025CF28 /* SRWebSocket.m */,
-				604E1E751A6648FC0025CF28 /* Security.framework */,
 				604E1E731A6648F70025CF28 /* libicucore.dylib */,
+				604E1E751A6648FC0025CF28 /* Security.framework */,
 				604E1E711A6648EB0025CF28 /* CFNetwork.framework */,
 				604E1E6F1A6648E40025CF28 /* Foundation.framework */,
 				604E1E351A636F9C0025CF28 /* MenuSlack */,
@@ -415,6 +418,7 @@
 				60A565B01A880619002B6109 /* icon-coloured@2x.png in Resources */,
 				604507901A82C4670029CC20 /* OptionsPanelController.xib in Resources */,
 				604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */,
+				60C87BB21A900D44005ED592 /* icon.icns in Resources */,
 				60A565B41A8809DD002B6109 /* icon-coloured.png in Resources */,
 				604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */,
 			);
