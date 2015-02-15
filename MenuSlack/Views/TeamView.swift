@@ -50,16 +50,19 @@ class TeamView: NSView {
                                         displayText = !messageText.hasPrefix("<" + imageURL)
                                     }
                                     
-                                    let imageView = NSImageView(frame: NSRect(origin: messageLabelOrigin, size: CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)))
+                                    let imageView = MSImageView(frame: NSRect(origin: messageLabelOrigin, size: CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)))
                                     
                                     if let image = attachment.image {
                                         imageView.image = image
                                     }
                                     
+                                    imageView.imageURL = NSURL(string:imageURL)
+                                    
                                     imageView.imageScaling = NSImageScaling.ImageScaleNone;
                                     imageView.animates = true;
                                     
                                     self.addSubview(imageView)
+
                                     let messageViewHeightIncrease = imageView.frame.size.height + 20.0
                                     messageLabelOrigin.y += messageViewHeightIncrease
                                     messageViewSize.height += messageViewHeightIncrease

@@ -38,6 +38,7 @@
 		60A565B31A8809DD002B6109 /* icon-white.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565B11A8809DD002B6109 /* icon-white.png */; };
 		60A565B41A8809DD002B6109 /* icon-coloured.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565B21A8809DD002B6109 /* icon-coloured.png */; };
 		60C87BB21A900D44005ED592 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 60C87BB11A900D44005ED592 /* icon.icns */; };
+		60C87BBA1A9035E0005ED592 /* MSImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C87BB91A9035E0005ED592 /* MSImageView.swift */; };
 		60EB3E0F1A80812900C72876 /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB3E0E1A80812900C72876 /* TeamView.swift */; };
 		B97E13A2612F68E3484130AC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7633BBB41F07396015C8D81C /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
@@ -118,6 +119,7 @@
 		60A565B11A8809DD002B6109 /* icon-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-white.png"; path = "Images/icon-white.png"; sourceTree = "<group>"; };
 		60A565B21A8809DD002B6109 /* icon-coloured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-coloured.png"; path = "Images/icon-coloured.png"; sourceTree = "<group>"; };
 		60C87BB11A900D44005ED592 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		60C87BB91A9035E0005ED592 /* MSImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSImageView.swift; path = Views/MSImageView.swift; sourceTree = "<group>"; };
 		60EB3E0E1A80812900C72876 /* TeamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamView.swift; path = Views/TeamView.swift; sourceTree = "<group>"; };
 		7633BBB41F07396015C8D81C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2AE037EE0A34A018A6B8351 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
@@ -235,6 +237,7 @@
 				6045078D1A82C4670029CC20 /* OptionsPanelController.swift */,
 				6045078E1A82C4670029CC20 /* OptionsPanelController.xib */,
 				608DC88B1A89AF98007F4AB4 /* NSGradientView.swift */,
+				60C87BB91A9035E0005ED592 /* MSImageView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 				6078A1FB1A86AE2000BE83A2 /* SlackRequest.swift in Sources */,
 				603C7F991A7ACA21008655DD /* MenuController.swift in Sources */,
 				603C7FD21A7C43F3008655DD /* Attachment.swift in Sources */,
+				60C87BBA1A9035E0005ED592 /* MSImageView.swift in Sources */,
 				608DC8961A8C0AAF007F4AB4 /* Event.swift in Sources */,
 				60EB3E0F1A80812900C72876 /* TeamView.swift in Sources */,
 				60153A0A1A7836A2008C0F7D /* ConnectionManager.swift in Sources */,
