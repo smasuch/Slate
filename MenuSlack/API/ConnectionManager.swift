@@ -107,25 +107,6 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
         }
     }
     
-    func getChannelHistory(channel: Channel) {
-        
-        var comparisonResult = NSComparisonResult.OrderedSame
-        
-        if let oldestTime = channel.eventTimeline.first?.timestamp {
-            if let lastReadTime = channel.lastRead {
-                comparisonResult = oldestTime.compare(lastReadTime, options: NSStringCompareOptions.NumericSearch)
-                
-            }
-        } else {
-            comparisonResult = NSComparisonResult.OrderedDescending
-        }
-        
-        if comparisonResult == NSComparisonResult.OrderedDescending {
-            self.handleRequest(SlackRequest.ChannelHistory(channel, nil, nil, true, 10))
-        }
-    }
-
-    
     func handleRequest(request: SlackRequest) {
         switch request {
         case .ChannelHistory(let channel, let latest, let oldest, let inclusive, let count):
