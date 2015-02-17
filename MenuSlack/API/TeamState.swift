@@ -95,8 +95,12 @@ struct TeamState {
             
         case .ChannelResult(let channel):
             newState.channels[channel.id] = channel
-            if let timestamp = channel.lastRead {
-                requests.append(SlackRequest.ChannelHistory(channel, nil, timestamp, true, 10))
+            let timestamp = channel.lastRead
+            if let lastEvent = channel.eventTimeline.last? {
+                // We want the newest 10 unread messages, to start
+                if timestamp != lastEvent.timestamp {
+                    requests.append(SlackRequest.ChannelHistory(channel, lastEvent.timestamp, timestamp, true, 10))
+                }
             }
             
         case .ChannelMarkedResult(let channelID, let timestamp):

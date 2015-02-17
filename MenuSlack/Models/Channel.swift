@@ -50,6 +50,12 @@ struct Channel {
         lastRead = data["last_read"].string
         isMember = data["is_member"].boolValue
         eventTimeline = [Event]()
+        let latestMessageJSON = data["latest"]
+        if latestMessageJSON.type != .Null  {
+            let latestMessage = Message(messageJSON: latestMessageJSON)
+            let latestMessageEvent = Event(contents: EventContents.ContainsMessage(latestMessage), timestamp: latestMessage.timestamp)
+            eventTimeline.append(latestMessageEvent)
+        }
     }
     
     mutating func incorporateEvent(event: Event) {

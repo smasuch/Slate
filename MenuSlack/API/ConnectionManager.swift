@@ -120,6 +120,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             Alamofire.request(.GET, "https://slack.com/api/channels.history", parameters: parameters).response { (urlRequest, response, data, error) in
                 if let finalData : NSData = data as? NSData {
                     let historyJSON = JSON(data: finalData)
+                    println("Results for history of channel " + parameters.description + ": " + historyJSON.dictionary!.description)
                     for (string, messageJSON) in historyJSON["messages"] {
                         self.parser?.parseResultFromRequest(messageJSON, request: request)
                     }
