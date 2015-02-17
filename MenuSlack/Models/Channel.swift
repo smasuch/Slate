@@ -53,6 +53,13 @@ struct Channel {
         let latestMessageJSON = data["latest"]
         if latestMessageJSON.type != .Null  {
             let latestMessage = Message(messageJSON: latestMessageJSON)
+            
+            if let channelTimestamp = lastRead as NSString? {
+                if let messageTimestamp = latestMessage.timestamp as NSString? {
+                    latestMessage.isRead = (messageTimestamp.compare(channelTimestamp, options: NSStringCompareOptions.NumericSearch) != NSComparisonResult.OrderedDescending)
+                }
+            }
+            
             let latestMessageEvent = Event(contents: EventContents.ContainsMessage(latestMessage), timestamp: latestMessage.timestamp)
             eventTimeline.append(latestMessageEvent)
         }
@@ -104,6 +111,12 @@ struct Channel {
                     } else {
                         var index = 0
                         if let messageTimestamp = message.timestamp as NSString? {
+                            
+                            if let lastReadTimestamp = lastRead as NSString? {
+                                let markComparisonResult = messageTimestamp.compare(lastReadTimestamp, options: NSStringCompareOptions.NumericSearch)
+                                message.isRead = (markComparisonResult != NSComparisonResult.OrderedDescending)
+                            }
+                        
                             var comparisonResult: NSComparisonResult = NSComparisonResult.OrderedDescending
 
                             for existingEvent in eventTimeline {

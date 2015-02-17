@@ -183,6 +183,9 @@ class TeamView: NSView {
                                 messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
                                 messageLabel.frame.size.width += 10.0
                                 messageLabel.backgroundColor = NSColor.clearColor()
+                                if message.isRead {
+                                    messageLabel.alphaValue = 0.5
+                                }
                                 self.addSubview(messageLabel)
                                 
                                 let messageViewHeightIncrease = messageLabel.frame.size.height + 10.0;
