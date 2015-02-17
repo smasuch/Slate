@@ -144,13 +144,17 @@ class TeamView: NSView {
                                     if let authorName = attachment.authorName {
                                         
                                         var authorNameOrigin = messageLabelOrigin
+                                        authorNameOrigin.y += attachmentHeightIncrease
                                         
                                         if let authorIcon = attachment.authorIcon {
-                                            
+                                            let authorIconView = NSImageView(frame: NSRect(origin: authorNameOrigin, size: NSSize(width: 16, height: 16)))
+                                            authorIconView.image = authorIcon
+                                            self.addSubview(authorIconView)
+                                            authorNameOrigin.x += 22.0
                                         }
                                         
                                         let authorNameLabel = labelForAttibutedString(NSAttributedString(string: authorName), messageViewSize.width - authorNameOrigin.x - 30.0)
-                                        authorNameLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
+                                        authorNameLabel.frame.origin = authorNameOrigin
                                         self.addSubview(authorNameLabel)
                                         
                                         if let authorLink = attachment.authorLink {
@@ -159,17 +163,6 @@ class TeamView: NSView {
                                         
                                         attachmentHeightIncrease += authorNameLabel.frame.size.height + 10.0
                                     }
-                                        // Display the author image, if we have it
-                                    
-                                        // Then the author name, if that's there too.
-                                            // Link it with the author link
-                                    
-                                        // Show the title, if it's there
-                                        // And link that, if a title link is there
-                                        // Show pretext
-                                        // Show the text, if that's there.
-                                        // Show the image, or video thumbnail
-                                        // Link it up, as appropriate
                                 }
                                 
                                 messageLabelOrigin.y += attachmentHeightIncrease

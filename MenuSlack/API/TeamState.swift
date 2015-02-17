@@ -61,6 +61,9 @@ struct TeamState {
                     
                     for attachment in message.attachments {
                         requests.append(SlackRequest.AttachmentImage(message, attachment))
+                        if attachment.authorIconURL != nil {
+                            requests.append(SlackRequest.AuthorIcon(message, attachment))
+                        }
                     }
                     
                     if let submessage = message.submessage {
@@ -118,6 +121,21 @@ struct TeamState {
                         if let correspondingMessage = channel.messageWithTimestamp(timestamp) {
                             var (correspondingAttachment, index) = correspondingMessage.attachmentForID(attachment.id)
                             correspondingAttachment?.image = image
+                            if index != nil {
+                                correspondingMessage.attachments[index!] = correspondingAttachment!
+                            }
+                        }
+                    }
+                }
+            }
+            
+        case .AuthorIconResult(let message, let attachment, let icon):
+            if let channelID = message.channelID {
+                if let channel = newState.channels[channelID] {
+                    if let timestamp = message.timestamp {
+                        if let correspondingMessage = channel.messageWithTimestamp(timestamp) {
+                            var (correspondingAttachment, index) = correspondingMessage.attachmentForID(attachment.id)
+                            correspondingAttachment?.authorIcon = icon
                             if index != nil {
                                 correspondingMessage.attachments[index!] = correspondingAttachment!
                             }

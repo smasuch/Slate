@@ -140,6 +140,16 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
                     }
                 }
             }
+            
+        case .AuthorIcon(let message, let attachment):
+            if let urlString = attachment.authorIconURL {
+                Alamofire.request(.GET, urlString).response { (urlRequest, response, data, error) in
+                    if let finalData : NSData = data as? NSData {
+                        let imageResult = SlackResult.AuthorIconResult(message, attachment, NSImage(data: finalData))
+                        self.resultHandler?.handleResult(imageResult)
+                    }
+                }
+            }
         
         case .FileThumbnail(let file):
             if let urlString = file.thumb360 {
