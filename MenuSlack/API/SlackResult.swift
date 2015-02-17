@@ -19,5 +19,6 @@ enum SlackResult {
     case FileThumbnailResult(File, NSImage?)
     case AttachmentImageResult(Message, Attachment, NSImage?)
     case UserImageResult(User, String, NSImage?)
+    case AuthorIconResult(Message, Attachment, NSImage?)
     case ErrorResult(String?)
 }

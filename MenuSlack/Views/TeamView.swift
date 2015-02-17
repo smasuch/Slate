@@ -29,6 +29,21 @@ class TeamView: NSView {
         
         for channel in teamState.channels.values {
             if channel.isMember {
+                
+                func labelForAttibutedString(string: NSAttributedString, width: CGFloat) -> NSTextField {
+                    let label = NSTextField(frame: NSRect(origin: CGPoint.zeroPoint, size: CGSize.zeroSize))
+                    label.attributedStringValue = string
+                    label.bordered = false
+                    label.selectable = true
+                    label.allowsEditingTextAttributes = true
+                    label.frame.size = string.boundingRectWithSize(NSSize(width: width - 10.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
+                    label.frame.size.width += 10.0
+                    label.backgroundColor = NSColor.clearColor()
+                    
+                    return label
+                }
+                
+                
                 for event in channel.eventTimeline.reverse() {
                     
                     if let contents = event.contents {
@@ -41,37 +56,127 @@ class TeamView: NSView {
                                 }
                             }
                             
+                            previousUser = message.user
+                            
+                            // If there are attachments, sometimes the text is redundant
                             var displayText = true
                             
                             for attachment in message.attachments {
-                                if let imageURL = attachment.imageURL {
-                                    
+                                
+                                if let fromURL = attachment.fromURL {
                                     if let messageText = message.text {
-                                        displayText = !messageText.hasPrefix("<" + imageURL)
+                                        displayText = !messageText.hasPrefix("<" + fromURL)
                                     }
-                                    
-                                    let imageView = MSImageView(frame: NSRect(origin: messageLabelOrigin, size: CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)))
-                                    
-                                    if let image = attachment.image {
-                                        imageView.image = image
-                                    }
-                                    
-                                    imageView.imageURL = NSURL(string:imageURL)
-                                    
-                                    imageView.imageScaling = NSImageScaling.ImageScaleNone;
-                                    imageView.animates = true;
-                                    
-                                    self.addSubview(imageView)
-
-                                    let messageViewHeightIncrease = imageView.frame.size.height + 20.0
-                                    messageLabelOrigin.y += messageViewHeightIncrease
-                                    messageViewSize.height += messageViewHeightIncrease
-                                    userPicOrigin.y += messageViewHeightIncrease
                                 }
+                                
+                                // Do we have anything besides the fallback text to show?
+                                
+                                var attachmentHeightIncrease: CGFloat = 10.0
+                                
+                                if attachment.hasOnlyFallbackText {
+                                    // If not, display the fallback text
+                                } else {
+                                    // If we do, then things will get more complicated:
+                                    
+                                    // Do we need an image view?
+                                    if (attachment.image != nil) || (attachment.imageURL != nil) || (attachment.thumbURL != nil) {
+                                        
+                                        var imageFrame = NSRect(origin: messageLabelOrigin, size: NSSize.zeroSize)
+                                        var imageLink: String?
+                                        
+                                        if let imageURL = attachment.imageURL {
+                                            imageFrame.size = CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)
+                                            imageLink = imageURL
+                                        }
+                                        
+                                        if let thumbURL = attachment.thumbURL {
+                                            imageFrame.size = CGSize(width: attachment.thumbWidth!, height: attachment.thumbHeight!)
+                                            imageLink = thumbURL
+                                        }
+                                        
+                                        let imageView = MSImageView(frame: imageFrame)
+                                        imageView.imageScaling = NSImageScaling.ImageScaleNone;
+                                        imageView.animates = true;
+                                        self.addSubview(imageView)
+                                        attachmentHeightIncrease += imageFrame.size.height + 10.0
+
+                                        if let image = attachment.image {
+                                            imageView.image = image
+                                        } else {
+                                            // display a loading animation
+                                        }
+                                    
+                                        if let imageLink = imageLink {
+                                            if let messageText = message.text {
+                                                displayText = displayText && !messageText.hasPrefix("<" + imageLink)
+                                            }
+                                            imageView.imageURL = NSURL(string:imageLink)
+                                        }
+                                    }
+                                    
+                                    if let text = attachment.text {
+                                        let textLabel = labelForAttibutedString(NSAttributedString(string: text), messageViewSize.width - messageLabelOrigin.x - 30.0)
+                                        textLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
+                                        self.addSubview(textLabel)
+                                        attachmentHeightIncrease += textLabel.frame.size.height + 10.0
+                                    }
+                                    
+                                    if let pretext = attachment.pretext {
+                                        let pretextLabel = labelForAttibutedString(NSAttributedString(string: pretext), messageViewSize.width - messageLabelOrigin.x - 30.0)
+                                        pretextLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
+                                        
+                                        self.addSubview(pretextLabel)
+                                        attachmentHeightIncrease += pretextLabel.frame.size.height + 10.0
+                                    }
+                                    
+                                    if let title = attachment.title {
+                                        let titleLabel = labelForAttibutedString(NSAttributedString(string: title), messageViewSize.width - messageLabelOrigin.x - 30.0)
+                                        titleLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
+                                        self.addSubview(titleLabel)
+                                        
+                                        if let titleLink = attachment.titleLink {
+                                            
+                                        }
+                                        
+                                        attachmentHeightIncrease += titleLabel.frame.size.height + 10.0
+                                    }
+                                    
+                                    if let authorName = attachment.authorName {
+                                        
+                                        var authorNameOrigin = messageLabelOrigin
+                                        
+                                        if let authorIcon = attachment.authorIcon {
+                                            
+                                        }
+                                        
+                                        let authorNameLabel = labelForAttibutedString(NSAttributedString(string: authorName), messageViewSize.width - authorNameOrigin.x - 30.0)
+                                        authorNameLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
+                                        self.addSubview(authorNameLabel)
+                                        
+                                        if let authorLink = attachment.authorLink {
+                                            
+                                        }
+                                        
+                                        attachmentHeightIncrease += authorNameLabel.frame.size.height + 10.0
+                                    }
+                                        // Display the author image, if we have it
+                                    
+                                        // Then the author name, if that's there too.
+                                            // Link it with the author link
+                                    
+                                        // Show the title, if it's there
+                                        // And link that, if a title link is there
+                                        // Show pretext
+                                        // Show the text, if that's there.
+                                        // Show the image, or video thumbnail
+                                        // Link it up, as appropriate
+                                }
+                                
+                                messageLabelOrigin.y += attachmentHeightIncrease
+                                messageViewSize.height += attachmentHeightIncrease
+                                userPicOrigin.y += attachmentHeightIncrease
                             }
                             
-                            
-                            previousUser = message.user
                             
                             if displayText && message.attributedText != nil {
                                 

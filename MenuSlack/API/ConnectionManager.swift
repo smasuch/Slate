@@ -127,7 +127,12 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             }
             
         case .AttachmentImage(let message, let attachment):
-            if let urlString = attachment.imageURL {
+            var downloadURL = attachment.imageURL
+            if downloadURL == nil && attachment.thumbURL != nil {
+                downloadURL = attachment.thumbURL!
+            }
+            
+            if let urlString = downloadURL {
                 Alamofire.request(.GET, urlString).response { (urlRequest, response, data, error) in
                     if let finalData : NSData = data as? NSData {
                         let imageResult = SlackResult.AttachmentImageResult(message, attachment, NSImage(data: finalData))
