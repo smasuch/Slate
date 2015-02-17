@@ -110,11 +110,15 @@ struct Channel {
                                 if let existingTimestamp = existingEvent.timestamp as NSString? {
                                     comparisonResult = messageTimestamp.compare(existingTimestamp, options: NSStringCompareOptions.NumericSearch)
                                 }
-                                if comparisonResult == NSComparisonResult.OrderedAscending {
+                                if comparisonResult != NSComparisonResult.OrderedDescending {
                                     break
                                 } else {
                                     index++
                                 }
+                            }
+                            
+                            if comparisonResult == NSComparisonResult.OrderedSame {
+                               eventTimeline.removeAtIndex(index) // remove pre-existing message, to avoid duplicate
                             }
                             
                             eventTimeline.insert(event, atIndex: index)
