@@ -30,14 +30,16 @@ class TeamView: NSView {
         for channel in teamState.channels.values {
             if channel.isMember {
                 
-                func labelForAttibutedString(string: NSAttributedString, width: CGFloat) -> NSTextField {
+                func labelForAttributedString(string: NSAttributedString, width: CGFloat) -> NSTextField {
                     let label = NSTextField(frame: NSRect(origin: CGPoint.zeroPoint, size: CGSize.zeroSize))
                     label.attributedStringValue = string
                     label.bordered = false
                     label.selectable = true
+                    label.editable = false
                     label.allowsEditingTextAttributes = true
-                    label.frame.size = string.boundingRectWithSize(NSSize(width: width - 10.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
+                    label.frame.size = label.attributedStringValue.boundingRectWithSize(NSSize(width: width - 10.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
                     label.frame.size.width += 10.0
+                    
                     label.backgroundColor = NSColor.clearColor()
                     
                     return label
@@ -114,15 +116,21 @@ class TeamView: NSView {
                                         }
                                     }
                                     
+                                    let smallTextParagraphStyles = NSMutableParagraphStyle()
+                                    smallTextParagraphStyles.lineSpacing = 1.0
+                                    smallTextParagraphStyles.maximumLineHeight = 16.0
+                                    
+                                    let smallTextAttributes = [NSFontAttributeName: NSFont(name: "AvenirNext-Medium", size: 13.0)!, NSParagraphStyleAttributeName: smallTextParagraphStyles]
+                                    
                                     if let text = attachment.text {
-                                        let textLabel = labelForAttibutedString(NSAttributedString(string: text), messageViewSize.width - messageLabelOrigin.x - 30.0)
+                                        let textLabel = labelForAttributedString(NSAttributedString(string: text, attributes:smallTextAttributes), messageViewSize.width - messageLabelOrigin.x - 30.0)
                                         textLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
                                         self.addSubview(textLabel)
                                         attachmentHeightIncrease += textLabel.frame.size.height + 10.0
                                     }
                                     
                                     if let pretext = attachment.pretext {
-                                        let pretextLabel = labelForAttibutedString(NSAttributedString(string: pretext), messageViewSize.width - messageLabelOrigin.x - 30.0)
+                                        let pretextLabel = labelForAttributedString(NSAttributedString(string: pretext, attributes:smallTextAttributes), messageViewSize.width - messageLabelOrigin.x - 30.0)
                                         pretextLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
                                         
                                         self.addSubview(pretextLabel)
@@ -130,7 +138,7 @@ class TeamView: NSView {
                                     }
                                     
                                     if let title = attachment.title {
-                                        let titleLabel = labelForAttibutedString(NSAttributedString(string: title), messageViewSize.width - messageLabelOrigin.x - 30.0)
+                                        let titleLabel = labelForAttributedString(NSAttributedString(string: title, attributes:smallTextAttributes), messageViewSize.width - messageLabelOrigin.x - 30.0)
                                         titleLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
                                         self.addSubview(titleLabel)
                                         
@@ -153,7 +161,7 @@ class TeamView: NSView {
                                             authorNameOrigin.x += 22.0
                                         }
                                         
-                                        let authorNameLabel = labelForAttibutedString(NSAttributedString(string: authorName), messageViewSize.width - authorNameOrigin.x - 30.0)
+                                        let authorNameLabel = labelForAttributedString(NSAttributedString(string: authorName, attributes:smallTextAttributes), messageViewSize.width - authorNameOrigin.x - 30.0)
                                         authorNameLabel.frame.origin = authorNameOrigin
                                         self.addSubview(authorNameLabel)
                                         
