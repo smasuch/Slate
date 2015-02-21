@@ -45,45 +45,51 @@ struct TeamState {
         switch result {
             
         case .EventResult(let event):
-            if let contents = event.contents {
-                switch contents {
-                case .ContainsMessage(let message):
-                    if let userID = message.userID {
-                        message.user = state.users[userID]
+            switch event.eventType {
+            case .MessageEvent(let message):
+                
+                if let channelID = message.channelID {
+                    if var channelForMessage = newState.channels[channelID] {
+                        channelForMessage.incorporateEvent(event)
+                        newState.channels[channelID] = channelForMessage // Unsure if this is necessary in Swift, honestly
                     }
-                    
-                    if let channelID = message.channelID {
-                        if var channelForMessage = newState.channels[channelID] {
-                            channelForMessage.incorporateEvent(event)
-                            newState.channels[channelID] = channelForMessage // Unsure if this is necessary in Swift, honestly
-                        }
+                }
+                
+                for attachment in message.attachments {
+                    requests.append(SlackRequest.AttachmentImage(message.channelID!, event.timestamp, attachment))
+                    if attachment.authorIconURL != nil {
+                        requests.append(SlackRequest.AuthorIcon(message.channelID!, event.timestamp, attachment))
                     }
-                    
+                }
+            
+                switch message.subtype {
+                    case .Changed(let event):
                     for attachment in message.attachments {
-                        requests.append(SlackRequest.AttachmentImage(message, attachment))
+                        requests.append(SlackRequest.AttachmentImage(message.channelID!, event.timestamp, attachment))
                         if attachment.authorIconURL != nil {
-                            requests.append(SlackRequest.AuthorIcon(message, attachment))
+                            requests.append(SlackRequest.AuthorIcon(message.channelID!, event.timestamp, attachment))
                         }
                     }
-                    
-                    if let submessage = message.submessage {
-                        submessage.channelID = message.channelID
-                        for attachment in submessage.attachments {
-                            requests.append(SlackRequest.AttachmentImage(submessage, attachment))
-                        }
-                    }
-                    
-                case .ContainsFile(let file):
+                default:
+                    println("")
+                }
+                
+            case .File(let fileEvent):
+                switch fileEvent {
+                case .FileShared(let file):
                     for channelID in file.channels {
                         if var channelForMessage = newState.channels[channelID] {
                             channelForMessage.incorporateEvent(event)
                             newState.channels[channelID] = channelForMessage
                         }
                     }
-                    
                 default:
-                    println("Unknown sort of event to incorporate")
+                    println("File event, but no way to incorporate it")
                 }
+                
+                
+            default:
+                println("Unknown sort of event to incorporate")
             }
             
             
@@ -96,7 +102,7 @@ struct TeamState {
         case .ChannelResult(let channel):
             newState.channels[channel.id] = channel
             let timestamp = channel.lastRead
-            if let lastEvent = channel.eventTimeline.last? {
+            if let lastEvent = channel.eventTimeline.last {
                 // We want the newest 10 unread messages, to start
                 if timestamp != lastEvent.timestamp {
                     requests.append(SlackRequest.ChannelHistory(channel, lastEvent.timestamp, timestamp, true, 10))
@@ -118,34 +124,18 @@ struct TeamState {
         case .FileThumbnailResult(let file, let image):
             println("File thumbnail delivered")
             
-        case .AttachmentImageResult(let message, let attachment, let image):
-            if let channelID = message.channelID {
-                if let channel = newState.channels[channelID] {
-                    if let timestamp = message.timestamp {
-                        if let correspondingMessage = channel.messageWithTimestamp(timestamp) {
-                            var (correspondingAttachment, index) = correspondingMessage.attachmentForID(attachment.id)
-                            correspondingAttachment?.image = image
-                            if index != nil {
-                                correspondingMessage.attachments[index!] = correspondingAttachment!
-                            }
-                        }
-                    }
-                }
+        case .AttachmentImageResult(let channelID, let timestamp, let attachmentID, let image):
+            if let channel = newState.channels[channelID], image = image {
+                var changedChannel = channel
+                changedChannel.incorporateAttachmentImage(timestamp, attachmentID: attachmentID, image: image)
+                newState.channels[channelID] = changedChannel
             }
             
-        case .AuthorIconResult(let message, let attachment, let icon):
-            if let channelID = message.channelID {
-                if let channel = newState.channels[channelID] {
-                    if let timestamp = message.timestamp {
-                        if let correspondingMessage = channel.messageWithTimestamp(timestamp) {
-                            var (correspondingAttachment, index) = correspondingMessage.attachmentForID(attachment.id)
-                            correspondingAttachment?.authorIcon = icon
-                            if index != nil {
-                                correspondingMessage.attachments[index!] = correspondingAttachment!
-                            }
-                        }
-                    }
-                }
+        case .AuthorIconResult(let channelID, let timestamp, let attachmentID, let icon):
+            if let channel = newState.channels[channelID], icon = icon {
+                var changedChannel = channel
+                changedChannel.incorporateAuthorIcon(timestamp, attachmentID: attachmentID, icon: icon)
+                newState.channels[channelID] = changedChannel
             }
             
         case .UserImageResult(let user, let key, let image):

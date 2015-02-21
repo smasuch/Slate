@@ -12,16 +12,13 @@ import SwiftyJSON
 struct Channel {
     var eventTimeline: Array<Event>
     let id: String
-    var lastRead: String? {
+    var lastRead: Timestamp? {
         didSet {
-            if let lastReadTimestamp = lastRead as NSString? {
+            if let lastReadTimestamp = lastRead {
                 var prunedEvents = [Event]()
                 for event in eventTimeline {
-                    if let eventTimestamp = event.timestamp as NSString? {
-                        let markComparisonResult = eventTimestamp.compare(lastReadTimestamp, options: NSStringCompareOptions.NumericSearch)
-                        if markComparisonResult != NSComparisonResult.OrderedAscending {
-                            prunedEvents.append(event)
-                        }
+                    if event.timestamp >= lastReadTimestamp {
+                        prunedEvents.append(event)
                     }
                 }
                 eventTimeline = prunedEvents
@@ -33,10 +30,9 @@ struct Channel {
     var isMember: Bool
     var hasUnreadMessages: Bool {
         
-        if let lastMessageTimestamp = eventTimeline.last?.timestamp as NSString? {
-            if let channelMark = lastRead as NSString? {
-                let markComparisonResult = lastMessageTimestamp.compare(channelMark, options: NSStringCompareOptions.NumericSearch)
-                return markComparisonResult == NSComparisonResult.OrderedDescending
+        if let lastMessageTimestamp = eventTimeline.last?.timestamp {
+            if let channelMark = lastRead {
+                return lastMessageTimestamp > channelMark
             }
         }
         
@@ -47,118 +43,92 @@ struct Channel {
         name = data["name"].string
         id = data["id"].string!
         topic = data["topic"]["value"].string
-        lastRead = data["last_read"].string
+        if let timestampString = data["last_read"].string {
+            lastRead = Timestamp(fromString: timestampString)
+        }
         isMember = data["is_member"].boolValue
         eventTimeline = [Event]()
-        let latestMessageJSON = data["latest"]
-        if latestMessageJSON.type != .Null  {
-            let latestMessage = Message(messageJSON: latestMessageJSON)
-            
-            if let channelTimestamp = lastRead as NSString? {
-                if let messageTimestamp = latestMessage.timestamp as NSString? {
-                    latestMessage.isRead = (messageTimestamp.compare(channelTimestamp, options: NSStringCompareOptions.NumericSearch) != NSComparisonResult.OrderedDescending)
-                }
-            }
-            
-            let latestMessageEvent = Event(contents: EventContents.ContainsMessage(latestMessage), timestamp: latestMessage.timestamp)
-            eventTimeline.append(latestMessageEvent)
+        
+        let latestEventJSON = data["latest"]
+        if latestEventJSON.type != .Null  {
+            eventTimeline.append(Event(eventJSON: latestEventJSON))
         }
     }
     
     mutating func incorporateEvent(event: Event) {
-        if let timestamp = event.timestamp {
-            if let contents = event.contents {
-                switch contents  {
-                case .ContainsMessage(let message):
-                    if let subtype = message.subtype {
-                        
-                        switch subtype {
-                        case .Changed:
-                            var changedMessage : Message?
-                            for existingEvent in eventTimeline {
-                                if existingEvent.timestamp == message.submessage?.timestamp {
-                                    switch existingEvent.contents! {
-                                    case .ContainsMessage(let existingMessage):
-                                        changedMessage = existingMessage
-                                    default:
-                                        println("Found an event, but not a message to change")
-                                    }
-                                }
-                            }
-                            if changedMessage != nil {
-                                changedMessage!.text = message.submessage?.text
-                                changedMessage!.attachments = message.submessage!.attachments
-                            }
-                            
-                        case .Deleted:
-                            var deletedEvent : Event?
-                            var index = 0
-                            for existingEvent in eventTimeline {
-                                if existingEvent.timestamp == message.submessage?.timestamp {
-                                    deletedEvent = existingEvent
-                                    break
-                                } else {
-                                    index++
-                                }
-                            }
-                            if deletedEvent != nil {
-                                eventTimeline.removeAtIndex(index)
-                            }
-                        default:
-                            println("No useful subtype")
-                        }
-                        
+        switch event.eventType  {
+        case .MessageEvent(let message):
+            switch message.subtype {
+            case .Changed(let changedEvent):
+                if let index = find(eventTimeline, changedEvent) {
+                    eventTimeline.removeAtIndex(index)
+                    eventTimeline.insert(changedEvent, atIndex: index)
+                }
+            case .Deleted(let timestamp):
+                var deletedEvent : Event?
+                var index = 0
+                for existingEvent in eventTimeline {
+                    if existingEvent.timestamp == event.timestamp {
+                        deletedEvent = existingEvent
+                        break
                     } else {
-                        var index = 0
-                        if let messageTimestamp = message.timestamp as NSString? {
-                            
-                            if let lastReadTimestamp = lastRead as NSString? {
-                                let markComparisonResult = messageTimestamp.compare(lastReadTimestamp, options: NSStringCompareOptions.NumericSearch)
-                                message.isRead = (markComparisonResult != NSComparisonResult.OrderedDescending)
-                            }
-                        
-                            var comparisonResult: NSComparisonResult = NSComparisonResult.OrderedDescending
-
-                            for existingEvent in eventTimeline {
-                                if let existingTimestamp = existingEvent.timestamp as NSString? {
-                                    comparisonResult = messageTimestamp.compare(existingTimestamp, options: NSStringCompareOptions.NumericSearch)
-                                }
-                                if comparisonResult != NSComparisonResult.OrderedDescending {
-                                    break
-                                } else {
-                                    index++
-                                }
-                            }
-                            
-                            if comparisonResult == NSComparisonResult.OrderedSame {
-                               eventTimeline.removeAtIndex(index) // remove pre-existing message, to avoid duplicate
-                            }
-                            
-                            eventTimeline.insert(event, atIndex: index)
-                        }
+                        index++
                     }
-                    
-                case .ContainsFile(let file):
-                    var index = 0
-                    if let eventTimestamp = event.timestamp as NSString? {
-                        var comparisonResult: NSComparisonResult = NSComparisonResult.OrderedDescending
-                        for existingEvent in eventTimeline {
-                            if let existingTimestamp = existingEvent.timestamp as NSString? {
-                                comparisonResult = eventTimestamp.compare(existingTimestamp, options: NSStringCompareOptions.NumericSearch)
-                            }
-                            if comparisonResult == NSComparisonResult.OrderedAscending{
-                                break
-                            } else {
-                                index++
-                            }
-                        }
-                        eventTimeline.insert(event, atIndex: index)
+                }
+                if deletedEvent != nil {
+                    eventTimeline.removeAtIndex(index)
+                }
+            default:
+                var index = 0
+                
+                for existingEvent in eventTimeline {
+                    if existingEvent.timestamp > event.timestamp {
+                        break
+                    } else if existingEvent.timestamp == event.timestamp {
+                        eventTimeline.removeAtIndex(index) // remove pre-existing message, to avoid duplicate
+                        break;
+                    } else {
+                        index++
                     }
-                    
-                case .ContainsChannel(let channel):
-                    println("Channel event")
+                }
+                
+                eventTimeline.insert(event, atIndex: index)
+            }
+            
+        case .File(let fileEvent):
+            var index = 0
+            
+            for existingEvent in eventTimeline {
+                if existingEvent.timestamp > event.timestamp {
+                    break
+                } else if existingEvent.timestamp == event.timestamp {
+                    eventTimeline.removeAtIndex(index) // remove pre-existing message, to avoid duplicate
+                    break;
+                } else {
+                    index++
                 }
             }
+            
+            eventTimeline.insert(event, atIndex: index)
+            
+        case .Channel(let channelEvent):
+            println("Channel event")
+            
+        default:
+            println("Event was not matched for incorporating into a channel")
+            
+        }
+    }
+    
+    mutating func incorporateAttachmentImage(timestamp: Timestamp, attachmentID: Int, image: NSImage) {
+        if let correspondingEvent = self.eventWithTimestamp(timestamp) {
+            self.incorporateEvent(correspondingEvent.eventByIncorporatingAttachmentImage(attachmentID, image: image))
+        }
+    }
+    
+    mutating func incorporateAuthorIcon(timestamp: Timestamp, attachmentID: Int, icon: NSImage) {
+        if let correspondingEvent = self.eventWithTimestamp(timestamp) {
+            self.incorporateEvent(correspondingEvent.eventByIncorporatingAuthorIcon(attachmentID, icon: icon))
         }
     }
     
@@ -169,9 +139,8 @@ struct Channel {
         }
     }
     
-    func eventWithTimestamp(timestamp: String) -> Event? {
+    func eventWithTimestamp(timestamp: Timestamp) -> Event? {
         var selectedEvent: Event? = nil
-        println("looking for timestamp: " + timestamp)
         for event in eventTimeline {
             if event.timestamp == timestamp {
                 selectedEvent = event
@@ -182,18 +151,13 @@ struct Channel {
         return selectedEvent
     }
     
-    func messageWithTimestamp(timestamp: String) -> Message? {
-        let event = eventWithTimestamp(timestamp)
-        var selectedMessage: Message?
-        if let contents = event?.contents {
-            switch contents {
-            case .ContainsMessage(let message):
-                selectedMessage = message
-            default:
-                println("No message found for the event with that timestamp")
-            }
+    func indexOfEventWithTimestamp(timestamp: Timestamp) -> Int? {
+        var index: Int?
+        
+        if let event = eventWithTimestamp(timestamp) {
+            index = find(eventTimeline, event)
         }
         
-        return selectedMessage;
+        return index
     }
 }

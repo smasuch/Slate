@@ -10,57 +10,99 @@ import Foundation
 import SwiftyJSON
 import Cocoa
 
-enum MessageSubtype: String {
-    case Bot = "bot_message"
-    case Me = "me_message"
-    case Changed = "message_changed"
-    case Deleted = "message_deleted"
-    case ChannelJoin = "channel_join"
-    case ChannelLeave = "channel_leave"
-    case ChannelTopic = "channel_topic"
-    case ChannelPurpose = "channel_purpose"
-    case ChannelName = "channel_name"
-    case ChannelArchive = "channel_archive"
-    case ChannelUnarchive = "channel_unarchive"
-    case GroupJoin = "group_join"
-    case GroupLeave = "group_leave"
-    case GroupTopic = "group_topic"
-    case GroupPurpose = "group_purpose"
-    case GroupName = "group_name"
-    case GroupArchive = "group_archive"
-    case GroupUnarchive = "groupe_unarchive"
-    case FileShare = "file_share"
-    case FileComment = "file_comment"
-    case FileMention = "file_mention"
+enum MessageSubtype {
+    case None // Unlike events, this is expected for some plain vanilla messages
+    case Bot(String, String?)
+        // Bot ID, username
+    case Me
+    case Changed(Event)
+    case Deleted(Timestamp)
+        // Timestamp of the deleted message
+    case ChannelJoin(String?)
+        // Inviter user ID
+    case ChannelLeave
+    case ChannelTopic(String)
+        // New topic
+    case ChannelPurpose(String)
+        // New purpose
+    case ChannelName(String, String)
+        // Old name, new name
+    case ChannelArchive(Array<String>)
+        // Array of user ids of members
+    case ChannelUnarchive
+    case GroupJoin
+    case GroupLeave
+    case GroupTopic(String)
+        // New topic
+    case GroupPurpose(String)
+        // New purpose
+    case GroupName(String, String)
+        // Old name, new name
+    case GroupArchive(Array<String>)
+        // Array of user ids of members
+    case GroupUnarchive
+    case FileShare(File, Bool)
+        // File, if this share occurred at upload
+    case FileCommentAdded(File, FileComment)
+    case FileMention(File)
 }
 
 class Message {
-    var user: User?
-    var text: String?
-    var attributedText: NSAttributedString?
-    var userID: String?
+    let text: String?
+    let attributedText: NSAttributedString?
+    let userID: String?
     var attachments: Array<Attachment>
-    var subtype: MessageSubtype?
+    var subtype: MessageSubtype
     var hidden: Bool
-    var timestamp: String?
-    var submessage: Message?
     var channelID: String?
-    var isRead: Bool
+    var editedBy: String?
+    var editedAt: Timestamp?
 
     init(messageJSON: JSON) {
-        isRead = false
-        text = messageJSON["text"].string
         
-        if text != nil {
-            attributedText = NSAttributedString.attributedSlackString(text!)
-        }
+        text = messageJSON["text"].string
+        attributedText = NSAttributedString.attributedSlackString(messageJSON["text"].string!)
         
         userID = messageJSON["user"].string
         if let subtypeString = messageJSON["subtype"].string {
-            subtype = MessageSubtype(rawValue: subtypeString)
+            switch subtypeString {
+            case "bot_message":
+                subtype = .Bot(messageJSON["bot_id"].string!, messageJSON["username"].string!)
+            case "me_message":
+                subtype = .Me
+            case "message_changed":
+                subtype = .Changed(Event(eventJSON: messageJSON["message"]))
+            case "message_deleted":
+                subtype = .Deleted(Timestamp(fromString: messageJSON["deleted_ts"].string!))
+            case "channel_join":
+                subtype = .ChannelJoin(messageJSON["inviter"].string)
+            case "channel_leave":
+                subtype = .ChannelLeave
+            
+            /* TODO: fill out all these events
+            case "channel_topic":
+            case "channel_purpose":
+            case "channel_name":
+            case "channel_archive":
+            case "channel_unarchive":
+            case "group_join":
+            case "group_leave":
+            case "group_topic":
+            case "group_purpose":
+            case "group_name":
+            case "group_archive":
+            case "group_unarchive":
+            case "file_share":
+            case "file_comment":
+            case "file_mention":
+            */
+            default:
+                    subtype = .None
+            }
+        } else {
+            subtype = .None
         }
         hidden = messageJSON["hidden"].boolValue
-        timestamp = messageJSON["ts"].string
         channelID = messageJSON["channel"].string
         
         self.attachments = [Attachment]()
@@ -70,10 +112,6 @@ class Message {
             for attachmentJSON in attachments {
                 self.attachments.append(Attachment(attachmentJSON: attachmentJSON))
             }
-        }
-        
-        if messageJSON["message"].type == .Dictionary {
-            submessage = Message(messageJSON: messageJSON["message"])
         }
     }
     
@@ -102,6 +140,50 @@ class Message {
         }
         
         return (selectedAttachment, index)
+    }
+    
+    func incorporateAttachmentImage(attachmentID: Int, image: NSImage) -> Message {
+        var index = 0
+        var chosenAttachment: Attachment?
+        
+        for attachment in attachments {
+            if attachment.id == attachmentID {
+                chosenAttachment = attachment
+                break
+            } else {
+                index++
+            }
+        }
+        
+        if var chosenAttachment = chosenAttachment {
+            chosenAttachment.image = image
+            attachments.removeAtIndex(index)
+            attachments.insert(chosenAttachment, atIndex: index)
+        }
+        
+        return self
+    }
+    
+    func incorporateAuthorIcon(attachmentID: Int, icon: NSImage) -> Message {
+        var index = 0
+        var chosenAttachment: Attachment?
+        
+        for attachment in attachments {
+            if attachment.id == attachmentID {
+                chosenAttachment = attachment
+                break
+            } else {
+                index++
+            }
+        }
+        
+        if var chosenAttachment = chosenAttachment {
+            chosenAttachment.authorIcon = icon
+            attachments.removeAtIndex(index)
+            attachments.insert(chosenAttachment, atIndex: index)
+        }
+        
+        return self
     }
 }
 
@@ -144,7 +226,7 @@ extension NSAttributedString {
         let start = 0
         let length = self.length
         let range = NSRange(location: start, length: length)
-        let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: range) as Array<NSTextCheckingResult>
+        let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: range) as! Array<NSTextCheckingResult>
         
         for result : NSTextCheckingResult in matches.reverse() {
             // Remove the bounding characters
@@ -162,7 +244,7 @@ extension NSAttributedString {
         
         let regularExpression = NSRegularExpression.init(pattern: "<(.+?)(\\|.*?)?>", options: NSRegularExpressionOptions.DotMatchesLineSeparators, error: nil)
         
-        let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: NSRange(location:0, length:self.length)) as Array<NSTextCheckingResult>
+        let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: NSRange(location:0, length:self.length)) as! Array<NSTextCheckingResult>
         
         for result : NSTextCheckingResult in matches.reverse() {
             println("number of matches: " + result.numberOfRanges.description)

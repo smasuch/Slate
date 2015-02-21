@@ -16,13 +16,13 @@ class TeamView: NSView {
         var messageViewSize = NSSize(width: 500.0, height: 10.0)
         var messageLabelOrigin = CGPoint(x: 49.0, y: 8.0)
         var userPicOrigin = CGPoint(x: 11.0, y: -30.0)
-        var previousUser: User?
+        var previousUserID: String?
         
-        func addUserPic(user: User) {
+        func addUserPic(userID: String) {
             let imageView = NSImageView(frame: NSRect(origin: userPicOrigin, size: CGSize(width: 24.0, height: 24.0)))
             self.addSubview(imageView)
             
-            if let image = user.image48Image {
+            if let image = teamState.users[userID]?.image48Image {
                 imageView.image = image
             }
         }
@@ -47,163 +47,162 @@ class TeamView: NSView {
                 
                 
                 for event in channel.eventTimeline.reverse() {
-                    
-                    if let contents = event.contents {
-                        switch contents {
-                        case .ContainsMessage(let message):
+                    switch event.eventType {
+                    case .MessageEvent(let message):
+                        
+                        if let actualPreviousUser = previousUserID {
+                            if actualPreviousUser != message.userID {
+                                addUserPic(actualPreviousUser)
+                            }
+                        }
+                        
+                        previousUserID = message.userID
+                        
+                        // If there are attachments, sometimes the text is redundant
+                        var displayText = true
+                        
+                        for attachment in message.attachments {
                             
-                            if let actualPreviousUser = previousUser {
-                                if actualPreviousUser.id != message.userID {
-                                    addUserPic(actualPreviousUser)
+                            if let fromURL = attachment.fromURL {
+                                if let messageText = message.text {
+                                    displayText = !messageText.hasPrefix("<" + fromURL)
                                 }
                             }
                             
-                            previousUser = message.user
+                            // Do we have anything besides the fallback text to show?
                             
-                            // If there are attachments, sometimes the text is redundant
-                            var displayText = true
+                            var attachmentHeightIncrease: CGFloat = 10.0
                             
-                            for attachment in message.attachments {
+                            if attachment.hasOnlyFallbackText {
+                                // If not, display the fallback text
+                            } else {
+                                // If we do, then things will get more complicated:
                                 
-                                if let fromURL = attachment.fromURL {
-                                    if let messageText = message.text {
-                                        displayText = !messageText.hasPrefix("<" + fromURL)
-                                    }
-                                }
-                                
-                                // Do we have anything besides the fallback text to show?
-                                
-                                var attachmentHeightIncrease: CGFloat = 10.0
-                                
-                                if attachment.hasOnlyFallbackText {
-                                    // If not, display the fallback text
-                                } else {
-                                    // If we do, then things will get more complicated:
+                                // Do we need an image view?
+                                if (attachment.image != nil) || (attachment.imageURL != nil) || (attachment.thumbURL != nil) {
                                     
-                                    // Do we need an image view?
-                                    if (attachment.image != nil) || (attachment.imageURL != nil) || (attachment.thumbURL != nil) {
-                                        
-                                        var imageFrame = NSRect(origin: messageLabelOrigin, size: NSSize.zeroSize)
-                                        var imageLink: String?
-                                        
-                                        if let imageURL = attachment.imageURL {
-                                            imageFrame.size = CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)
-                                            imageLink = imageURL
-                                        }
-                                        
-                                        if let thumbURL = attachment.thumbURL {
-                                            imageFrame.size = CGSize(width: attachment.thumbWidth!, height: attachment.thumbHeight!)
-                                            imageLink = thumbURL
-                                        }
-                                        
-                                        let imageView = MSImageView(frame: imageFrame)
-                                        imageView.imageScaling = NSImageScaling.ImageScaleNone;
-                                        imageView.animates = true;
-                                        self.addSubview(imageView)
-                                        attachmentHeightIncrease += imageFrame.size.height + 10.0
+                                    var imageFrame = NSRect(origin: messageLabelOrigin, size: NSSize.zeroSize)
+                                    var imageLink: String?
+                                    
+                                    if let imageURL = attachment.imageURL {
+                                        imageFrame.size = CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)
+                                        imageLink = imageURL
+                                    }
+                                    
+                                    if let thumbURL = attachment.thumbURL {
+                                        imageFrame.size = CGSize(width: attachment.thumbWidth!, height: attachment.thumbHeight!)
+                                        imageLink = thumbURL
+                                    }
+                                    
+                                    let imageView = MSImageView(frame: imageFrame)
+                                    imageView.imageScaling = NSImageScaling.ImageScaleNone;
+                                    imageView.animates = true;
+                                    self.addSubview(imageView)
+                                    attachmentHeightIncrease += imageFrame.size.height + 10.0
 
-                                        if let image = attachment.image {
-                                            imageView.image = image
-                                        } else {
-                                            // display a loading animation
-                                        }
-                                    
-                                        if let imageLink = imageLink {
-                                            if let messageText = message.text {
-                                                displayText = displayText && !messageText.hasPrefix("<" + imageLink)
-                                            }
-                                            imageView.imageURL = NSURL(string:imageLink)
-                                        }
+                                    if let image = attachment.image {
+                                        imageView.image = image
+                                    } else {
+                                        // display a loading animation
                                     }
-                                    
-                                    let smallTextParagraphStyles = NSMutableParagraphStyle()
-                                    smallTextParagraphStyles.lineSpacing = 1.0
-                                    smallTextParagraphStyles.maximumLineHeight = 16.0
-                                    
-                                    let smallTextAttributes = [NSFontAttributeName: NSFont(name: "AvenirNext-Medium", size: 13.0)!, NSParagraphStyleAttributeName: smallTextParagraphStyles]
-                                    
-                                    if let text = attachment.text {
-                                        let textLabel = labelForAttributedString(NSAttributedString(string: text, attributes:smallTextAttributes), messageViewSize.width - messageLabelOrigin.x - 30.0)
-                                        textLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
-                                        self.addSubview(textLabel)
-                                        attachmentHeightIncrease += textLabel.frame.size.height + 10.0
-                                    }
-                                    
-                                    if let pretext = attachment.pretext {
-                                        let pretextLabel = labelForAttributedString(NSAttributedString(string: pretext, attributes:smallTextAttributes), messageViewSize.width - messageLabelOrigin.x - 30.0)
-                                        pretextLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
-                                        
-                                        self.addSubview(pretextLabel)
-                                        attachmentHeightIncrease += pretextLabel.frame.size.height + 10.0
-                                    }
-                                    
-                                    if let title = attachment.title {
-                                        let titleLabel = labelForAttributedString(NSAttributedString(string: title, attributes:smallTextAttributes), messageViewSize.width - messageLabelOrigin.x - 30.0)
-                                        titleLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
-                                        self.addSubview(titleLabel)
-                                        
-                                        if let titleLink = attachment.titleLink {
-                                            
+                                
+                                    if let imageLink = imageLink {
+                                        if let messageText = message.text {
+                                            displayText = displayText && !messageText.hasPrefix("<" + imageLink)
                                         }
-                                        
-                                        attachmentHeightIncrease += titleLabel.frame.size.height + 10.0
-                                    }
-                                    
-                                    if let authorName = attachment.authorName {
-                                        
-                                        var authorNameOrigin = messageLabelOrigin
-                                        authorNameOrigin.y += attachmentHeightIncrease
-                                        
-                                        if let authorIcon = attachment.authorIcon {
-                                            let authorIconView = NSImageView(frame: NSRect(origin: authorNameOrigin, size: NSSize(width: 16, height: 16)))
-                                            authorIconView.image = authorIcon
-                                            self.addSubview(authorIconView)
-                                            authorNameOrigin.x += 22.0
-                                        }
-                                        
-                                        let authorNameLabel = labelForAttributedString(NSAttributedString(string: authorName, attributes:smallTextAttributes), messageViewSize.width - authorNameOrigin.x - 30.0)
-                                        authorNameLabel.frame.origin = authorNameOrigin
-                                        self.addSubview(authorNameLabel)
-                                        
-                                        if let authorLink = attachment.authorLink {
-                                            
-                                        }
-                                        
-                                        attachmentHeightIncrease += authorNameLabel.frame.size.height + 10.0
+                                        imageView.imageURL = NSURL(string:imageLink)
                                     }
                                 }
                                 
-                                messageLabelOrigin.y += attachmentHeightIncrease
-                                messageViewSize.height += attachmentHeightIncrease
-                                userPicOrigin.y += attachmentHeightIncrease
-                            }
-                            
-                            
-                            if displayText && message.attributedText != nil {
+                                let smallTextParagraphStyles = NSMutableParagraphStyle()
+                                smallTextParagraphStyles.lineSpacing = 1.0
+                                smallTextParagraphStyles.maximumLineHeight = 16.0
                                 
-                                let messageText = message.attributedText!
+                                let smallTextAttributes = [NSFontAttributeName: NSFont(name: "AvenirNext-Medium", size: 13.0)!, NSParagraphStyleAttributeName: smallTextParagraphStyles]
                                 
-                                let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
-                                messageLabel.attributedStringValue = messageText
-                                messageLabel.bordered = false
-                                messageLabel.selectable = true
-                                messageLabel.allowsEditingTextAttributes = true
-                                messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
-                                messageLabel.frame.size.width += 10.0
-                                messageLabel.backgroundColor = NSColor.clearColor()
-                                if message.isRead {
-                                    messageLabel.alphaValue = 0.5
+                                if let text = attachment.text {
+                                    let textLabel = labelForAttributedString(NSAttributedString(string: text, attributes:smallTextAttributes), messageViewSize.width - messageLabelOrigin.x - 30.0)
+                                    textLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
+                                    self.addSubview(textLabel)
+                                    attachmentHeightIncrease += textLabel.frame.size.height + 10.0
                                 }
-                                self.addSubview(messageLabel)
                                 
-                                let messageViewHeightIncrease = messageLabel.frame.size.height + 10.0;
-                                messageLabelOrigin.y += messageViewHeightIncrease
-                                messageViewSize.height += messageViewHeightIncrease
-                                userPicOrigin.y += messageViewHeightIncrease
+                                if let pretext = attachment.pretext {
+                                    let pretextLabel = labelForAttributedString(NSAttributedString(string: pretext, attributes:smallTextAttributes), messageViewSize.width - messageLabelOrigin.x - 30.0)
+                                    pretextLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
+                                    
+                                    self.addSubview(pretextLabel)
+                                    attachmentHeightIncrease += pretextLabel.frame.size.height + 10.0
+                                }
+                                
+                                if let title = attachment.title {
+                                    let titleLabel = labelForAttributedString(NSAttributedString(string: title, attributes:smallTextAttributes), messageViewSize.width - messageLabelOrigin.x - 30.0)
+                                    titleLabel.frame.origin = CGPoint(x: messageLabelOrigin.x, y: messageLabelOrigin.y + attachmentHeightIncrease)
+                                    self.addSubview(titleLabel)
+                                    
+                                    if let titleLink = attachment.titleLink {
+                                        
+                                    }
+                                    
+                                    attachmentHeightIncrease += titleLabel.frame.size.height + 10.0
+                                }
+                                
+                                if let authorName = attachment.authorName {
+                                    
+                                    var authorNameOrigin = messageLabelOrigin
+                                    authorNameOrigin.y += attachmentHeightIncrease
+                                    
+                                    if let authorIcon = attachment.authorIcon {
+                                        let authorIconView = NSImageView(frame: NSRect(origin: authorNameOrigin, size: NSSize(width: 16, height: 16)))
+                                        authorIconView.image = authorIcon
+                                        self.addSubview(authorIconView)
+                                        authorNameOrigin.x += 22.0
+                                    }
+                                    
+                                    let authorNameLabel = labelForAttributedString(NSAttributedString(string: authorName, attributes:smallTextAttributes), messageViewSize.width - authorNameOrigin.x - 30.0)
+                                    authorNameLabel.frame.origin = authorNameOrigin
+                                    self.addSubview(authorNameLabel)
+                                    
+                                    if let authorLink = attachment.authorLink {
+                                        
+                                    }
+                                    
+                                    attachmentHeightIncrease += authorNameLabel.frame.size.height + 10.0
+                                }
                             }
+                            
+                            messageLabelOrigin.y += attachmentHeightIncrease
+                            messageViewSize.height += attachmentHeightIncrease
+                            userPicOrigin.y += attachmentHeightIncrease
+                        }
+                        
+                        
+                        if displayText && message.attributedText != nil {
+                            
+                            let messageText = message.attributedText!
+                            
+                            let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
+                            messageLabel.attributedStringValue = messageText
+                            messageLabel.bordered = false
+                            messageLabel.selectable = true
+                            messageLabel.allowsEditingTextAttributes = true
+                            messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
+                            messageLabel.frame.size.width += 10.0
+                            messageLabel.backgroundColor = NSColor.clearColor()
+                            if event.timestamp < channel.lastRead {
+                                messageLabel.alphaValue = 0.5
+                            }
+                            self.addSubview(messageLabel)
+                            
+                            let messageViewHeightIncrease = messageLabel.frame.size.height + 10.0;
+                            messageLabelOrigin.y += messageViewHeightIncrease
+                            messageViewSize.height += messageViewHeightIncrease
+                            userPicOrigin.y += messageViewHeightIncrease
+                        }
 
-                        case .ContainsFile(let file):
-                            println("Had a file to display in the view")
+                    case .File(let fileEvent):
+                        switch fileEvent {
+                        case .FileShared(let file):
                             if let commentText = file.initialComment?.comment {
                                 
                                 let commentLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
@@ -220,20 +219,22 @@ class TeamView: NSView {
                                 messageViewSize.height += messageViewHeightIncrease
                                 userPicOrigin.y += messageViewHeightIncrease
                             }
-                            
                         default:
-                            println("Had an unknown type of event to display in the view")
+                            println("Had a file event to display in the view, but no way to incorporate it")
                         }
+                        
+                    default:
+                        println("Had an unknown type of event to display in the view")
                     }
                 }
                 
                 // Add in the last userpic
-                if let actualPreviousUser = previousUser {
+                if let actualPreviousUser = previousUserID {
                     addUserPic(actualPreviousUser)
                 }
                 
                 // Clear this out for the next channel
-                previousUser = nil
+                previousUserID = nil
                 
                 // Add the channel title
                 

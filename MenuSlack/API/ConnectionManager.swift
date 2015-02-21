@@ -112,8 +112,8 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
         case .ChannelHistory(let channel, let latest, let oldest, let inclusive, let count):
             
             var parameters = ["channel": channel.id, "token": authToken!]
-            if latest != nil { parameters["latest"] = latest }
-            if oldest != nil { parameters["oldest"] = oldest }
+            if latest != nil { parameters["latest"] = latest?.description }
+            if oldest != nil { parameters["oldest"] = oldest?.description }
             if inclusive { parameters["inclusive"] = "1" }
             if count != nil { parameters["count"] = count!.description }
             
@@ -127,7 +127,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
                 }   
             }
             
-        case .AttachmentImage(let message, let attachment):
+        case .AttachmentImage(let channelID, let timestamp, let attachment):
             var downloadURL = attachment.imageURL
             if downloadURL == nil && attachment.thumbURL != nil {
                 downloadURL = attachment.thumbURL!
@@ -136,17 +136,17 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             if let urlString = downloadURL {
                 Alamofire.request(.GET, urlString).response { (urlRequest, response, data, error) in
                     if let finalData : NSData = data as? NSData {
-                        let imageResult = SlackResult.AttachmentImageResult(message, attachment, NSImage(data: finalData))
+                        let imageResult = SlackResult.AttachmentImageResult(channelID, timestamp, attachment.id, NSImage(data: finalData))
                         self.resultHandler?.handleResult(imageResult)
                     }
                 }
             }
             
-        case .AuthorIcon(let message, let attachment):
+        case .AuthorIcon(let channelID, let timestamp, let attachment):
             if let urlString = attachment.authorIconURL {
                 Alamofire.request(.GET, urlString).response { (urlRequest, response, data, error) in
                     if let finalData : NSData = data as? NSData {
-                        let imageResult = SlackResult.AuthorIconResult(message, attachment, NSImage(data: finalData))
+                        let imageResult = SlackResult.AuthorIconResult(channelID, timestamp, attachment.id, NSImage(data: finalData))
                         self.resultHandler?.handleResult(imageResult)
                     }
                 }
@@ -174,7 +174,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             }
             
         case .MarkChannel(let channelID, let timestamp):
-            Alamofire.request(.POST, "https://slack.com/api/channels.mark", parameters: ["token": authToken!, "channel": channelID, "ts": timestamp]).response{ (urlRequest, response, data, error) in
+            Alamofire.request(.POST, "https://slack.com/api/channels.mark", parameters: ["token": authToken!, "channel": channelID, "ts": timestamp.description]).response{ (urlRequest, response, data, error) in
                 if let finalData : NSData = data as? NSData {
                     self.parser?.parseResultFromRequest(JSON(data: finalData), request: request)
                 }

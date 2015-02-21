@@ -46,7 +46,7 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         quitMenuItem.target = NSApplication.sharedApplication()
         menu.addItem(quitMenuItem)
         
-        if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as String? {
+        if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as! String? {
             connectionManager.initiateConnection(savedToken)
         }
         
@@ -71,7 +71,7 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
     
     func showOptionsPanel() {
         optionsController = OptionsPanelController(windowNibName: "OptionsPanelController")
-        if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as String? {
+        if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as! String? {
             optionsController?.existingToken = savedToken
         }
         optionsController?.menuController = self

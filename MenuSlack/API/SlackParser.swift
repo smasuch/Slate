@@ -4,10 +4,9 @@
 //
 //  Created by Steven Masuch on 2015-02-07.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
 
-//  The parser takes a lump of JSON and an optional SlackRequest to decide what to produce as a result.
-//  If there's no ID in the top-level JSON, it figures that this came via the RTM API 
+//  The parser takes a lump of JSON and an optional SlackRequest to decide what to produce as
+//  a result. If there's no ID in the top-level JSON, it figures that this came via the RTM API
 //  and it wraps it up as an event.
 
 import Foundation
@@ -72,8 +71,8 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
         }
         
     } else {
-        // This is probably an event, then
-        var event = Event(contents: nil, timestamp: nil)
+        
+        // So this is an event, not a type, since there wasn't an id
         
         // Is this a message?
         if let type = json["type"].string {
@@ -89,18 +88,15 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
                     }
                 }
                 
-                event.contents = EventContents.ContainsMessage(message)
-                event.timestamp = json["ts"].string
-                result = SlackResult.EventResult(event)
+                let messageEvent = EventType.MessageEvent(message)
+                result = SlackResult.EventResult(Event(eventType: messageEvent, timestamp: Timestamp(fromString: json["ts"].string!)))
                 
             case "file_shared":
                 let file = File(fileJSON: json["file"])
-                event.contents = EventContents.ContainsFile(file)
-                event.timestamp = json["event_ts"].string
-                result = SlackResult.EventResult(event)
+                result = SlackResult.EventResult(Event(eventJSON: json))
             
             case "channel_marked":
-                result = SlackResult.ChannelMarkedResult(json["channel"].string!, json["ts"].string!)
+                result = SlackResult.ChannelMarkedResult(json["channel"].string!, Timestamp(fromString:json["ts"].string!))
                 
             default:
                 result = SlackResult.ErrorResult("Could not parse this JSON, but did get a type: " + type);

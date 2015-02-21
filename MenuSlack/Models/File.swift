@@ -33,24 +33,28 @@ struct File {
         url = fileJSON["url"].string!
         userID = fileJSON["user"].string!
         thumb360  = fileJSON["id"].string
-        if let thumb360Width = fileJSON["thumb_360_w"].int {
-            if let thumb360height = fileJSON["thumb_360_h"].int {
-                thumb360Size = NSSize(width: thumb360Width, height: thumb360height)
-            }
+        if let thumb360Width = fileJSON["thumb_360_w"].int, thumb360height = fileJSON["thumb_360_h"].int {
+            thumb360Size = NSSize(width: thumb360Width, height: thumb360height)
+        } else {
+            thumb360Size = NSSize.zeroSize
         }
         var channelsArray = [String]()
-        if let fileChannels = fileJSON["channels"].array? {
-            for subJSON in fileChannels {
-                if let channelID = subJSON.string {
-                    channelsArray.append(channelID)
-                }
+        
+        /*
+        for subJSON in fileJSON["channels"].array {
+            if let channelID = subJSON.string {
+                channelsArray.append(channelID)
             }
-        }
+        } */
         channels = channelsArray
         
         let commentJSON = fileJSON["initial_comment"]
         if commentJSON.type != .Null {
             initialComment = FileComment(commentJSON: commentJSON)
+        } else {
+            initialComment = nil
         }
+        
+        thumbnailImage = nil
     }
 }

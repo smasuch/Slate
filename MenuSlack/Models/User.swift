@@ -9,6 +9,7 @@
 import Foundation
 import SwiftyJSON
 
+// TODO: change to struct
 class User {
     var name: String?
     var id: String
@@ -30,4 +31,9 @@ class User {
             return "User " + id + ", but no name!"
         }
     }
+}
+
+enum Presence: String {
+    case Away = "away"
+    case Active = "active"
 }

@@ -17,7 +17,6 @@ protocol TeamStateHandler: class {
 }
 
 class DataManager: SlackResultHandler {
-    var users: Dictionary<String, User>
     let changeQueue : NSOperationQueue
     weak var requestHandler: SlackRequestHandler?
     weak var teamStateHandler: TeamStateHandler?
@@ -28,7 +27,6 @@ class DataManager: SlackResultHandler {
     }
     
     init() {
-        users = [String: User]()
         currentTeamState = TeamState()
         changeQueue = NSOperationQueue()
         changeQueue.maxConcurrentOperationCount = 1 // To avoid race conditions
