@@ -63,12 +63,17 @@ struct TeamState {
                 }
             
                 switch message.subtype {
-                    case .Changed(let event):
-                    for attachment in message.attachments {
-                        requests.append(SlackRequest.AttachmentImage(message.channelID!, event.timestamp, attachment))
-                        if attachment.authorIconURL != nil {
-                            requests.append(SlackRequest.AuthorIcon(message.channelID!, event.timestamp, attachment))
+                case .Changed(let event):
+                    switch event.eventType {
+                    case .MessageEvent(let message):
+                        for attachment in message.attachments {
+                            requests.append(SlackRequest.AttachmentImage(message.channelID!, event.timestamp, attachment))
+                            if attachment.authorIconURL != nil {
+                                requests.append(SlackRequest.AuthorIcon(message.channelID!, event.timestamp, attachment))
+                            }
                         }
+                    default:
+                        println("Message changed, but changed event isn't a message event?")
                     }
                 default:
                     println("")
@@ -136,7 +141,7 @@ struct TeamState {
                 var changedChannel = channel
                 changedChannel.incorporateAuthorIcon(timestamp, attachmentID: attachmentID, icon: icon)
                 newState.channels[channelID] = changedChannel
-            }
+            }       
             
         case .UserImageResult(let user, let key, let image):
             if let correspondingUser = newState.users[user.id] {

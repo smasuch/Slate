@@ -61,7 +61,12 @@ class Message {
     init(messageJSON: JSON) {
         
         text = messageJSON["text"].string
-        attributedText = NSAttributedString.attributedSlackString(messageJSON["text"].string!)
+        if let text = messageJSON["text"].string {
+            attributedText = NSAttributedString.attributedSlackString(text)
+        } else {
+            attributedText = nil
+        }
+        
         
         userID = messageJSON["user"].string
         if let subtypeString = messageJSON["subtype"].string {
