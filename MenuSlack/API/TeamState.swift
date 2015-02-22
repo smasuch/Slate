@@ -79,6 +79,23 @@ struct TeamState {
                     println("")
                 }
                 
+            case .Channel(let channelEvent):
+                switch channelEvent {
+                case .ChannelJoined(let channel):
+                    newState.channels[channel.id] = channel
+                    let timestamp = channel.lastRead
+                    if let lastEvent = channel.eventTimeline.last {
+                        // We want the newest 10 unread messages, to start
+                        if timestamp != lastEvent.timestamp {
+                            requests.append(SlackRequest.ChannelHistory(channel, lastEvent.timestamp, timestamp, true, 10))
+                        }
+                    }
+                case .ChannelLeft(let channelID):
+                    newState.channels.removeValueForKey(channelID)
+                default:
+                    println("Channel event received, but unknown type")
+                }
+                
             case .File(let fileEvent):
                 switch fileEvent {
                 case .FileShared(let file):

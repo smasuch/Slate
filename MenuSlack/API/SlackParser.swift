@@ -92,11 +92,16 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
                 result = SlackResult.EventResult(Event(eventType: messageEvent, timestamp: Timestamp(fromString: json["ts"].string!)))
                 
             case "file_shared":
-                let file = File(fileJSON: json["file"])
                 result = SlackResult.EventResult(Event(eventJSON: json))
             
             case "channel_marked":
                 result = SlackResult.ChannelMarkedResult(json["channel"].string!, Timestamp(fromString:json["ts"].string!))
+            
+            case "channel_joined":
+                result = SlackResult.EventResult(Event(eventJSON: json))
+                
+            case "channel_left":
+                result = SlackResult.EventResult(Event(eventJSON: json))
                 
             default:
                 result = SlackResult.ErrorResult("Could not parse this JSON, but did get a type: " + type);

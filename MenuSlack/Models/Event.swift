@@ -67,10 +67,9 @@ struct Event: Equatable {
                 eventType = .MessageEvent(Message(messageJSON: eventJSON))
             } else if eventTypeString.hasPrefix("hello") {
                 eventType = .Hello
-                /*
-
             } else if eventTypeString.hasPrefix("channel") {
                 eventType = .Channel(ChannelEvent(channelEventJSON: eventJSON))
+                 /*
             } else if eventTypeString.hasPrefix("im") {
                 eventType = .IM(IMEvent(imEventJSON: eventJSON))
             } else if eventTypeString.hasPrefix("group") {
