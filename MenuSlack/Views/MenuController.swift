@@ -33,7 +33,7 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         
         statusItem.menu = menu
         menu.delegate = self
-        statusItem.image = NSImage(named: "icon-white")
+        statusItem.image = NSImage(named: "icon-Template")
         menu.addItem(menuItem)
         
         menu.addItem(NSMenuItem.separatorItem())
@@ -57,16 +57,16 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         dispatch_async(dispatch_get_main_queue()) {
             self.menuItem.view = TeamView(teamState: state)
             if state.hasUnreadMessages {
-                self.statusItem.image = NSImage(named: "icon-coloured")
+                self.statusItem.image = NSImage(named: "icon-Filled-Template")
             } else {
-                self.statusItem.image = NSImage(named: "icon-white")
+                self.statusItem.image = NSImage(named: "icon-Template")
             }
         }
     }
     
     func menuDidClose(menu: NSMenu) {
         dataManager.teamViewed()
-        statusItem.image = NSImage(named: "icon-white")
+        self.statusItem.image = NSImage(named: "icon-Template")
     }
     
     func showOptionsPanel() {
