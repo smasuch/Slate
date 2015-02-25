@@ -15,6 +15,7 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
     var connectionManager: ConnectionManager
     var dataManager: DataManager
     var optionsController: OptionsPanelController?
+    var aboutController: AboutPanelController?
     
     override init() {
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-2.0)
@@ -23,7 +24,7 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         
         menu = NSMenu()
         menu.minimumWidth = 300.0
-        menuItem = NSMenuItem()
+        menuItem = NSMenuItem(title: "Loading", action: "", keyEquivalent:"")
         
         super.init()
         
@@ -42,6 +43,10 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         optionsMenuItem.target = self
         menu.addItem(optionsMenuItem)
         
+        let aboutMenuItem = NSMenuItem(title: "About", action: "showAboutPanel", keyEquivalent:"")
+        aboutMenuItem.target = self
+        menu.addItem(aboutMenuItem)
+        
         let quitMenuItem = NSMenuItem(title: "Quit", action: "terminate:", keyEquivalent: "")
         quitMenuItem.target = NSApplication.sharedApplication()
         menu.addItem(quitMenuItem)
@@ -49,8 +54,6 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as! String? {
             connectionManager.initiateConnection(savedToken)
         }
-        
-        
     }
     
     func handleTeamState(state: TeamState) {
@@ -76,6 +79,11 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         }
         optionsController?.menuController = self
         optionsController?.showWindow(nil)
+    }
+    
+    func showAboutPanel() {
+        aboutController = AboutPanelController(windowNibName: "AboutPanelController")
+        aboutController?.showWindow(nil)
     }
     
     func changeToken(token: String) {

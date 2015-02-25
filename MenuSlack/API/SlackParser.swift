@@ -78,33 +78,33 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
         if let type = json["type"].string {
             switch type {
             case "message":
-                let message = Message(messageJSON: json)
-                if let actualRequest = request {
-                    switch actualRequest {
-                    case .ChannelHistory(let channel, _, _, _, _):
-                        message.channelID = channel.id
-                    default:
-                        println("Request doesn't seem to have useful info to combo with this message")
+                let (message, errorString) = Message.messageFromJSON(json)
+                if let message = message {
+                    if let actualRequest = request {
+                        switch actualRequest {
+                        case .ChannelHistory(let channel, _, _, _, _):
+                            message.channelID = channel.id
+                        default:
+                            println("Request doesn't seem to have useful info to combo with this message")
+                        }
                     }
+                    
+                    let messageEvent = EventType.MessageEvent(message)
+                    result = SlackResult.EventResult(Event(eventType: messageEvent, timestamp: Timestamp(fromString: json["ts"].string!)))
+                } else {
+                    result = SlackResult.ErrorResult("Could not parse this JSON.  " + errorString!);
                 }
                 
-                let messageEvent = EventType.MessageEvent(message)
-                result = SlackResult.EventResult(Event(eventType: messageEvent, timestamp: Timestamp(fromString: json["ts"].string!)))
-                
-            case "file_shared":
-                result = SlackResult.EventResult(Event(eventJSON: json))
-            
             case "channel_marked":
                 result = SlackResult.ChannelMarkedResult(json["channel"].string!, Timestamp(fromString:json["ts"].string!))
-            
-            case "channel_joined":
-                result = SlackResult.EventResult(Event(eventJSON: json))
-                
-            case "channel_left":
-                result = SlackResult.EventResult(Event(eventJSON: json))
-                
+
             default:
-                result = SlackResult.ErrorResult("Could not parse this JSON, but did get a type: " + type);
+                let (event, errorString) = Event.eventFromJSON(json)
+                if let event = event {
+                    result = SlackResult.EventResult(event)
+                } else {
+                    result = SlackResult.ErrorResult("Could not parse this JSON, but did get a type: " + type + ". Error: " + errorString!);
+                }
             }
         }
     }

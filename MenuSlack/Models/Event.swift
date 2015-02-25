@@ -10,7 +10,6 @@ import Foundation
 import SwiftyJSON
 
 enum EventType {
-    case None // This should never actually be seen in real life
     case Hello
     case MessageEvent(Message)
     case Channel(ChannelEvent)
@@ -51,39 +50,54 @@ struct Event: Equatable {
         self.timestamp = timestamp
     }
     
-    init(eventJSON: JSON) {
+    static func eventFromJSON(eventJSON: JSON) -> (Event?, String?) {
+        var errorString: String?
+        var event: Event?
+        
+        var timestamp = Timestamp()
         
         if let timestampString = eventJSON["event_ts"].string {
             timestamp = Timestamp(fromString: timestampString)
         } else if let timestampString = eventJSON["ts"].string {
             timestamp = Timestamp(fromString: timestampString)
-        } else {
-            timestamp = Timestamp()
         }
+        
+        var eventType: EventType?
         
         if let eventTypeString = eventJSON["type"].string {
             // TODO: fill out all event type possibilities
             if eventTypeString.hasPrefix("message") {
-                eventType = .MessageEvent(Message(messageJSON: eventJSON))
+                let (message, messageError) = Message.messageFromJSON(eventJSON)
+                if message != nil {
+                    eventType = .MessageEvent(message!)
+                } else {
+                    errorString = "Could not create event, error with message. " + messageError!
+                }
+                
             } else if eventTypeString.hasPrefix("hello") {
                 eventType = .Hello
             } else if eventTypeString.hasPrefix("channel") {
                 eventType = .Channel(ChannelEvent(channelEventJSON: eventJSON))
-                 /*
+            /*
             } else if eventTypeString.hasPrefix("im") {
-                eventType = .IM(IMEvent(imEventJSON: eventJSON))
+            eventType = .IM(IMEvent(imEventJSON: eventJSON))
             } else if eventTypeString.hasPrefix("group") {
-                eventType = .Group(GroupEvent(groupEventJSON: eventJSON))
+            eventType = .Group(GroupEvent(groupEventJSON: eventJSON))
             } else if eventTypeString.hasPrefix("file") {
-                eventType = .File(FileEvent(fileEventJson: eventJSON))
-                */
-                
+            eventType = .File(FileEvent(fileEventJson: eventJSON))
+            */
             } else {
-                eventType = .None
+                errorString = "Event type not recognized, found " + eventTypeString
             }
         } else {
-            eventType = .None
+            errorString = "No event type found."
         }
+        
+        if eventType != nil {
+            event = Event(eventType: eventType!, timestamp: timestamp)
+        }
+    
+        return (event, errorString)
     }
     
     func eventByIncorporatingAttachmentImage(attachmentID: Int, image: NSImage) -> Event {

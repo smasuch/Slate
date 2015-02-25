@@ -51,7 +51,13 @@ struct Channel {
         
         let latestEventJSON = data["latest"]
         if latestEventJSON.type != .Null  {
-            eventTimeline.append(Event(eventJSON: latestEventJSON))
+            let (event, errorMessage) = Event.eventFromJSON(latestEventJSON)
+            if let event = event {
+                eventTimeline.append(event)
+            } else {
+                println("Could not parse latest event in channel " +  data["id"].string! + ", error: " + errorMessage!)
+            }
+            
         }
     }
     

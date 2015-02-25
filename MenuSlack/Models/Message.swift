@@ -11,7 +11,7 @@ import SwiftyJSON
 import Cocoa
 
 enum MessageSubtype {
-    case None // Unlike events, this is expected for some plain vanilla messages
+    case None // This is expected for some plain vanilla messages
     case Bot(String, String?)
         // Bot ID, username
     case Me
@@ -57,18 +57,42 @@ class Message {
     var channelID: String?
     var editedBy: String?
     var editedAt: Timestamp?
-
-    init(messageJSON: JSON) {
+    
+    init(text: String?,
+        attributedText: NSAttributedString?,
+        userID: String?,
+        attachments: Array<Attachment>,
+        subtype: MessageSubtype,
+        hidden: Bool,
+        channelID: String?,
+        editedBy: String?,
+        editedAt: Timestamp?) {
+            self.text = text
+            self.attributedText = attributedText
+            self.userID = userID
+            self.attachments = attachments
+            self.subtype = subtype
+            self.hidden = hidden
+            self.channelID = channelID
+            self.editedBy = editedBy
+            self.editedAt = editedAt
+    }
+    
+    static func messageFromJSON(messageJSON: JSON) -> (Message?, String?) {
+        var errorMessage: String?
         
-        text = messageJSON["text"].string
-        if let text = messageJSON["text"].string {
-            attributedText = NSAttributedString.attributedSlackString(text)
+        let text = messageJSON["text"].string
+        var attributedText: NSAttributedString?
+        if text != nil {
+            attributedText = NSAttributedString.attributedSlackString(text!)
         } else {
             attributedText = nil
         }
         
+        let userID = messageJSON["user"].string
         
-        userID = messageJSON["user"].string
+        var subtype = MessageSubtype.None
+        
         if let subtypeString = messageJSON["subtype"].string {
             switch subtypeString {
             case "bot_message":
@@ -76,48 +100,65 @@ class Message {
             case "me_message":
                 subtype = .Me
             case "message_changed":
-                subtype = .Changed(Event(eventJSON: messageJSON["message"]))
+                let (event, eventError) = Event.eventFromJSON(messageJSON["message"])
+                if event != nil {
+                    subtype = MessageSubtype.Changed(event!)
+                } else {
+                    errorMessage = eventError
+                }
             case "message_deleted":
                 subtype = .Deleted(Timestamp(fromString: messageJSON["deleted_ts"].string!))
             case "channel_join":
                 subtype = .ChannelJoin(messageJSON["inviter"].string)
             case "channel_leave":
                 subtype = .ChannelLeave
-            
-            /* TODO: fill out all these events
-            case "channel_topic":
-            case "channel_purpose":
-            case "channel_name":
-            case "channel_archive":
-            case "channel_unarchive":
-            case "group_join":
-            case "group_leave":
-            case "group_topic":
-            case "group_purpose":
-            case "group_name":
-            case "group_archive":
-            case "group_unarchive":
-            case "file_share":
-            case "file_comment":
-            case "file_mention":
-            */
+                
+                /* TODO: fill out all these events
+                case "channel_topic":
+                case "channel_purpose":
+                case "channel_name":
+                case "channel_archive":
+                case "channel_unarchive":
+                case "group_join":
+                case "group_leave":
+                case "group_topic":
+                case "group_purpose":
+                case "group_name":
+                case "group_archive":
+                case "group_unarchive":
+                case "file_share":
+                case "file_comment":
+                case "file_mention":
+                */
             default:
-                    subtype = .None
+                subtype = .None
             }
         } else {
             subtype = .None
         }
-        hidden = messageJSON["hidden"].boolValue
-        channelID = messageJSON["channel"].string
+        let hidden = messageJSON["hidden"].boolValue
+        let channelID = messageJSON["channel"].string
         
-        self.attachments = [Attachment]()
+        let editedBy = messageJSON["edited"]["user"].string
+        var editedAt: Timestamp?
+        if let editedTimeString = messageJSON["edited"]["ts"].string {
+            editedAt = Timestamp(fromString: editedTimeString)
+        }
         
-        if let attachments = messageJSON["attachments"].array {
+        var attachments = [Attachment]()
+        
+        if let attachmentsArray = messageJSON["attachments"].array {
             println("Attachments from message:")
-            for attachmentJSON in attachments {
-                self.attachments.append(Attachment(attachmentJSON: attachmentJSON))
+            for attachmentJSON in attachmentsArray {
+                attachments.append(Attachment(attachmentJSON: attachmentJSON))
             }
         }
+        
+        let message = Message(text: text,
+            attributedText: attributedText,
+            userID: userID, attachments: attachments, subtype: subtype, hidden: hidden, channelID: channelID, editedBy: editedBy, editedAt: editedAt)
+        
+        return (message, errorMessage)
     }
     
     func description() -> String {
