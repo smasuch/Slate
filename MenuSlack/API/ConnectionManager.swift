@@ -90,20 +90,24 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
         if error.code == 57 {
             webSocket.close()
             startReconnectionTimer()
+            println("Web socket failed")
         }
     }
     
     func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        println(code.description)
+        println("Web socket closed")
     }
     
     func startReconnectionTimer() {
-        reconnectionTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "initiateConnectionWithExistingToken", userInfo: nil, repeats: false)
+        println("Started reconnection timer")
+        self.reconnectionTimer?.invalidate()
+        reconnectionTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "initiateConnectionWithExistingToken", userInfo: nil, repeats: true)
     }
     
     func initiateConnectionWithExistingToken() {
         if let token = authToken {
-          initiateConnection(token)
+            println("Initiating a connection...")
+            initiateConnection(token)
         }
     }
     
