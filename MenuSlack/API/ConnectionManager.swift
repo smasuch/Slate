@@ -35,6 +35,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
     var webSocket: SRWebSocket?
     var authToken: String?
     var reconnectionTimer: NSTimer?
+    var pingTimer: NSTimer?
     var parser: SlackParser?
     var connectionDelegate: ConnectionManagerDelegate?
     weak var resultHandler: SlackResultHandler?
@@ -98,6 +99,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
     func webSocketDidOpen(webSocket: SRWebSocket!) {
         println("Socket opened!")
         connectionDelegate?.connectionStatusChanged(self, status: .SocketConnected)
+        pingTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector:"sendPing", userInfo: nil, repeats: true)
     }
     
     func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
@@ -107,6 +109,40 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             if let resultingData = jsonData {
                 parser?.parseResultFromRequest(JSON(data: resultingData), request: nil)
             }
+        }
+    }
+    
+    // Dealing with pings and pongs to check server responsiveness
+    
+    var pingCount = 1
+    var pingArray = [String]()
+    
+    func sendPing() {
+        let pingStringData = String(pingCount).dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false)
+        if pingStringData != nil {
+            webSocket?.sendPing(pingStringData!)
+            pingArray.append(String(pingCount))
+            pingCount++
+        }
+        
+        // Check in on pong responsiveness
+        if pingArray.count > 6 {
+            println("Server has not responded to over 6 pongs.")
+            connectionDelegate?.connectionStatusChanged(self, status: .ServerNotResponding)
+        } else {
+            connectionDelegate?.connectionStatusChanged(self, status: .SocketConnected)
+        }
+    }
+    
+    func webSocket(webSocket: SRWebSocket!, didReceivePong pongPayload: NSData!) {
+        let pongString = NSString(data: pongPayload, encoding: NSUTF8StringEncoding) as String?
+        if let pongString = pongString {
+            println("We got a pong, string: " + pongString)
+            if let index = find(pingArray, pongString) {
+                pingArray.removeRange(0...index)
+            }
+        } else {
+            println("We got a pong, but the payload could not be converted to a string.")
         }
     }
     
@@ -122,6 +158,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
     
     func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
         println("Web socket closed")
+        pingTimer?.invalidate()
     }
     
     func startReconnectionTimer() {
