@@ -8,7 +8,7 @@
 
 import Cocoa
 
-class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
+class MenuController: NSObject, NSMenuDelegate, TeamStateHandler, ConnectionManagerDelegate {
     let menu: NSMenu
     let menuItem: NSMenuItem
     var statusItem: NSStatusItem
@@ -16,6 +16,7 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
     var dataManager: DataManager
     var optionsController: OptionsPanelController?
     var aboutController: AboutPanelController?
+    @IBOutlet var authView: NSView?
     
     override init() {
         statusItem = NSStatusBar.systemStatusBar().statusItemWithLength(-2.0)
@@ -23,12 +24,14 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         dataManager = DataManager()
         
         menu = NSMenu()
+        menu.autoenablesItems = false
         menu.minimumWidth = 300.0
         menuItem = NSMenuItem(title: "Loading", action: "", keyEquivalent:"")
         
         super.init()
         
         connectionManager.resultHandler = dataManager
+        connectionManager.connectionDelegate = self
         dataManager.requestHandler = connectionManager
         dataManager.teamStateHandler = self
         
@@ -36,12 +39,22 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         menu.delegate = self
         statusItem.image = NSImage(named: "icon-Template")
         menu.addItem(menuItem)
-        
+
         menu.addItem(NSMenuItem.separatorItem())
-        
-        let optionsMenuItem = NSMenuItem(title: "Options", action: "showOptionsPanel", keyEquivalent:"")
-        optionsMenuItem.target = self
-        menu.addItem(optionsMenuItem)
+                
+        if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as! String? {
+            connectionManager.initiateConnection(savedToken)
+            
+            let optionsMenuItem = NSMenuItem(title: "Options", action: "showOptionsPanel", keyEquivalent:"")
+            optionsMenuItem.target = self
+            menu.addItem(optionsMenuItem)
+            
+        } else {
+            // Display the view to prompt for the auth token
+            
+            NSBundle.mainBundle().loadNibNamed("MenuAuthenticationPrompt", owner: self, topLevelObjects: nil)
+            menuItem.view = authView
+        }
         
         let aboutMenuItem = NSMenuItem(title: "About", action: "showAboutPanel", keyEquivalent:"")
         aboutMenuItem.target = self
@@ -50,10 +63,6 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         let quitMenuItem = NSMenuItem(title: "Quit", action: "terminate:", keyEquivalent: "")
         quitMenuItem.target = NSApplication.sharedApplication()
         menu.addItem(quitMenuItem)
-        
-        if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as! String? {
-            connectionManager.initiateConnection(savedToken)
-        }
     }
     
     func handleTeamState(state: TeamState) {
@@ -67,9 +76,30 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
         }
     }
     
+    func connectionStatusChanged(manager: ConnectionManager, status: ConnectionStatus) {
+        switch status {
+        case .Authenticating:
+            menuItem.title = "Authenticating..."
+        case .AuthenticationFailed(let failureString):
+            menuItem.title = "Authentication failed, reason: " + failureString
+        case .AuthenticationSucceeded:
+            menuItem.title = "Authenticated, connecting to websocket..."
+        case .SocketConnected:
+            menuItem.title = "Connected to socket, loading messages..."
+        case .SocketFailed:
+            menuItem.title = "Socket failed, trying to reconnect..."
+        case .ServerNotResponding:
+            menuItem.title = "Server not responding, waiting for response..."
+        }
+    }
+    
     func menuDidClose(menu: NSMenu) {
         dataManager.teamViewed()
         self.statusItem.image = NSImage(named: "icon-Template")
+    }
+    
+    @IBAction func showOptionsPanel(sender: AnyObject) {
+        showOptionsPanel()
     }
     
     func showOptionsPanel() {
@@ -78,6 +108,7 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler {
             optionsController?.existingToken = savedToken
         }
         optionsController?.menuController = self
+        NSApp.activateIgnoringOtherApps(true)
         optionsController?.showWindow(nil)
     }
     

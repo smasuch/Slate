@@ -38,11 +38,11 @@
 		608DC8921A8BEE39007F4AB4 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DC8911A8BEE38007F4AB4 /* File.swift */; };
 		608DC8941A8BFE11007F4AB4 /* FileComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DC8931A8BFE11007F4AB4 /* FileComment.swift */; };
 		608DC8961A8C0AAF007F4AB4 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DC8951A8C0AAF007F4AB4 /* Event.swift */; };
-		60A3662B1A9BDB2000C88B80 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 60A3662A1A9BDB2000C88B80 /* icon.icns */; };
 		60A3662E1A9BF0D200C88B80 /* AboutPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A3662C1A9BF0D200C88B80 /* AboutPanelController.swift */; };
 		60A3662F1A9BF0D200C88B80 /* AboutPanelController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60A3662D1A9BF0D200C88B80 /* AboutPanelController.xib */; };
 		60A366311A9BF5C400C88B80 /* squid_agitated.gif in Resources */ = {isa = PBXBuildFile; fileRef = 60A366301A9BF5C400C88B80 /* squid_agitated.gif */; };
 		60A366331A9BFB5800C88B80 /* squid_agitated_transparent.gif in Resources */ = {isa = PBXBuildFile; fileRef = 60A366321A9BFB5800C88B80 /* squid_agitated_transparent.gif */; };
+		60A366351A9E772300C88B80 /* MenuAuthenticationPrompt.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60A366341A9E772300C88B80 /* MenuAuthenticationPrompt.xib */; };
 		60A565AF1A880619002B6109 /* icon-Template@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565AD1A880619002B6109 /* icon-Template@2x.png */; };
 		60A565B01A880619002B6109 /* icon-Filled-Template@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565AE1A880619002B6109 /* icon-Filled-Template@2x.png */; };
 		60A565B31A8809DD002B6109 /* icon-Template.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565B11A8809DD002B6109 /* icon-Template.png */; };
@@ -134,6 +134,7 @@
 		60A3662D1A9BF0D200C88B80 /* AboutPanelController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutPanelController.xib; path = Views/AboutPanelController.xib; sourceTree = "<group>"; };
 		60A366301A9BF5C400C88B80 /* squid_agitated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = squid_agitated.gif; path = Images/squid_agitated.gif; sourceTree = "<group>"; };
 		60A366321A9BFB5800C88B80 /* squid_agitated_transparent.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = squid_agitated_transparent.gif; path = Images/squid_agitated_transparent.gif; sourceTree = "<group>"; };
+		60A366341A9E772300C88B80 /* MenuAuthenticationPrompt.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MenuAuthenticationPrompt.xib; path = Views/MenuAuthenticationPrompt.xib; sourceTree = "<group>"; };
 		60A565AD1A880619002B6109 /* icon-Template@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Template@2x.png"; path = "Images/icon-Template@2x.png"; sourceTree = "<group>"; };
 		60A565AE1A880619002B6109 /* icon-Filled-Template@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Filled-Template@2x.png"; path = "Images/icon-Filled-Template@2x.png"; sourceTree = "<group>"; };
 		60A565B11A8809DD002B6109 /* icon-Template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Template.png"; path = "Images/icon-Template.png"; sourceTree = "<group>"; };
@@ -261,6 +262,7 @@
 				60C87BB91A9035E0005ED592 /* MSImageView.swift */,
 				60A3662C1A9BF0D200C88B80 /* AboutPanelController.swift */,
 				60A3662D1A9BF0D200C88B80 /* AboutPanelController.xib */,
+				60A366341A9E772300C88B80 /* MenuAuthenticationPrompt.xib */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -453,11 +455,11 @@
 				604507901A82C4670029CC20 /* OptionsPanelController.xib in Resources */,
 				604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */,
 				60C87BB21A900D44005ED592 /* icon.icns in Resources */,
+				60A366351A9E772300C88B80 /* MenuAuthenticationPrompt.xib in Resources */,
 				60A366331A9BFB5800C88B80 /* squid_agitated_transparent.gif in Resources */,
 				60A565B41A8809DD002B6109 /* icon-Filled-Template.png in Resources */,
 				604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */,
 				60A3662F1A9BF0D200C88B80 /* AboutPanelController.xib in Resources */,
-				60A3662B1A9BDB2000C88B80 /* icon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

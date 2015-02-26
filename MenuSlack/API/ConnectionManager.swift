@@ -17,12 +17,26 @@ protocol SlackResultHandler: class {
     func handleResult(result: SlackResult)
 }
 
+enum ConnectionStatus {
+    case Authenticating
+    case AuthenticationFailed(String)
+    case AuthenticationSucceeded
+    case SocketConnected
+    case SocketFailed
+    case ServerNotResponding
+}
+
+protocol ConnectionManagerDelegate: class {
+    func connectionStatusChanged(manager: ConnectionManager, status: ConnectionStatus)
+}
+
 class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, SlackParserDelegate {
     
     var webSocket: SRWebSocket?
     var authToken: String?
     var reconnectionTimer: NSTimer?
     var parser: SlackParser?
+    var connectionDelegate: ConnectionManagerDelegate?
     weak var resultHandler: SlackResultHandler?
     
     override init() {
@@ -31,6 +45,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
     }
     
     func initiateConnection(token: String) {
+        connectionDelegate?.connectionStatusChanged(self, status: .Authenticating)
         
         authToken = token
         Alamofire.request(.POST, "https://slack.com/api/rtm.start", parameters: ["token": token]).response { (request, response, data, error) in
@@ -38,41 +53,51 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             
             if error == nil {
                 self.reconnectionTimer?.invalidate()
-            }
-            
-            
-            if let finalData : NSData = data as? NSData {
-                var error: AutoreleasingUnsafeMutablePointer<NSError?> = nil
-                var jsonData = JSON(data: finalData)
-                println(jsonData)
                 
-                if let websocketString : String = jsonData["url"].string{
-                    self.webSocket = SRWebSocket(URLRequest: NSURLRequest(URL: NSURL(string: websocketString)!));
-                    self.webSocket?.delegate = self
-                    self.webSocket?.open()
+                if let finalData : NSData = data as? NSData {
+                    var error: AutoreleasingUnsafeMutablePointer<NSError?> = nil
+                    var jsonData = JSON(data: finalData)
+                    println(jsonData)
                     
-                    // Get the users and add those to the queue
-                    
-                    let users = jsonData["users"]
-                    
-                    for (index: String, subJson: JSON) in users {
-                        self.parser?.parseResult(subJson)
-                    }
-                    
-                    // Do the same for channels
-                    
-                    let channels = jsonData["channels"]
-                    
-                    for (index: String, subJson: JSON) in channels {
-                        self.parser?.parseResult(subJson)
+                    if jsonData["ok"].boolValue {
+                        if let websocketString : String = jsonData["url"].string{
+                            self.webSocket = SRWebSocket(URLRequest: NSURLRequest(URL: NSURL(string: websocketString)!));
+                            self.webSocket?.delegate = self
+                            self.webSocket?.open()
+                            self.connectionDelegate?.connectionStatusChanged(self, status: .AuthenticationSucceeded)
+                            
+                            // Get the users and add those to the queue
+                            
+                            let users = jsonData["users"]
+                            
+                            for (index: String, subJson: JSON) in users {
+                                self.parser?.parseResult(subJson)
+                            }
+                            
+                            // Do the same for channels
+                            
+                            let channels = jsonData["channels"]
+                            
+                            for (index: String, subJson: JSON) in channels {
+                                self.parser?.parseResult(subJson)
+                            }
+                        } else {
+                            self.connectionDelegate?.connectionStatusChanged(self, status: .AuthenticationFailed("No websocket URL found."))
+                        }
+                    } else {
+                        self.connectionDelegate?.connectionStatusChanged(self, status: .AuthenticationFailed(jsonData["error"].stringValue))
                     }
                 }
+                
+            } else {
+                self.connectionDelegate?.connectionStatusChanged(self, status: .AuthenticationFailed(error!.description))
             }
         }
     }
     
     func webSocketDidOpen(webSocket: SRWebSocket!) {
         println("Socket opened!")
+        connectionDelegate?.connectionStatusChanged(self, status: .SocketConnected)
     }
     
     func webSocket(webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
@@ -91,6 +116,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             webSocket.close()
             startReconnectionTimer()
             println("Web socket failed")
+            connectionDelegate?.connectionStatusChanged(self, status: .SocketFailed)
         }
     }
     

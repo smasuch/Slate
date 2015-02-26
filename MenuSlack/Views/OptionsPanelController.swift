@@ -16,6 +16,7 @@ class OptionsPanelController: NSWindowController {
 
     override func windowDidLoad() {
         super.windowDidLoad()
+        window?.initialFirstResponder = tokenTextField
         window?.level = kCGStatusWindowLevelKey
         if let existingToken = existingToken {
             tokenTextField?.stringValue = existingToken

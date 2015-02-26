@@ -13,7 +13,7 @@ class TeamView: NSView {
     init(teamState: TeamState) {
         
         super.init(frame: NSRect.zeroRect)
-        var messageViewSize = NSSize(width: 500.0, height: 10.0)
+        var messageViewSize = NSSize(width: 400.0, height: 10.0)
         var messageLabelOrigin = CGPoint(x: 49.0, y: 8.0)
         var userPicOrigin = CGPoint(x: 11.0, y: -30.0)
         var previousUserID: String?
