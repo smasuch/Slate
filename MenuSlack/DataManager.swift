@@ -58,6 +58,11 @@ class DataManager: SlackResultHandler {
         currentTeamState.trimReadMessages()
     }
     
+    func clearData() {
+        changeQueue.waitUntilAllOperationsAreFinished()
+        self.currentTeamState = TeamState()
+    }
+    
     func handleResult(result: SlackResult) {
         incorporateResult(result)
     }

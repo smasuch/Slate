@@ -233,33 +233,36 @@ class Message {
     }
 }
 
+// Formatting constants
+
+let SlackAttributeBoldFont = "SlackAttributeBoldFont"
+let SlackAttributeItalicFont = "SlackAttributeItalicFont"
+let SlackAttributeLink = "SlackAttributeLink"
+let SlackAttributeUser = "SlackAttributeUser"
+let SlackAttributeChannel = "SlackAttributeChannel"
+
 extension NSAttributedString {
     
     class func attributedSlackString(string: String) -> NSAttributedString {
         // Initially formatted string
         var slackString = NSMutableAttributedString(string: string)
-        if let defaultFont = NSFont(name: "Lato", size: 16.0) {
-            slackString.addAttribute(NSFontAttributeName, value: defaultFont, range: NSRange(location: 0, length:slackString.length))
-        }
         
         // Bold
-        if let boldFont = NSFont(name: "Lato-Bold", size: 16.0) {
-            slackString = slackString.stringByReplacingCapturesWithAttributes("\\*.+?\\*", attributes: [NSFontAttributeName: boldFont])
-        }
+        slackString = slackString.stringByReplacingCapturesWithAttributes("\\*.+?\\*", attributes: [SlackAttributeBoldFont: SlackAttributeBoldFont])
         
         // Italic
-        if let italicFont = NSFont(name: "Lato-Italic", size: 16.0) {
-             slackString = slackString.stringByReplacingCapturesWithAttributes("_.+?_", attributes: [NSFontAttributeName: italicFont])
-        }
+        slackString = slackString.stringByReplacingCapturesWithAttributes("_.+?_", attributes: [SlackAttributeItalicFont: SlackAttributeItalicFont])
        
-        
         // Code
         slackString = slackString.stringByReplacingCapturesWithAttributes("`.+?`", attributes: [String: String]())
         
-        // ! commands
-        
-        // Links
+        // Links & ! commands (so, stuff in angle brackets)
         slackString = slackString.stringByAttributingLinks()
+        
+        // Escaped characters 
+        slackString.mutableString.replaceOccurrencesOfString("&amp;", withString:"&", options:NSStringCompareOptions.allZeros, range: NSMakeRange(0, slackString.length))
+        slackString.mutableString.replaceOccurrencesOfString("&lt;", withString:"<", options:NSStringCompareOptions.allZeros, range: NSMakeRange(0, slackString.length))
+        slackString.mutableString.replaceOccurrencesOfString("&gt;", withString:">", options:NSStringCompareOptions.allZeros, range: NSMakeRange(0, slackString.length))
         
         return slackString
     }
@@ -294,18 +297,39 @@ extension NSAttributedString {
         
         for result : NSTextCheckingResult in matches.reverse() {
             println("number of matches: " + result.numberOfRanges.description)
+            var linkRange = result.rangeAtIndex(1)
             var linkTextRange = result.rangeAtIndex(1)
             if (result.rangeAtIndex(2).location != NSNotFound) {
                 linkTextRange = result.rangeAtIndex(2)
+                linkTextRange.location += 1
+                linkTextRange.length -= 1
+                    // Remove the pipe
             }
             
             let linkText = replacedString.attributedSubstringFromRange(linkTextRange)
+            let linkTarget = replacedString.attributedSubstringFromRange(linkRange).string as NSString
             var attributedLinkText = NSMutableAttributedString(attributedString: linkText)
-            if let url = NSURL(string: replacedString.attributedSubstringFromRange(result.rangeAtIndex(1)).string) {
-                attributedLinkText.addAttribute(NSLinkAttributeName, value: url, range: NSMakeRange(0, attributedLinkText.length))
-                attributedLinkText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyleSingle, range: NSMakeRange(0, attributedLinkText.length))
-                attributedLinkText.addAttribute(NSForegroundColorAttributeName, value: NSColor.blueColor(), range: NSMakeRange(0, attributedLinkText.length))
+
+            if linkTarget.hasPrefix("#C") {
+                if (result.rangeAtIndex(2).location == NSNotFound) {
+                    let channelID = linkTarget.substringWithRange(NSMakeRange(1, linkTarget.length - 1))
+                    attributedLinkText.addAttribute(SlackAttributeChannel, value: channelID, range: NSMakeRange(0, attributedLinkText.length))
+                }
+            } else if linkTarget.hasPrefix("@U") {
+                if (result.rangeAtIndex(2).location == NSNotFound) {
+                    let userID = linkTarget.substringWithRange(NSMakeRange(1, linkTarget.length - 1))
+                    attributedLinkText.addAttribute(SlackAttributeUser, value: userID, range: NSMakeRange(0, attributedLinkText.length))
+                }
+            } else if linkTarget.hasPrefix("!") {
+                attributedLinkText.deleteCharactersInRange(NSMakeRange(0,1))
+            } else {
+                if let url = NSURL(string: replacedString.attributedSubstringFromRange(result.rangeAtIndex(1)).string) {
+                    attributedLinkText.addAttribute(NSLinkAttributeName, value: url, range: NSMakeRange(0, attributedLinkText.length))
+                    attributedLinkText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyleSingle, range: NSMakeRange(0, attributedLinkText.length))
+                    attributedLinkText.addAttribute(NSForegroundColorAttributeName, value: NSColor.blueColor(), range: NSMakeRange(0, attributedLinkText.length))
+                }
             }
+            
             replacedString.replaceCharactersInRange(result.range, withAttributedString:attributedLinkText)
         }
         

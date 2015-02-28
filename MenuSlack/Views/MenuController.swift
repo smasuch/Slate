@@ -120,6 +120,7 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler, ConnectionMana
     func changeToken(token: String) {
         menuItem.view = nil;
         NSUserDefaults.standardUserDefaults().setValue(token, forKey: "AuthToken")
+        dataManager.clearData()
         connectionManager.initiateConnection(token)
     }
 }

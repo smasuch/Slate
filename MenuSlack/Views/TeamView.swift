@@ -13,10 +13,14 @@ class TeamView: NSView {
     init(teamState: TeamState) {
         
         super.init(frame: NSRect.zeroRect)
-        var messageViewSize = NSSize(width: 400.0, height: 10.0)
+        var messageViewSize = NSSize(width: 400.0, height: 5.0)
         var messageLabelOrigin = CGPoint(x: 49.0, y: 8.0)
-        var userPicOrigin = CGPoint(x: 11.0, y: -30.0)
+        var userPicOrigin = CGPoint(x: 11.0, y: -20.0)
         var previousUserID: String?
+        
+        let rightMargin: CGFloat = 30.0
+        let availableMessageWidth = messageViewSize.width - rightMargin - messageLabelOrigin.x
+        let maximumImageHeight: CGFloat = 300.0
         
         func addUserPic(userID: String) {
             let imageView = NSImageView(frame: NSRect(origin: userPicOrigin, size: CGSize(width: 24.0, height: 24.0)))
@@ -43,6 +47,59 @@ class TeamView: NSView {
                     label.backgroundColor = NSColor.clearColor()
                     
                     return label
+                }
+                
+                func visuallyFormattedSlackString(string: NSAttributedString, withFontSize fontSize: CGFloat) -> NSAttributedString {
+                    
+                    var slackString = NSMutableAttributedString(attributedString: string)
+                    
+                    let paragraphStyles = NSMutableParagraphStyle()
+                    paragraphStyles.lineSpacing = 1.0
+                    paragraphStyles.maximumLineHeight = fontSize + 2.0
+                    
+                    
+                    slackString.addAttribute(NSFontAttributeName, value: NSFont(name: "Lato", size: fontSize)!, range:NSMakeRange(0, slackString.length))
+                    slackString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyles, range:NSMakeRange(0, slackString.length))
+                    
+                    slackString.enumerateAttribute(SlackAttributeUser, inRange: NSMakeRange(0, slackString.length), options: NSAttributedStringEnumerationOptions.Reverse, usingBlock: {attribute, range, stop in
+                        
+                        if attribute != nil {
+                            let userID = attribute as! String
+                            
+                            if let user = teamState.users[userID], let username = user.name {
+                                slackString.replaceCharactersInRange(range, withString: username)
+                            }
+                        }
+                        
+                    })
+                    
+                    slackString.enumerateAttribute(SlackAttributeChannel, inRange: NSMakeRange(0, slackString.length), options: NSAttributedStringEnumerationOptions.Reverse, usingBlock: {attribute, range, stop in
+                        
+                        if attribute != nil {
+                            let channelID = attribute as! String
+                            
+                            if let channel = teamState.channels[channelID], let channelName = channel.name {
+                                slackString.replaceCharactersInRange(range, withString: channelName)
+                            }
+                        }
+                        
+                    })
+                    
+                    slackString.enumerateAttributesInRange(NSMakeRange(0, slackString.length), options:NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock:
+                        {attribute, range, stop in
+                            
+                            let attributesDictionary = attribute as Dictionary
+                            
+                            if attributesDictionary[SlackAttributeBoldFont] != nil {
+                                slackString.addAttribute(NSFontAttributeName, value: NSFont(name: "Lato-Bold", size: fontSize)!, range: range)
+                            }
+                            
+                            if attributesDictionary[SlackAttributeItalicFont] != nil {
+                                slackString.addAttribute(NSFontAttributeName, value: NSFont(name: "Lato-Italic", size: fontSize)!, range: range)
+                            }
+                        })
+                    
+                    return slackString
                 }
                 
                 
@@ -85,7 +142,21 @@ class TeamView: NSView {
                                     var imageLink: String?
                                     
                                     if let imageURL = attachment.imageURL {
-                                        imageFrame.size = CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)
+                                        var imageFrameSize = CGSize(width: attachment.imageWidth!, height: attachment.imageHeight!)
+                                        
+                                        if imageFrameSize.width > availableMessageWidth {
+                                            let reductionRatio = availableMessageWidth / imageFrameSize.width
+                                            imageFrameSize.width = floor(imageFrameSize.width * reductionRatio)
+                                            imageFrameSize.height = floor(imageFrameSize.height * reductionRatio)
+                                        }
+                                        
+                                        if imageFrameSize.height > maximumImageHeight {
+                                            let reductionRatio = maximumImageHeight / imageFrameSize.height
+                                            imageFrameSize.width = floor(imageFrameSize.width * reductionRatio)
+                                            imageFrameSize.height = floor(imageFrameSize.height * reductionRatio)
+                                        }
+                                        
+                                        imageFrame.size = imageFrameSize
                                         imageLink = imageURL
                                     }
                                     
@@ -95,7 +166,6 @@ class TeamView: NSView {
                                     }
                                     
                                     let imageView = MSImageView(frame: imageFrame)
-                                    imageView.imageScaling = NSImageScaling.ImageScaleNone;
                                     imageView.animates = true;
                                     self.addSubview(imageView)
                                     attachmentHeightIncrease += imageFrame.size.height + 10.0
@@ -179,7 +249,7 @@ class TeamView: NSView {
                         
                         if displayText && message.attributedText != nil {
                             
-                            let messageText = message.attributedText!
+                            let messageText = visuallyFormattedSlackString(message.attributedText!, withFontSize: 16)
                             
                             let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
                             messageLabel.attributedStringValue = messageText
@@ -194,7 +264,7 @@ class TeamView: NSView {
                             }
                             self.addSubview(messageLabel)
                             
-                            let messageViewHeightIncrease = messageLabel.frame.size.height + 10.0;
+                            let messageViewHeightIncrease = messageLabel.frame.size.height + 8.0;
                             messageLabelOrigin.y += messageViewHeightIncrease
                             messageViewSize.height += messageViewHeightIncrease
                             userPicOrigin.y += messageViewHeightIncrease
@@ -251,12 +321,14 @@ class TeamView: NSView {
                 channelTitleView.backgroundColor = NSColor.clearColor()
                 self.addSubview(channelTitleView)
                 
-                let messageViewHeightIncrease = gradientView.frame.size.height;
+                let messageViewHeightIncrease = gradientView.frame.size.height + 7.0;
                 messageLabelOrigin.y += messageViewHeightIncrease
                 messageViewSize.height += messageViewHeightIncrease
                 userPicOrigin.y += messageViewHeightIncrease
             }
         }
+        
+        messageViewSize.height -= 10.0
         
         self.frame.size = messageViewSize
     }
