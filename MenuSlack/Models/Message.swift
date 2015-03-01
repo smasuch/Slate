@@ -9,6 +9,7 @@
 import Foundation
 import SwiftyJSON
 import Cocoa
+import Darwin
 
 enum MessageSubtype {
     case None // This is expected for some plain vanilla messages
@@ -259,6 +260,9 @@ extension NSAttributedString {
         // Links & ! commands (so, stuff in angle brackets)
         slackString = slackString.stringByAttributingLinks()
         
+        // Emoticons
+        slackString = slackString.stringByReplacingColonSegmentsWithEmoji()
+        
         // Escaped characters 
         slackString.mutableString.replaceOccurrencesOfString("&amp;", withString:"&", options:NSStringCompareOptions.allZeros, range: NSMakeRange(0, slackString.length))
         slackString.mutableString.replaceOccurrencesOfString("&lt;", withString:"<", options:NSStringCompareOptions.allZeros, range: NSMakeRange(0, slackString.length))
@@ -282,6 +286,45 @@ extension NSAttributedString {
             replacedString.deleteCharactersInRange(NSRange(location: result.range.location + result.range.length - 1, length: 1))
             replacedString.deleteCharactersInRange(NSRange(location: result.range.location, length: 1))
             replacedString.addAttributes(attributes, range: NSRange(location: result.range.location, length: result.range.length - 2))
+        }
+        
+        return replacedString
+    }
+    
+    func stringByReplacingColonSegmentsWithEmoji() -> NSMutableAttributedString {
+        var replacedString = NSMutableAttributedString.init(attributedString: self)
+        
+        let regularExpression = NSRegularExpression.init(pattern: ":(\\S+):", options: NSRegularExpressionOptions.DotMatchesLineSeparators, error: nil)
+        
+        let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: NSRange(location:0, length:self.length)) as! Array<NSTextCheckingResult>
+        
+        let emojiData = NSData(contentsOfFile:(NSBundle.mainBundle().pathForResource("emoji_pretty", ofType: "json")!))
+        let emojiJSON = JSON(data: emojiData!)
+        
+        var emojiDictionary = [String: String]()
+        
+        for (index: String, subJson: JSON) in emojiJSON {
+            if let emojiName = subJson["short_name"].string, let emojiCode = subJson["unified"].string {
+                let emojiComponents = split(emojiCode, {$0 == "-"})
+                var emojiString = ""
+                for component in emojiComponents {
+                    let numberFromComponent = strtoul(component, nil, 16)
+                    if numberFromComponent != 0 {
+                        emojiString.append(UnicodeScalar(UInt32(numberFromComponent)))
+                        println("number: " + String(UInt32(numberFromComponent)))
+                    }
+                }
+                println("emoji string: " + emojiString + " for name " + emojiName + ", code: " + emojiCode)
+                emojiDictionary[emojiName] = emojiString
+            }
+        }
+        
+        for result : NSTextCheckingResult in matches.reverse() {
+            let resultName = replacedString.attributedSubstringFromRange(result.rangeAtIndex(1)).string
+            if let codeReplacement = emojiDictionary[resultName] {
+                println("Found emoticon: " + NSStringFromRange(result.rangeAtIndex(1)) + ", replacing with " + codeReplacement)
+                replacedString.replaceCharactersInRange(result.rangeAtIndex(0), withString: codeReplacement)
+            }
         }
         
         return replacedString
