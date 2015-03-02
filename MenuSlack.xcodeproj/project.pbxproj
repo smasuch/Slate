@@ -44,6 +44,7 @@
 		60A366331A9BFB5800C88B80 /* squid_agitated_transparent.gif in Resources */ = {isa = PBXBuildFile; fileRef = 60A366321A9BFB5800C88B80 /* squid_agitated_transparent.gif */; };
 		60A366351A9E772300C88B80 /* MenuAuthenticationPrompt.xib in Resources */ = {isa = PBXBuildFile; fileRef = 60A366341A9E772300C88B80 /* MenuAuthenticationPrompt.xib */; };
 		60A366601AA2725900C88B80 /* emoji_pretty.json in Resources */ = {isa = PBXBuildFile; fileRef = 60A3665F1AA2725900C88B80 /* emoji_pretty.json */; };
+		60A366621AA4152100C88B80 /* emojiDictionary.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60A366611AA4152000C88B80 /* emojiDictionary.plist */; };
 		60A565AF1A880619002B6109 /* icon-Template@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565AD1A880619002B6109 /* icon-Template@2x.png */; };
 		60A565B01A880619002B6109 /* icon-Filled-Template@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565AE1A880619002B6109 /* icon-Filled-Template@2x.png */; };
 		60A565B31A8809DD002B6109 /* icon-Template.png in Resources */ = {isa = PBXBuildFile; fileRef = 60A565B11A8809DD002B6109 /* icon-Template.png */; };
@@ -137,6 +138,7 @@
 		60A366321A9BFB5800C88B80 /* squid_agitated_transparent.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = squid_agitated_transparent.gif; path = Images/squid_agitated_transparent.gif; sourceTree = "<group>"; };
 		60A366341A9E772300C88B80 /* MenuAuthenticationPrompt.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MenuAuthenticationPrompt.xib; path = Views/MenuAuthenticationPrompt.xib; sourceTree = "<group>"; };
 		60A3665F1AA2725900C88B80 /* emoji_pretty.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = emoji_pretty.json; sourceTree = "<group>"; };
+		60A366611AA4152000C88B80 /* emojiDictionary.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = emojiDictionary.plist; sourceTree = "<group>"; };
 		60A565AD1A880619002B6109 /* icon-Template@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Template@2x.png"; path = "Images/icon-Template@2x.png"; sourceTree = "<group>"; };
 		60A565AE1A880619002B6109 /* icon-Filled-Template@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Filled-Template@2x.png"; path = "Images/icon-Filled-Template@2x.png"; sourceTree = "<group>"; };
 		60A565B11A8809DD002B6109 /* icon-Template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Template.png"; path = "Images/icon-Template.png"; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 		604E1E361A636F9C0025CF28 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				60A366611AA4152000C88B80 /* emojiDictionary.plist */,
 				60A3665F1AA2725900C88B80 /* emoji_pretty.json */,
 				60A3662A1A9BDB2000C88B80 /* icon.icns */,
 				60A565A81A880604002B6109 /* Images */,
@@ -456,6 +459,7 @@
 				60A565AF1A880619002B6109 /* icon-Template@2x.png in Resources */,
 				60A565B01A880619002B6109 /* icon-Filled-Template@2x.png in Resources */,
 				604507901A82C4670029CC20 /* OptionsPanelController.xib in Resources */,
+				60A366621AA4152100C88B80 /* emojiDictionary.plist in Resources */,
 				604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */,
 				60C87BB21A900D44005ED592 /* icon.icns in Resources */,
 				60A366351A9E772300C88B80 /* MenuAuthenticationPrompt.xib in Resources */,

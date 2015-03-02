@@ -298,26 +298,7 @@ extension NSAttributedString {
         
         let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: NSRange(location:0, length:self.length)) as! Array<NSTextCheckingResult>
         
-        let emojiData = NSData(contentsOfFile:(NSBundle.mainBundle().pathForResource("emoji_pretty", ofType: "json")!))
-        let emojiJSON = JSON(data: emojiData!)
-        
-        var emojiDictionary = [String: String]()
-        
-        for (index: String, subJson: JSON) in emojiJSON {
-            if let emojiName = subJson["short_name"].string, let emojiCode = subJson["unified"].string {
-                let emojiComponents = split(emojiCode, {$0 == "-"})
-                var emojiString = ""
-                for component in emojiComponents {
-                    let numberFromComponent = strtoul(component, nil, 16)
-                    if numberFromComponent != 0 {
-                        emojiString.append(UnicodeScalar(UInt32(numberFromComponent)))
-                        println("number: " + String(UInt32(numberFromComponent)))
-                    }
-                }
-                println("emoji string: " + emojiString + " for name " + emojiName + ", code: " + emojiCode)
-                emojiDictionary[emojiName] = emojiString
-            }
-        }
+        let emojiDictionary = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("emojiDictionary", ofType: "plist")!) as! [String : String]
         
         for result : NSTextCheckingResult in matches.reverse() {
             let resultName = replacedString.attributedSubstringFromRange(result.rangeAtIndex(1)).string
