@@ -242,6 +242,12 @@ let SlackAttributeLink = "SlackAttributeLink"
 let SlackAttributeUser = "SlackAttributeUser"
 let SlackAttributeChannel = "SlackAttributeChannel"
 
+func loadEmojiDictionary() -> [String: String] {
+    return NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("emojiDictionary", ofType: "plist")!) as! [String : String]
+}
+
+let emojiDictionary = loadEmojiDictionary()
+
 extension NSAttributedString {
     
     class func attributedSlackString(string: String) -> NSAttributedString {
@@ -297,8 +303,6 @@ extension NSAttributedString {
         let regularExpression = NSRegularExpression.init(pattern: ":(\\S+):", options: NSRegularExpressionOptions.DotMatchesLineSeparators, error: nil)
         
         let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: NSRange(location:0, length:self.length)) as! Array<NSTextCheckingResult>
-        
-        let emojiDictionary = NSKeyedUnarchiver.unarchiveObjectWithFile(NSBundle.mainBundle().pathForResource("emojiDictionary", ofType: "plist")!) as! [String : String]
         
         for result : NSTextCheckingResult in matches.reverse() {
             let resultName = replacedString.attributedSubstringFromRange(result.rangeAtIndex(1)).string
