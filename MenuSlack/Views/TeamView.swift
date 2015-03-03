@@ -233,10 +233,6 @@ class TeamView: NSView {
                                     authorNameLabel.frame.origin = authorNameOrigin
                                     self.addSubview(authorNameLabel)
                                     
-                                    if let authorLink = attachment.authorLink {
-                                        
-                                    }
-                                    
                                     attachmentHeightIncrease += authorNameLabel.frame.size.height + 10.0
                                 }
                             }
@@ -246,28 +242,72 @@ class TeamView: NSView {
                             userPicOrigin.y += attachmentHeightIncrease
                         }
                         
-                        
-                        if displayText && message.attributedText != nil {
+                        switch message.subtype {
+                        case .FileShare(let file, let sharedOnUpload):
+                            var imageFrame = NSRect(origin: messageLabelOrigin, size: NSSize.zeroSize)
+                            var imageLink: String?
+                            var imageFrameSize = file.thumb360Size!
                             
-                            let messageText = visuallyFormattedSlackString(message.attributedText!, withFontSize: 16)
-                            
-                            let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
-                            messageLabel.attributedStringValue = messageText
-                            messageLabel.bordered = false
-                            messageLabel.selectable = true
-                            messageLabel.allowsEditingTextAttributes = true
-                            messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
-                            messageLabel.frame.size.width += 10.0
-                            messageLabel.backgroundColor = NSColor.clearColor()
-                            if event.timestamp < channel.lastRead {
-                                messageLabel.alphaValue = 0.5
+                            if imageFrameSize.width > availableMessageWidth {
+                                let reductionRatio = availableMessageWidth / imageFrameSize.width
+                                imageFrameSize.width = floor(imageFrameSize.width * reductionRatio)
+                                imageFrameSize.height = floor(imageFrameSize.height * reductionRatio)
                             }
-                            self.addSubview(messageLabel)
                             
-                            let messageViewHeightIncrease = messageLabel.frame.size.height + 8.0;
-                            messageLabelOrigin.y += messageViewHeightIncrease
-                            messageViewSize.height += messageViewHeightIncrease
-                            userPicOrigin.y += messageViewHeightIncrease
+                            if imageFrameSize.height > maximumImageHeight {
+                                let reductionRatio = maximumImageHeight / imageFrameSize.height
+                                imageFrameSize.width = floor(imageFrameSize.width * reductionRatio)
+                                imageFrameSize.height = floor(imageFrameSize.height * reductionRatio)
+                            }
+                            
+                            imageFrame.size = imageFrameSize
+                            imageLink = file.url
+                            
+                            let imageView = MSImageView(frame: imageFrame)
+                            imageView.animates = true;
+                            self.addSubview(imageView)
+                            let attachmentHeightIncrease = imageFrame.size.height + 20.0
+                            
+                            if let image = file.thumbnailImage {
+                                imageView.image = image
+                            } else {
+                                // display a loading animation
+                            }
+                            
+                            if let imageLink = imageLink {
+                                if let messageText = message.text {
+                                    displayText = displayText && !messageText.hasPrefix("<" + imageLink)
+                                }
+                                imageView.imageURL = NSURL(string:imageLink)
+                            }
+                            
+                            messageLabelOrigin.y += attachmentHeightIncrease
+                            messageViewSize.height += attachmentHeightIncrease
+                            userPicOrigin.y += attachmentHeightIncrease
+
+                        default:
+                            if displayText && message.attributedText != nil {
+                                
+                                let messageText = visuallyFormattedSlackString(message.attributedText!, withFontSize: 16)
+                                
+                                let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
+                                messageLabel.attributedStringValue = messageText
+                                messageLabel.bordered = false
+                                messageLabel.selectable = true
+                                messageLabel.allowsEditingTextAttributes = true
+                                messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
+                                messageLabel.frame.size.width += 10.0
+                                messageLabel.backgroundColor = NSColor.clearColor()
+                                if event.timestamp < channel.lastRead {
+                                    messageLabel.alphaValue = 0.5
+                                }
+                                self.addSubview(messageLabel)
+                                
+                                let messageViewHeightIncrease = messageLabel.frame.size.height + 8.0;
+                                messageLabelOrigin.y += messageViewHeightIncrease
+                                messageViewSize.height += messageViewHeightIncrease
+                                userPicOrigin.y += messageViewHeightIncrease
+                            }
                         }
 
                     case .File(let fileEvent):

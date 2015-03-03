@@ -75,8 +75,12 @@ struct TeamState {
                     default:
                         println("Message changed, but changed event isn't a message event?")
                     }
+                case .FileShare(let file, let sharedOnUpload):
+                    if let thumbURL = file.thumb360 {
+                        requests.append(SlackRequest.FileThumbnail(file))
+                    }
                 default:
-                    println("")
+                    println("Message event recieved by team state, with no current way to handle it.")
                 }
                 
             case .Channel(let channelEvent):
@@ -146,7 +150,11 @@ struct TeamState {
             println("Raw file delivered")
             
         case .FileThumbnailResult(let file, let image):
-            println("File thumbnail delivered")
+            if image != nil {
+                for channelID in file.channels {
+                    newState.channels[channelID]?.incorporateFileThumbnail(file, thumbnail: image!)
+                }
+            }
             
         case .AttachmentImageResult(let channelID, let timestamp, let attachmentID, let image):
             if let channel = newState.channels[channelID], image = image {

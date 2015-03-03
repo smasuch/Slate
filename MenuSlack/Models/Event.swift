@@ -65,7 +65,6 @@ struct Event: Equatable {
         var eventType: EventType?
         
         if let eventTypeString = eventJSON["type"].string {
-            // TODO: fill out all event type possibilities
             if eventTypeString.hasPrefix("message") {
                 let (message, messageError) = Message.messageFromJSON(eventJSON)
                 if message != nil {
@@ -78,6 +77,7 @@ struct Event: Equatable {
                 eventType = .Hello
             } else if eventTypeString.hasPrefix("channel") {
                 eventType = .Channel(ChannelEvent(channelEventJSON: eventJSON))
+            // TODO: fill out all event type possibilities
             /*
             } else if eventTypeString.hasPrefix("im") {
             eventType = .IM(IMEvent(imEventJSON: eventJSON))
@@ -113,6 +113,20 @@ struct Event: Equatable {
         switch self.eventType {
         case .MessageEvent(let message):
             return Event(eventType: .MessageEvent(message.incorporateAuthorIcon(attachmentID, icon: icon)), timestamp: self.timestamp)
+        default:
+            return self
+        }
+    }
+    
+    func eventByIncorporatingFileThumbnail(file: File, thumbnail: NSImage) -> Event {
+        switch self.eventType {
+        case .MessageEvent(let message):
+            switch message.subtype {
+            case .FileShare(let oldFile, let sharedOnUpload):
+                return Event(eventType: .MessageEvent(message.incorporateFileThumbnail(file, thumbnail: thumbnail)), timestamp: self.timestamp)
+            default:
+                return self
+            }
         default:
             return self
         }

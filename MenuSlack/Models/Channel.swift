@@ -85,6 +85,21 @@ struct Channel {
                     eventTimeline.removeAtIndex(index)
                     eventTimeline.insert(changedEvent, atIndex: index)
                 }
+            case .FileShare(let file, let sharedAtUpload):
+                var index = 0
+                
+                for existingEvent in eventTimeline {
+                    if existingEvent.timestamp > event.timestamp {
+                        break
+                    } else if existingEvent.timestamp == event.timestamp {
+                        eventTimeline.removeAtIndex(index) // remove pre-existing message, to avoid duplicate
+                        break;
+                    } else {
+                        index++
+                    }
+                }
+                
+                eventTimeline.insert(event, atIndex: index)
             case .Deleted(let timestamp):
                 var deletedEvent : Event?
                 var index = 0
@@ -110,20 +125,7 @@ struct Channel {
             }
             
         case .File(let fileEvent):
-            var index = 0
-            
-            for existingEvent in eventTimeline {
-                if existingEvent.timestamp > event.timestamp {
-                    break
-                } else if existingEvent.timestamp == event.timestamp {
-                    eventTimeline.removeAtIndex(index) // remove pre-existing message, to avoid duplicate
-                    break;
-                } else {
-                    index++
-                }
-            }
-            
-            eventTimeline.insert(event, atIndex: index)
+            println("File event")
             
         case .Channel(let channelEvent):
             println("Channel event")
@@ -143,6 +145,25 @@ struct Channel {
     mutating func incorporateAuthorIcon(timestamp: Timestamp, attachmentID: Int, icon: NSImage) {
         if let correspondingEvent = self.eventWithTimestamp(timestamp) {
             self.incorporateEvent(correspondingEvent.eventByIncorporatingAuthorIcon(attachmentID, icon: icon))
+        }
+    }
+    
+    mutating func incorporateFileThumbnail(file: File, thumbnail: NSImage) {
+        for event in eventTimeline {
+            switch event.eventType {
+            case .MessageEvent(let message):
+                switch message.subtype {
+                case .FileShare(let oldFile, let sharedOnUpload):
+                    if oldFile.id == file.id {
+                        self.incorporateEvent(event.eventByIncorporatingFileThumbnail(file, thumbnail: thumbnail))
+                    }
+                default:
+                    println("Maybe associated values weren't a good way to do this")
+                }
+            default:
+                println("Maybe associated values weren't a good way to do this")
+            }
+
         }
     }
     

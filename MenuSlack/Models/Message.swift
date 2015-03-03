@@ -113,6 +113,8 @@ class Message {
                 subtype = .ChannelJoin(messageJSON["inviter"].string)
             case "channel_leave":
                 subtype = .ChannelLeave
+            case "file_share":
+                subtype = .FileShare(File(fileJSON: messageJSON["file"]), messageJSON["upload"].boolValue)
                 
                 /* TODO: fill out all these events
                 case "channel_topic":
@@ -127,7 +129,6 @@ class Message {
                 case "group_name":
                 case "group_archive":
                 case "group_unarchive":
-                case "file_share":
                 case "file_comment":
                 case "file_mention":
                 */
@@ -166,6 +167,8 @@ class Message {
         var description = "Message: "
         if let messageText = text {
             description += messageText
+        } else {
+            description += "no message text included"
         }
         return description
     }
@@ -231,6 +234,19 @@ class Message {
         }
         
         return self
+    }
+    
+    func incorporateFileThumbnail(file: File, thumbnail: NSImage) -> Message {
+        switch subtype {
+        case .FileShare(var oldFile, let sharedOnUpload):
+            if oldFile.id == file.id {
+                oldFile.thumbnailImage = thumbnail
+                subtype = .FileShare(oldFile, sharedOnUpload)
+            }
+            return self
+        default:
+            return self
+        }
     }
 }
 

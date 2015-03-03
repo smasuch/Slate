@@ -32,7 +32,7 @@ struct File {
         title = fileJSON["title"].string!
         url = fileJSON["url"].string!
         userID = fileJSON["user"].string!
-        thumb360  = fileJSON["id"].string
+        thumb360  = fileJSON["thumb_360"].string
         if let thumb360Width = fileJSON["thumb_360_w"].int, thumb360height = fileJSON["thumb_360_h"].int {
             thumb360Size = NSSize(width: thumb360Width, height: thumb360height)
         } else {
@@ -40,12 +40,11 @@ struct File {
         }
         var channelsArray = [String]()
         
-        /*
-        for subJSON in fileJSON["channels"].array {
-            if let channelID = subJSON.string {
+        for (index: String, subJson: JSON) in fileJSON["channels"] {
+            if let channelID = subJson.string {
                 channelsArray.append(channelID)
             }
-        } */
+        }
         channels = channelsArray
         
         let commentJSON = fileJSON["initial_comment"]
