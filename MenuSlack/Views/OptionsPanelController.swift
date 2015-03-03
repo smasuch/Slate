@@ -30,6 +30,12 @@ class OptionsPanelController: NSWindowController {
         }
     }
     
+    @IBAction func openSlackApiWebsite(sender: AnyObject) {
+        if let websiteURL = NSURL(string: "https://api.slack.com/web") {
+            NSWorkspace.sharedWorkspace().openURL(websiteURL)
+        }
+    }
+
     @IBAction func cancel (sender: AnyObject) {
         self.dismissController(sender)
     }

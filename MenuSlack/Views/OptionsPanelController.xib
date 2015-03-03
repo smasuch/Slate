@@ -54,9 +54,28 @@ Gw
                         </connections>
                     </button>
                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jIa-pH-Mab">
-                        <rect key="frame" x="20" y="103" width="56" height="72"/>
-                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" image="squid_agitated_transparent" id="Rlk-Da-Wbk"/>
+                        <rect key="frame" x="40" y="103" width="56" height="72"/>
+                        <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" image="squid_agitated_transparent_less_shine" id="Rlk-Da-Wbk"/>
                     </imageView>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lRL-OK-4Hu">
+                        <rect key="frame" x="125" y="94" width="307" height="96"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="6NC-vC-N7W">
+                            <font key="font" metaFont="system"/>
+                            <string key="title">In order to use Slate, you'll need to get an 'authentication token' for your Slack team. You can get a token from the Slack API website.</string>
+                            <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="trk-ve-i32">
+                        <rect key="frame" x="121" y="96" width="188" height="32"/>
+                        <buttonCell key="cell" type="push" title="Open Slack API website" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Llp-dX-QdD">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="openSlackApiWebsite:" target="-2" id="Ofl-PL-QCL"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <connections>
@@ -64,8 +83,16 @@ Gw
             </connections>
             <point key="canvasLocation" x="139" y="117"/>
         </window>
+        <button verticalHuggingPriority="750" id="a2N-sp-4So">
+            <rect key="frame" x="0.0" y="0.0" width="82" height="32"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="15B-oE-iQG">
+                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                <font key="font" metaFont="system"/>
+            </buttonCell>
+        </button>
     </objects>
     <resources>
-        <image name="squid_agitated_transparent" width="56" height="72"/>
+        <image name="squid_agitated_transparent_less_shine" width="56" height="72"/>
     </resources>
 </document>

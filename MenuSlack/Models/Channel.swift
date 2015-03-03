@@ -65,6 +65,21 @@ struct Channel {
         switch event.eventType  {
         case .MessageEvent(let message):
             switch message.subtype {
+            case .None:  // A basic plain message
+                var index = 0
+                
+                for existingEvent in eventTimeline {
+                    if existingEvent.timestamp > event.timestamp {
+                        break
+                    } else if existingEvent.timestamp == event.timestamp {
+                        eventTimeline.removeAtIndex(index) // remove pre-existing message, to avoid duplicate
+                        break;
+                    } else {
+                        index++
+                    }
+                }
+                
+                eventTimeline.insert(event, atIndex: index)
             case .Changed(let changedEvent):
                 if let index = find(eventTimeline, changedEvent) {
                     eventTimeline.removeAtIndex(index)
@@ -84,21 +99,14 @@ struct Channel {
                 if deletedEvent != nil {
                     eventTimeline.removeAtIndex(index)
                 }
+            case .ChannelJoin(let channelID):
+                println("Channel join message recieved, discarded")
+            case .ChannelLeave:
+                println("Channel leave message recieved, discarded")
+            case .ChannelPurpose(let purpose):
+                println("Channel purpose change message recieved, discarded")
             default:
-                var index = 0
-                
-                for existingEvent in eventTimeline {
-                    if existingEvent.timestamp > event.timestamp {
-                        break
-                    } else if existingEvent.timestamp == event.timestamp {
-                        eventTimeline.removeAtIndex(index) // remove pre-existing message, to avoid duplicate
-                        break;
-                    } else {
-                        index++
-                    }
-                }
-                
-                eventTimeline.insert(event, atIndex: index)
+                println("Message event was received by channel, but not incorporated")
             }
             
         case .File(let fileEvent):

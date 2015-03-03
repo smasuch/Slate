@@ -31,6 +31,9 @@
 		604E1E761A6648FC0025CF28 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E751A6648FC0025CF28 /* Security.framework */; };
 		604E1E9B1A66EACA0025CF28 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E9A1A66EACA0025CF28 /* Channel.swift */; };
 		604E1EA11A6710700025CF28 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 604E1EA01A6710700025CF28 /* SRWebSocket.m */; };
+		6051652E1AA55A1100617BAD /* prompt_speech_bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 6051652C1AA55A1100617BAD /* prompt_speech_bubble.png */; };
+		6051652F1AA55A1100617BAD /* prompt_speech_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6051652D1AA55A1100617BAD /* prompt_speech_bubble@2x.png */; };
+		605165351AA5648900617BAD /* squid_agitated_transparent_less_shine.gif in Resources */ = {isa = PBXBuildFile; fileRef = 605165341AA5648900617BAD /* squid_agitated_transparent_less_shine.gif */; };
 		6078A1F51A86A44400BE83A2 /* SlackParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6078A1F41A86A44400BE83A2 /* SlackParser.swift */; };
 		6078A1FB1A86AE2000BE83A2 /* SlackRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6078A1FA1A86AE2000BE83A2 /* SlackRequest.swift */; };
 		6078A1FD1A86AF2700BE83A2 /* SlackResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6078A1FC1A86AF2700BE83A2 /* SlackResult.swift */; };
@@ -124,6 +127,9 @@
 		604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = MenuSlack/SocketRocket.xcodeproj; sourceTree = "<group>"; };
 		604E1E9A1A66EACA0025CF28 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Channel.swift; path = Models/Channel.swift; sourceTree = "<group>"; };
 		604E1EA01A6710700025CF28 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRWebSocket.m; path = MenuSlack/SocketRocket/SRWebSocket.m; sourceTree = "<group>"; };
+		6051652C1AA55A1100617BAD /* prompt_speech_bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = prompt_speech_bubble.png; path = Images/prompt_speech_bubble.png; sourceTree = "<group>"; };
+		6051652D1AA55A1100617BAD /* prompt_speech_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prompt_speech_bubble@2x.png"; path = "Images/prompt_speech_bubble@2x.png"; sourceTree = "<group>"; };
+		605165341AA5648900617BAD /* squid_agitated_transparent_less_shine.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = squid_agitated_transparent_less_shine.gif; path = Images/squid_agitated_transparent_less_shine.gif; sourceTree = "<group>"; };
 		6078A1F41A86A44400BE83A2 /* SlackParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlackParser.swift; path = API/SlackParser.swift; sourceTree = "<group>"; };
 		6078A1FA1A86AE2000BE83A2 /* SlackRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlackRequest.swift; path = API/SlackRequest.swift; sourceTree = "<group>"; };
 		6078A1FC1A86AF2700BE83A2 /* SlackResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlackResult.swift; path = API/SlackResult.swift; sourceTree = "<group>"; };
@@ -307,6 +313,9 @@
 		60A565A81A880604002B6109 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				605165341AA5648900617BAD /* squid_agitated_transparent_less_shine.gif */,
+				6051652C1AA55A1100617BAD /* prompt_speech_bubble.png */,
+				6051652D1AA55A1100617BAD /* prompt_speech_bubble@2x.png */,
 				60A366321A9BFB5800C88B80 /* squid_agitated_transparent.gif */,
 				60A366301A9BF5C400C88B80 /* squid_agitated.gif */,
 				60A565B11A8809DD002B6109 /* icon-Template.png */,
@@ -457,6 +466,7 @@
 				60A366311A9BF5C400C88B80 /* squid_agitated.gif in Resources */,
 				60A565B31A8809DD002B6109 /* icon-Template.png in Resources */,
 				60A565AF1A880619002B6109 /* icon-Template@2x.png in Resources */,
+				605165351AA5648900617BAD /* squid_agitated_transparent_less_shine.gif in Resources */,
 				60A565B01A880619002B6109 /* icon-Filled-Template@2x.png in Resources */,
 				604507901A82C4670029CC20 /* OptionsPanelController.xib in Resources */,
 				60A366621AA4152100C88B80 /* emojiDictionary.plist in Resources */,
@@ -465,6 +475,8 @@
 				60A366351A9E772300C88B80 /* MenuAuthenticationPrompt.xib in Resources */,
 				60A366331A9BFB5800C88B80 /* squid_agitated_transparent.gif in Resources */,
 				60A366601AA2725900C88B80 /* emoji_pretty.json in Resources */,
+				6051652E1AA55A1100617BAD /* prompt_speech_bubble.png in Resources */,
+				6051652F1AA55A1100617BAD /* prompt_speech_bubble@2x.png in Resources */,
 				60A565B41A8809DD002B6109 /* icon-Filled-Template.png in Resources */,
 				604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */,
 				60A3662F1A9BF0D200C88B80 /* AboutPanelController.xib in Resources */,

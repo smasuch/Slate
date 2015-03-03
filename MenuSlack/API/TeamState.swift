@@ -92,8 +92,10 @@ struct TeamState {
                     }
                 case .ChannelLeft(let channelID):
                     newState.channels.removeValueForKey(channelID)
+                case .ChannelRename(let channel):
+                    newState.channels[channel.id]?.name = channel.name
                 default:
-                    println("Channel event received, but unknown type")
+                    println("Channel event received, but unused type")
                 }
                 
             case .File(let fileEvent):
