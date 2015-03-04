@@ -137,6 +137,31 @@ struct TeamState {
                 }
             }
             
+            for event in channel.eventTimeline {
+                switch event.eventType {
+                case .MessageEvent(let message):
+                    
+                    for attachment in message.attachments {
+                        requests.append(SlackRequest.AttachmentImage(message.channelID!, event.timestamp, attachment))
+                        if attachment.authorIconURL != nil {
+                            requests.append(SlackRequest.AuthorIcon(message.channelID!, event.timestamp, attachment))
+                        }
+                    }
+                    
+                    switch message.subtype {
+                    case .FileShare(let file, let sharedOnUpload):
+                        if let thumbURL = file.thumb360 {
+                            requests.append(SlackRequest.FileThumbnail(file))
+                        }
+                    default:
+                        println("Message event recieved by team state, with no current way to handle it.")
+                    }
+                default:
+                    println("No request for this message")
+                }
+            }
+
+            
         case .ChannelMarkedResult(let channelID, let timestamp):
             if var markedChannel = newState.channels[channelID] {
                 markedChannel.lastRead = timestamp
