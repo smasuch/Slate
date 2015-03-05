@@ -79,16 +79,12 @@ class Message {
             self.editedAt = editedAt
     }
     
-    static func messageFromJSON(messageJSON: JSON) -> (Message?, String?) {
+    class func messageFromJSON(messageJSON: JSON) -> (Message?, String?) {
         var errorMessage: String?
         
-        let text = messageJSON["text"].string
-        var attributedText: NSAttributedString?
-        if text != nil {
-            attributedText = NSAttributedString.attributedSlackString(text!)
-        } else {
-            attributedText = nil
-        }
+        let text = messageJSON["text"].stringValue
+        
+        let attributedText = NSAttributedString.attributedSlackString(messageJSON["text"].stringValue)
         
         let userID = messageJSON["user"].string
         
@@ -266,35 +262,35 @@ let emojiDictionary = loadEmojiDictionary()
 
 extension NSAttributedString {
     
-    class func attributedSlackString(string: String) -> NSAttributedString {
+    class func attributedSlackString(string: NSString) -> NSAttributedString {
         // Initially formatted string
-        var slackString = NSMutableAttributedString(string: string)
-        
+        var slackString = NSMutableAttributedString(string: string as! String)
+        //println("we think we have string: " + string + "of type \(_stdlib_getTypeName(string))")
+
         // Bold
-        slackString = slackString.stringByReplacingCapturesWithAttributes("\\*.+?\\*", attributes: [SlackAttributeBoldFont: SlackAttributeBoldFont])
+        slackString.replaceCapturesWithAttributes("\\*.+?\\*", attributes: [SlackAttributeBoldFont: SlackAttributeBoldFont])
         
         // Italic
-        slackString = slackString.stringByReplacingCapturesWithAttributes("_.+?_", attributes: [SlackAttributeItalicFont: SlackAttributeItalicFont])
+        slackString.replaceCapturesWithAttributes("_.+?_", attributes: [SlackAttributeItalicFont: SlackAttributeItalicFont])
        
-        // Code
-        slackString = slackString.stringByReplacingCapturesWithAttributes("`.+?`", attributes: [String: String]())
-        
         // Links & ! commands (so, stuff in angle brackets)
-        slackString = slackString.stringByAttributingLinks()
+        slackString.attributeLinks()
         
         // Emoticons
-        slackString = slackString.stringByReplacingColonSegmentsWithEmoji()
-        
+        slackString.replaceColonSegmentsWithEmoji()
+
         // Escaped characters 
         slackString.mutableString.replaceOccurrencesOfString("&amp;", withString:"&", options:NSStringCompareOptions.allZeros, range: NSMakeRange(0, slackString.length))
         slackString.mutableString.replaceOccurrencesOfString("&lt;", withString:"<", options:NSStringCompareOptions.allZeros, range: NSMakeRange(0, slackString.length))
         slackString.mutableString.replaceOccurrencesOfString("&gt;", withString:">", options:NSStringCompareOptions.allZeros, range: NSMakeRange(0, slackString.length))
-        
+
         return slackString
     }
-    
-    func stringByReplacingCapturesWithAttributes(regex: String, attributes: Dictionary<String, AnyObject>) -> NSMutableAttributedString {
-        var replacedString = NSMutableAttributedString.init(attributedString: self)
+}
+
+extension NSMutableAttributedString {
+
+    func replaceCapturesWithAttributes(regex: String, attributes: Dictionary<String, AnyObject>) {
         
         let regularExpression = NSRegularExpression.init(pattern: regex, options: NSRegularExpressionOptions.DotMatchesLineSeparators, error: nil)
         
@@ -305,36 +301,28 @@ extension NSAttributedString {
         
         for result : NSTextCheckingResult in matches.reverse() {
             // Remove the bounding characters
-            replacedString.deleteCharactersInRange(NSRange(location: result.range.location + result.range.length - 1, length: 1))
-            replacedString.deleteCharactersInRange(NSRange(location: result.range.location, length: 1))
-            replacedString.addAttributes(attributes, range: NSRange(location: result.range.location, length: result.range.length - 2))
+            self.deleteCharactersInRange(NSRange(location: result.range.location + result.range.length - 1, length: 1))
+            self.deleteCharactersInRange(NSRange(location: result.range.location, length: 1))
+            self.addAttributes(attributes, range: NSRange(location: result.range.location, length: result.range.length - 2))
         }
-        
-        return replacedString
     }
     
-    func stringByReplacingColonSegmentsWithEmoji() -> NSMutableAttributedString {
-        var replacedString = NSMutableAttributedString.init(attributedString: self)
-        
+    func replaceColonSegmentsWithEmoji() {
         let regularExpression = NSRegularExpression.init(pattern: ":(\\S+):", options: NSRegularExpressionOptions.DotMatchesLineSeparators, error: nil)
         
         let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: NSRange(location:0, length:self.length)) as! Array<NSTextCheckingResult>
         
         for result : NSTextCheckingResult in matches.reverse() {
-            let resultName = replacedString.attributedSubstringFromRange(result.rangeAtIndex(1)).string
+            let resultName = self.attributedSubstringFromRange(result.rangeAtIndex(1)).string
             if let codeReplacement = emojiDictionary[resultName] {
                 println("Found emoticon: " + NSStringFromRange(result.rangeAtIndex(1)) + ", replacing with " + codeReplacement)
-                replacedString.replaceCharactersInRange(result.rangeAtIndex(0), withString: codeReplacement)
+                self.replaceCharactersInRange(result.rangeAtIndex(0), withString: codeReplacement)
             }
         }
-        
-        return replacedString
     }
     
-    func stringByAttributingLinks() -> NSMutableAttributedString
+    func attributeLinks()
     {
-        var replacedString = NSMutableAttributedString.init(attributedString: self)
-        
         let regularExpression = NSRegularExpression.init(pattern: "<(.+?)(\\|.*?)?>", options: NSRegularExpressionOptions.DotMatchesLineSeparators, error: nil)
         
         let matches = regularExpression?.matchesInString(self.string, options: NSMatchingOptions.allZeros, range: NSRange(location:0, length:self.length)) as! Array<NSTextCheckingResult>
@@ -350,8 +338,8 @@ extension NSAttributedString {
                     // Remove the pipe
             }
             
-            let linkText = replacedString.attributedSubstringFromRange(linkTextRange)
-            let linkTarget = replacedString.attributedSubstringFromRange(linkRange).string as NSString
+            let linkText = self.attributedSubstringFromRange(linkTextRange)
+            let linkTarget = self.attributedSubstringFromRange(linkRange).string as NSString
             var attributedLinkText = NSMutableAttributedString(attributedString: linkText)
 
             if linkTarget.hasPrefix("#C") {
@@ -367,16 +355,14 @@ extension NSAttributedString {
             } else if linkTarget.hasPrefix("!") {
                 attributedLinkText.deleteCharactersInRange(NSMakeRange(0,1))
             } else {
-                if let url = NSURL(string: replacedString.attributedSubstringFromRange(result.rangeAtIndex(1)).string) {
+                if let url = NSURL(string: self.attributedSubstringFromRange(result.rangeAtIndex(1)).string) {
                     attributedLinkText.addAttribute(NSLinkAttributeName, value: url, range: NSMakeRange(0, attributedLinkText.length))
                     attributedLinkText.addAttribute(NSUnderlineStyleAttributeName, value: NSUnderlineStyleSingle, range: NSMakeRange(0, attributedLinkText.length))
                     attributedLinkText.addAttribute(NSForegroundColorAttributeName, value: NSColor.blueColor(), range: NSMakeRange(0, attributedLinkText.length))
                 }
             }
             
-            replacedString.replaceCharactersInRange(result.range, withAttributedString:attributedLinkText)
+            self.replaceCharactersInRange(result.range, withAttributedString:attributedLinkText)
         }
-        
-        return replacedString
     }
 }

@@ -27,8 +27,8 @@ class SlackParser {
     
     func parseResultFromRequest(json: JSON, request: SlackRequest?) {
         let parseOperation = NSBlockOperation(){ [weak self] in
-            let result = parseJSONFromRequest(json, request)
             if let strongSelf = self {
+                let result = parseJSONFromRequest(json, request)
                 strongSelf.delegate?.handleParsingResult(result)
             }
         }
