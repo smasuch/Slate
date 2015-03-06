@@ -4,7 +4,8 @@
 //
 //  Created by Steven Masuch on 2015-01-28.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  Message represents a message. There are several possible subtypes of messages.
 
 import Foundation
 import SwiftyJSON

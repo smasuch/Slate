@@ -4,7 +4,8 @@
 //
 //  Created by Steven Masuch on 2015-02-14.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  An imageview subclass that acts as a linked button, basically.
 
 import Cocoa
 

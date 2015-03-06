@@ -18,11 +18,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(aNotification: NSNotification) {
         menuController = MenuController()
     }
-
-    func applicationWillTerminate(aNotification: NSNotification) {
-
-    }
-
-
 }
 

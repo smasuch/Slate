@@ -4,7 +4,8 @@
 //
 //  Created by Steven Masuch on 2015-01-30.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  Attachment represents an attachment on a message.
 
 import Foundation
 import SwiftyJSON

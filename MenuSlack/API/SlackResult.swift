@@ -4,7 +4,8 @@
 //
 //  Created by Steven Masuch on 2015-02-07.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  SlackResults represent some glob of information from the Slack API.
 
 import Cocoa
 

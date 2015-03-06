@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 Zanopan. All rights reserved.
 //
 
+//  Just a little view to provide a vertical gradient effect.
+
 import Cocoa
 
 class NSGradientView: NSView {

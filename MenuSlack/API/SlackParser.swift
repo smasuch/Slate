@@ -7,7 +7,8 @@
 
 //  The parser takes a lump of JSON and an optional SlackRequest to decide what to produce as
 //  a result. If there's no ID in the top-level JSON, it figures that this came via the RTM API
-//  and it wraps it up as an event.
+//  and it wraps it up as an event (except as channel history, which is a messy use right now).
+//  It does this work on an operation queue to take advantage of multitasking.
 
 import Foundation
 import SwiftyJSON
@@ -89,6 +90,9 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
             case "message":
                 let (message, errorString) = Message.messageFromJSON(json)
                 if var message = message {
+                    
+                    // FIXME: refactor this so channel history requests get treated seperately from events
+                    
                     if let actualRequest = request {
                         switch actualRequest {
                         case .ChannelHistory(let channel, _, _, _, _):

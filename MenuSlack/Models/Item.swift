@@ -4,7 +4,9 @@
 //
 //  Created by Steven Masuch on 2015-02-19.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  Item is kind of weird, as API types go. It represents something that got starred,
+//  so it could be one of several different types of things.
 
 import Foundation
 

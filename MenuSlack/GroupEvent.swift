@@ -4,7 +4,8 @@
 //
 //  Created by Steven Masuch on 2015-02-19.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  GroupEvent represents events having to do with groups.
 
 import Foundation
 

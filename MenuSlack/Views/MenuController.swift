@@ -6,6 +6,10 @@
 //  Copyright (c) 2015 Zanopan. All rights reserved.
 //
 
+//  The MenuController is the central controller for the app.
+//  It sets up the connection & data managers and manages the menu item that displays the team view.
+
+
 import Cocoa
 
 class MenuController: NSObject, NSMenuDelegate, TeamStateHandler, ConnectionManagerDelegate {
@@ -42,6 +46,10 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler, ConnectionMana
         addMenuItems()
     }
     
+    
+    /** 
+        Sets up the items in the menu based on if there's a saved token.
+    */
     func addMenuItems() {
         
         menu.addItem(menuItem)
@@ -71,6 +79,59 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler, ConnectionMana
         menu.addItem(quitMenuItem)
     }
     
+    /**
+        Record that the messages were viewed.
+    */
+    func menuDidClose(menu: NSMenu) {
+        dataManager.teamViewed()
+        self.statusItem.image = NSImage(named: "icon-Template")
+    }
+    
+    /**
+        Show the options dialogue from a button click.
+    */
+    @IBAction func showOptionsPanel(sender: AnyObject) {
+        showOptionsPanel()
+    }
+    
+    /**
+        Show the options dialogue, where users can change the team token.
+    */
+    func showOptionsPanel() {
+        optionsController = OptionsPanelController(windowNibName: "OptionsPanelController")
+        if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as! String? {
+            optionsController?.existingToken = savedToken
+        }
+        optionsController?.menuController = self
+        NSApp.activateIgnoringOtherApps(true)
+        optionsController?.showWindow(nil)
+    }
+    
+    /**
+        Show the about panel.
+    */
+    func showAboutPanel() {
+        aboutController = AboutPanelController(windowNibName: "AboutPanelController")
+        aboutController?.showWindow(nil)
+    }
+    
+    
+    /**
+        Change the authentication token to a new value and initiate a new connection based on that.
+    
+        :param: token New token to use for team authentication.
+    */
+    func changeToken(token: String) {
+        menuItem.view = nil;
+        NSUserDefaults.standardUserDefaults().setValue(token, forKey: "AuthToken")
+        menu.removeAllItems()
+        addMenuItems()
+        dataManager.clearData()
+        connectionManager.initiateConnection(token)
+    }
+    
+    // MARK: TeamStateHandler methods
+    
     func handleTeamState(state: TeamState) {
         dispatch_async(dispatch_get_main_queue()) {
             self.menuItem.view = TeamView(teamState: state)
@@ -81,6 +142,8 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler, ConnectionMana
             }
         }
     }
+    
+    // MARK: ConnectionManagerDelegate methods
     
     func connectionStatusChanged(manager: ConnectionManager, status: ConnectionStatus) {
         switch status {
@@ -97,38 +160,5 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler, ConnectionMana
         case .ServerNotResponding:
             menuItem.title = "Server not responding, waiting for response..."
         }
-    }
-    
-    func menuDidClose(menu: NSMenu) {
-        dataManager.teamViewed()
-        self.statusItem.image = NSImage(named: "icon-Template")
-    }
-    
-    @IBAction func showOptionsPanel(sender: AnyObject) {
-        showOptionsPanel()
-    }
-    
-    func showOptionsPanel() {
-        optionsController = OptionsPanelController(windowNibName: "OptionsPanelController")
-        if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as! String? {
-            optionsController?.existingToken = savedToken
-        }
-        optionsController?.menuController = self
-        NSApp.activateIgnoringOtherApps(true)
-        optionsController?.showWindow(nil)
-    }
-    
-    func showAboutPanel() {
-        aboutController = AboutPanelController(windowNibName: "AboutPanelController")
-        aboutController?.showWindow(nil)
-    }
-    
-    func changeToken(token: String) {
-        menuItem.view = nil;
-        NSUserDefaults.standardUserDefaults().setValue(token, forKey: "AuthToken")
-        menu.removeAllItems()
-        addMenuItems()
-        dataManager.clearData()
-        connectionManager.initiateConnection(token)
     }
 }

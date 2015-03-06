@@ -51,7 +51,7 @@ struct TeamState {
                 if let channelID = message.channelID {
                     if var channelForMessage = newState.channels[channelID] {
                         channelForMessage.incorporateEvent(event)
-                        newState.channels[channelID] = channelForMessage // Unsure if this is necessary in Swift, honestly
+                        newState.channels[channelID] = channelForMessage
                     }
                 }
                 
@@ -184,8 +184,9 @@ struct TeamState {
             }       
             
         case .UserImageResult(let user, let key, let image):
-            if let correspondingUser = newState.users[user.id] {
+            if var correspondingUser = newState.users[user.id] {
                 correspondingUser.image48Image = image
+                newState.users[user.id] = correspondingUser
             }
             
         default:

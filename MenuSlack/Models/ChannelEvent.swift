@@ -4,7 +4,8 @@
 //
 //  Created by Steven Masuch on 2015-02-19.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  ChannelEvent represents events relating to things going on with channels.
 
 import Foundation
 import SwiftyJSON

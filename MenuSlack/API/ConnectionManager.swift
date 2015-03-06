@@ -46,6 +46,11 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
         parser = SlackParser(delegate: self)
     }
     
+    /**
+        Try to connect to the Slack RTM API using the given token.
+    
+        :param: token The authentication token to connect with.
+    */
     func initiateConnection(token: String) {
         connectionDelegate?.connectionStatusChanged(self, status: .Authenticating)
         
@@ -97,8 +102,20 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
         }
     }
     
+    func startReconnectionTimer() {
+        self.reconnectionTimer?.invalidate()
+        reconnectionTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "initiateConnectionWithExistingToken", userInfo: nil, repeats: true)
+    }
+    
+    func initiateConnectionWithExistingToken() {
+        if let token = authToken {
+            initiateConnection(token)
+        }
+    }
+    
+    // MARK: SRWebSocketDelegate methods
+    
     func webSocketDidOpen(webSocket: SRWebSocket!) {
-        println("Socket opened!")
         connectionDelegate?.connectionStatusChanged(self, status: .SocketConnected)
         pingTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector:"sendPing", userInfo: nil, repeats: true)
     }
@@ -152,28 +169,15 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
         if error.code == 57 {
             webSocket.close()
             startReconnectionTimer()
-            println("Web socket failed")
             connectionDelegate?.connectionStatusChanged(self, status: .SocketFailed)
         }
     }
     
     func webSocket(webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
-        println("Web socket closed")
         pingTimer?.invalidate()
     }
     
-    func startReconnectionTimer() {
-        println("Started reconnection timer")
-        self.reconnectionTimer?.invalidate()
-        reconnectionTimer = NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: "initiateConnectionWithExistingToken", userInfo: nil, repeats: true)
-    }
-    
-    func initiateConnectionWithExistingToken() {
-        if let token = authToken {
-            println("Initiating a connection...")
-            initiateConnection(token)
-        }
-    }
+    // MARK: SlackRequestHandler methods
     
     func handleRequest(request: SlackRequest) {
         switch request {
@@ -188,7 +192,6 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             Alamofire.request(.GET, "https://slack.com/api/channels.history", parameters: parameters).response { (urlRequest, response, data, error) in
                 if let finalData : NSData = data as? NSData {
                     let historyJSON = JSON(data: finalData)
-                    println("Results for history of channel " + parameters.description + ": " + historyJSON.dictionary!.description)
                     for (string, messageJSON) in historyJSON["messages"] {
                         self.parser?.parseResultFromRequest(messageJSON, request: request)
                     }
@@ -252,6 +255,8 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             println("Can't handle this request.")
         }
     }
+    
+    // MARK: SlackParserDelegate methods
     
     func handleParsingResult(result: SlackResult) {
         self.resultHandler?.handleResult(result)

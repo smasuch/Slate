@@ -4,7 +4,8 @@
 //
 //  Created by Steven Masuch on 2015-01-13.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  Channel is a struct that holds the latest unread messages in a given channel, as well as channel info.
 
 import Foundation
 import SwiftyJSON

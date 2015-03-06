@@ -4,13 +4,13 @@
 //
 //  Created by Steven Masuch on 2015-01-28.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  The User struct is just used to store data about a teammate.
 
 import Foundation
 import SwiftyJSON
 
-// TODO: change to struct
-class User {
+struct User {
     var name: String?
     var id: String
     var image24URL: String?

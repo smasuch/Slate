@@ -5,6 +5,10 @@
 //  Created by Steven Masuch on 2015-02-07.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
 
+//  The SlackRequest embodies a request for some information from the Slack API.
+//  Requests can be generated from incorporating results in the TeamState, which
+//  returns requests that represent incomplete parts of the team state.
+
 import Foundation
 
 enum SlackRequest {

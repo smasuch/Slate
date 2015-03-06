@@ -4,7 +4,9 @@
 //
 //  Created by Steven Masuch on 2015-02-11.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  Event represents an event from the Slack RTM API. There are several different types of events,
+//  some with associated messages or files.
 
 import Foundation
 import SwiftyJSON

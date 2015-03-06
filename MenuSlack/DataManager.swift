@@ -4,7 +4,13 @@
 //
 //  Created by Steven Masuch on 2015-01-28.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  The data manager is a class that takes in results from the connection manager
+//  and uses a queue to incorporate them into a team state. It then gives the state
+//  to a teamStateHandler to do what they want with it, and gives the requests generated
+//  (like, a request for a user pic) to a request handler to go get more info.
+//  Presumably, the request handler does whatever, gets the result, and brings it back
+//  to be incorporated into the team state to fill that missing puzzle piece.
 
 import Foundation
 
