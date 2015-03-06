@@ -12,6 +12,7 @@
 import Foundation
 import Alamofire
 import SwiftyJSON
+import SocketRocket
 
 protocol SlackResultHandler: class {
     func handleResult(result: SlackResult)

@@ -30,7 +30,6 @@
 		604E1E741A6648F70025CF28 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E731A6648F70025CF28 /* libicucore.dylib */; };
 		604E1E761A6648FC0025CF28 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E751A6648FC0025CF28 /* Security.framework */; };
 		604E1E9B1A66EACA0025CF28 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E9A1A66EACA0025CF28 /* Channel.swift */; };
-		604E1EA11A6710700025CF28 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 604E1EA01A6710700025CF28 /* SRWebSocket.m */; };
 		6051652E1AA55A1100617BAD /* prompt_speech_bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 6051652C1AA55A1100617BAD /* prompt_speech_bubble.png */; };
 		6051652F1AA55A1100617BAD /* prompt_speech_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6051652D1AA55A1100617BAD /* prompt_speech_bubble@2x.png */; };
 		605165351AA5648900617BAD /* squid_agitated_transparent_less_shine.gif in Resources */ = {isa = PBXBuildFile; fileRef = 605165341AA5648900617BAD /* squid_agitated_transparent_less_shine.gif */; };
@@ -66,34 +65,6 @@
 			remoteGlobalIDString = 604E1E321A636F9C0025CF28;
 			remoteInfo = MenuSlack;
 		};
-		604E1E8D1A6649820025CF28 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F6B2082D1450F597009315AF;
-			remoteInfo = SocketRocket;
-		};
-		604E1E8F1A6649820025CF28 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F668C880153E91210044DBAC;
-			remoteInfo = SocketRocketOSX;
-		};
-		604E1E911A6649820025CF28 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F6BDA802145900D200FE3253;
-			remoteInfo = SRWebSocketTests;
-		};
-		604E1E931A6649820025CF28 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F62417E314D52F3C003CE997;
-			remoteInfo = TestChat;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -124,9 +95,7 @@
 		604E1E711A6648EB0025CF28 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		604E1E731A6648F70025CF28 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		604E1E751A6648FC0025CF28 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SocketRocket.xcodeproj; path = MenuSlack/SocketRocket.xcodeproj; sourceTree = "<group>"; };
 		604E1E9A1A66EACA0025CF28 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Channel.swift; path = Models/Channel.swift; sourceTree = "<group>"; };
-		604E1EA01A6710700025CF28 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SRWebSocket.m; path = MenuSlack/SocketRocket/SRWebSocket.m; sourceTree = "<group>"; };
 		6051652C1AA55A1100617BAD /* prompt_speech_bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = prompt_speech_bubble.png; path = Images/prompt_speech_bubble.png; sourceTree = "<group>"; };
 		6051652D1AA55A1100617BAD /* prompt_speech_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "prompt_speech_bubble@2x.png"; path = "Images/prompt_speech_bubble@2x.png"; sourceTree = "<group>"; };
 		605165341AA5648900617BAD /* squid_agitated_transparent_less_shine.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = squid_agitated_transparent_less_shine.gif; path = Images/squid_agitated_transparent_less_shine.gif; sourceTree = "<group>"; };
@@ -196,7 +165,6 @@
 			isa = PBXGroup;
 			children = (
 				60C87BB11A900D44005ED592 /* icon.icns */,
-				604E1EA01A6710700025CF28 /* SRWebSocket.m */,
 				604E1E731A6648F70025CF28 /* libicucore.dylib */,
 				604E1E751A6648FC0025CF28 /* Security.framework */,
 				604E1E711A6648EB0025CF28 /* CFNetwork.framework */,
@@ -204,7 +172,6 @@
 				604E1E351A636F9C0025CF28 /* MenuSlack */,
 				604E1E461A636F9C0025CF28 /* MenuSlackTests */,
 				604E1E341A636F9C0025CF28 /* Products */,
-				604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */,
 				DEC45D59DCB8F81D6697A25C /* Pods */,
 				CE32536E201704DDC0D874E1 /* Frameworks */,
 			);
@@ -297,17 +264,6 @@
 				600FEA3D1A9691AC007AAA9B /* Item.swift */,
 			);
 			name = Models;
-			sourceTree = "<group>";
-		};
-		604E1E871A66497D0025CF28 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				604E1E8E1A6649820025CF28 /* libSocketRocket.a */,
-				604E1E901A6649820025CF28 /* SocketRocket.framework */,
-				604E1E921A6649820025CF28 /* SRWebSocketTests.octest */,
-				604E1E941A6649820025CF28 /* TestChat.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		60A565A81A880604002B6109 /* Images */ = {
@@ -413,12 +369,6 @@
 			mainGroup = 604E1E2A1A636F9C0025CF28;
 			productRefGroup = 604E1E341A636F9C0025CF28 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 604E1E871A66497D0025CF28 /* Products */;
-					ProjectRef = 604E1E861A66497D0025CF28 /* SocketRocket.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				604E1E321A636F9C0025CF28 /* MenuSlack */,
@@ -426,37 +376,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		604E1E8E1A6649820025CF28 /* libSocketRocket.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSocketRocket.a;
-			remoteRef = 604E1E8D1A6649820025CF28 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		604E1E901A6649820025CF28 /* SocketRocket.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = SocketRocket.framework;
-			remoteRef = 604E1E8F1A6649820025CF28 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		604E1E921A6649820025CF28 /* SRWebSocketTests.octest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SRWebSocketTests.octest;
-			remoteRef = 604E1E911A6649820025CF28 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		604E1E941A6649820025CF28 /* TestChat.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = TestChat.app;
-			remoteRef = 604E1E931A6649820025CF28 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		604E1E311A636F9C0025CF28 /* Resources */ = {
@@ -557,7 +476,6 @@
 				608DC8961A8C0AAF007F4AB4 /* Event.swift in Sources */,
 				60EB3E0F1A80812900C72876 /* TeamView.swift in Sources */,
 				60153A0A1A7836A2008C0F7D /* ConnectionManager.swift in Sources */,
-				604E1EA11A6710700025CF28 /* SRWebSocket.m in Sources */,
 				608DC8941A8BFE11007F4AB4 /* FileComment.swift in Sources */,
 				608DC88C1A89AF98007F4AB4 /* NSGradientView.swift in Sources */,
 				6078A1F51A86A44400BE83A2 /* SlackParser.swift in Sources */,

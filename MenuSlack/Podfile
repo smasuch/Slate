@@ -1,7 +1,0 @@
-# Uncomment this line to define a global platform for your project
-
-pod 'Starscream', :git => "https://github.com/daltoniam/starscream.git", :tag => "0.9.1"
-
-target 'MenuSlackTests' do
-    pod 'Starscream', :git => "https://github.com/daltoniam/starscream.git", :tag => "0.9.1"
-end

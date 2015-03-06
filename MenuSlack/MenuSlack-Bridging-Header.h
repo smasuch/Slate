@@ -9,6 +9,6 @@
 #ifndef MenuSlack_MenuSlack_Bridging_Header_h
 #define MenuSlack_MenuSlack_Bridging_Header_h
 
-#import "SocketRocket/SRWebSocket.h"
+#import "../Pods/SocketRocket/SocketRocket/SRWebSocket.h"
 
 #endif

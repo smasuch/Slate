@@ -1,23 +1,31 @@
 PODS:
   - Alamofire (1.1.3)
+  - SocketRocket (0.3.1-beta2)
   - SwiftyJSON (2.1.3)
 
 DEPENDENCIES:
   - Alamofire (from `https://github.com/Alamofire/Alamofire.git`, branch `xcode-6.3`)
+  - SocketRocket (from `https://github.com/square/SocketRocket.git`)
   - SwiftyJSON (= 2.1.3)
 
 EXTERNAL SOURCES:
   Alamofire:
     :branch: xcode-6.3
     :git: https://github.com/Alamofire/Alamofire.git
+  SocketRocket:
+    :git: https://github.com/square/SocketRocket.git
 
 CHECKOUT OPTIONS:
   Alamofire:
     :commit: cde1cc93824a689f5d429f035bc663548fcca135
     :git: https://github.com/Alamofire/Alamofire.git
+  SocketRocket:
+    :commit: a2dd92a13b42e14fee0c93253e464121c1de67d5
+    :git: https://github.com/square/SocketRocket.git
 
 SPEC CHECKSUMS:
   Alamofire: 752f3b45b2bddfe2eb91cb9eae33772d33a0bf8f
+  SocketRocket: 70df1983148525857ced17c57207bfb939bc6b8e
   SwiftyJSON: 48be7490a3989a58a3f511cd54167f0a2b466e76
 
 COCOAPODS: 0.36.0.beta.1
