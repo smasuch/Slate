@@ -370,6 +370,7 @@ class TeamView: NSView {
                 channelTitleView.bordered = false
                 channelTitleView.editable = false
                 channelTitleView.backgroundColor = NSColor.clearColor()
+                channelTitleView.textColor = NSColor.blackColor()
                 self.addSubview(channelTitleView)
                 
                 let messageViewHeightIncrease = gradientView.frame.size.height + 7.0;

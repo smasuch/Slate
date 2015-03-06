@@ -16,7 +16,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <view key="contentView" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -30,17 +30,9 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e4n-BV-jYR">
-                        <rect key="frame" x="18" y="115" width="444" height="18"/>
+                        <rect key="frame" x="18" y="93" width="444" height="40"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Not created by, affiliated with, or supported by Slack Technologies, Inc." id="tbX-gf-1Lh">
-                            <font key="font" size="10" name="Thonburi"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1tP-Ev-oCl">
-                        <rect key="frame" x="18" y="135" width="444" height="56"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Quickly see the latest stuff in Slack channels." id="kFJ-zu-Bek">
-                            <font key="font" size="20" name="Thonburi"/>
+                            <font key="font" metaFont="smallSystem"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
@@ -59,6 +51,14 @@
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1tP-Ev-oCl">
+                        <rect key="frame" x="18" y="141" width="444" height="22"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Quickly see the latest stuff in your Slack channels." id="kFJ-zu-Bek">
+                            <font key="font" metaFont="system" size="18"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                 </subviews>

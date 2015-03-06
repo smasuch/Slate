@@ -12,6 +12,8 @@
 		600FEA3A1A967FCC007AAA9B /* GroupEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FEA391A967FCC007AAA9B /* GroupEvent.swift */; };
 		600FEA3C1A967FDA007AAA9B /* FileEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FEA3B1A967FDA007AAA9B /* FileEvent.swift */; };
 		600FEA3E1A9691AC007AAA9B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FEA3D1A9691AC007AAA9B /* Item.swift */; };
+		601337A51AA9597C002D1356 /* info_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 601337A31AA9597C002D1356 /* info_bubble@2x.png */; };
+		601337A61AA9597C002D1356 /* info_bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 601337A41AA9597C002D1356 /* info_bubble.png */; };
 		60153A0A1A7836A2008C0F7D /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60153A091A7836A2008C0F7D /* ConnectionManager.swift */; };
 		603C7F8C1A798CFA008655DD /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F8B1A798CFA008655DD /* DataManager.swift */; };
 		603C7F8E1A798E0D008655DD /* TeamState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F8D1A798E0D008655DD /* TeamState.swift */; };
@@ -73,6 +75,8 @@
 		600FEA391A967FCC007AAA9B /* GroupEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupEvent.swift; sourceTree = "<group>"; };
 		600FEA3B1A967FDA007AAA9B /* FileEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileEvent.swift; path = Models/FileEvent.swift; sourceTree = "<group>"; };
 		600FEA3D1A9691AC007AAA9B /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Item.swift; path = Models/Item.swift; sourceTree = "<group>"; };
+		601337A31AA9597C002D1356 /* info_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "info_bubble@2x.png"; path = "Images/info_bubble@2x.png"; sourceTree = "<group>"; };
+		601337A41AA9597C002D1356 /* info_bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info_bubble.png; path = Images/info_bubble.png; sourceTree = "<group>"; };
 		60153A091A7836A2008C0F7D /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionManager.swift; path = API/ConnectionManager.swift; sourceTree = "<group>"; };
 		603C7F8B1A798CFA008655DD /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		603C7F8D1A798E0D008655DD /* TeamState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamState.swift; path = API/TeamState.swift; sourceTree = "<group>"; };
@@ -269,6 +273,8 @@
 		60A565A81A880604002B6109 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				601337A31AA9597C002D1356 /* info_bubble@2x.png */,
+				601337A41AA9597C002D1356 /* info_bubble.png */,
 				605165341AA5648900617BAD /* squid_agitated_transparent_less_shine.gif */,
 				6051652C1AA55A1100617BAD /* prompt_speech_bubble.png */,
 				6051652D1AA55A1100617BAD /* prompt_speech_bubble@2x.png */,
@@ -390,6 +396,7 @@
 				604507901A82C4670029CC20 /* OptionsPanelController.xib in Resources */,
 				60A366621AA4152100C88B80 /* emojiDictionary.plist in Resources */,
 				604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */,
+				601337A51AA9597C002D1356 /* info_bubble@2x.png in Resources */,
 				60C87BB21A900D44005ED592 /* icon.icns in Resources */,
 				60A366351A9E772300C88B80 /* MenuAuthenticationPrompt.xib in Resources */,
 				60A366331A9BFB5800C88B80 /* squid_agitated_transparent.gif in Resources */,
@@ -397,6 +404,7 @@
 				6051652E1AA55A1100617BAD /* prompt_speech_bubble.png in Resources */,
 				6051652F1AA55A1100617BAD /* prompt_speech_bubble@2x.png in Resources */,
 				60A565B41A8809DD002B6109 /* icon-Filled-Template.png in Resources */,
+				601337A61AA9597C002D1356 /* info_bubble.png in Resources */,
 				604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */,
 				60A3662F1A9BF0D200C88B80 /* AboutPanelController.xib in Resources */,
 			);

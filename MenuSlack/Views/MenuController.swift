@@ -45,7 +45,7 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler, ConnectionMana
         if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as! String? {
             connectionManager.initiateConnection(savedToken)
             
-            let optionsMenuItem = NSMenuItem(title: "Options", action: "showOptionsPanel", keyEquivalent:"")
+            let optionsMenuItem = NSMenuItem(title: "Team Selection...", action: "showOptionsPanel", keyEquivalent:"")
             optionsMenuItem.target = self
             menu.addItem(optionsMenuItem)
             
