@@ -38,10 +38,16 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler, ConnectionMana
         statusItem.menu = menu
         menu.delegate = self
         statusItem.image = NSImage(named: "icon-Template")
+        
+        addMenuItems()
+    }
+    
+    func addMenuItems() {
+        
         menu.addItem(menuItem)
-
+        
         menu.addItem(NSMenuItem.separatorItem())
-                
+        
         if let savedToken = NSUserDefaults.standardUserDefaults().valueForKey("AuthToken") as! String? {
             connectionManager.initiateConnection(savedToken)
             
@@ -120,6 +126,8 @@ class MenuController: NSObject, NSMenuDelegate, TeamStateHandler, ConnectionMana
     func changeToken(token: String) {
         menuItem.view = nil;
         NSUserDefaults.standardUserDefaults().setValue(token, forKey: "AuthToken")
+        menu.removeAllItems()
+        addMenuItems()
         dataManager.clearData()
         connectionManager.initiateConnection(token)
     }

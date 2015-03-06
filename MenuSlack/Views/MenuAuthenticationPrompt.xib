@@ -35,10 +35,10 @@
                     </connections>
                 </button>
                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="I7G-jt-bMG">
-                    <rect key="frame" x="115" y="75" width="259" height="85"/>
+                    <rect key="frame" x="122" y="75" width="259" height="85"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Thanks for using Slate! But before you can see your messages, we need to set up the connection to your Slack team..." id="4tl-WW-FAM">
                         <font key="font" metaFont="systemBold" size="14"/>
-                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="textColor" red="0.20000000298023224" green="0.20000000298023224" blue="0.20000000298023224" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>

@@ -51,7 +51,9 @@ struct Channel {
         
         let latestEventJSON = data["latest"]
         if latestEventJSON.type != .Null  {
-            let (event, errorMessage) = Event.eventFromJSON(latestEventJSON)
+            var modifiedLatestEventJSON = latestEventJSON
+            modifiedLatestEventJSON["channel"].string = data["id"].string!
+            let (event, errorMessage) = Event.eventFromJSON(modifiedLatestEventJSON)
             if let event = event {
                 eventTimeline.append(event)
             } else {

@@ -54,7 +54,7 @@ Gw
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lRL-OK-4Hu">
-                        <rect key="frame" x="18" y="109" width="444" height="96"/>
+                        <rect key="frame" x="18" y="109" width="406" height="96"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" allowsEditingTextAttributes="YES" id="6NC-vC-N7W">
                             <font key="font" metaFont="system"/>
                             <string key="title">In order to use Slate, you'll need to get an 'authentication token' for your Slack team. You can get a token from the Slack API website. If you click on the button below, it'll take you to the page where you can get a token (it's right down at the bottom).</string>
@@ -63,7 +63,7 @@ Gw
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="trk-ve-i32">
-                        <rect key="frame" x="278" y="103" width="188" height="32"/>
+                        <rect key="frame" x="278" y="95" width="188" height="32"/>
                         <buttonCell key="cell" type="push" title="Open Slack API website" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Llp-dX-QdD">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>

@@ -183,7 +183,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
             if latest != nil { parameters["latest"] = latest?.description }
             if oldest != nil { parameters["oldest"] = oldest?.description }
             if inclusive { parameters["inclusive"] = "1" }
-            if count != nil { parameters["count"] = count!.description }
+            if count != nil { parameters["count"] = count?.description }
             
             Alamofire.request(.GET, "https://slack.com/api/channels.history", parameters: parameters).response { (urlRequest, response, data, error) in
                 if let finalData : NSData = data as? NSData {
