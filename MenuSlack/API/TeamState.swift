@@ -68,7 +68,7 @@ struct TeamState {
                         requests.append(SlackRequest.FileThumbnail(file))
                     }
                 default:
-                    println("Message event recieved by team state, with no current way to handle it.")
+                    println("Message event received by team state, with no current way to handle it.")
                 }
                 
             case .Channel(let channelEvent):
@@ -142,7 +142,7 @@ struct TeamState {
                             requests.append(SlackRequest.FileThumbnail(file))
                         }
                     default:
-                        println("Message event recieved by team state, with no current way to handle it.")
+                        println("Message event received by team state, with no current way to handle it.")
                     }
                 default:
                     println("No request for this message")

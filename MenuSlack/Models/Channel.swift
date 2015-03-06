@@ -127,11 +127,11 @@ struct Channel {
                     eventTimeline.removeAtIndex(index)
                 }
             case .ChannelJoin(let channelID):
-                println("Channel join message recieved, discarded")
+                println("Channel join message received, discarded")
             case .ChannelLeave:
-                println("Channel leave message recieved, discarded")
+                println("Channel leave message received, discarded")
             case .ChannelPurpose(let purpose):
-                println("Channel purpose change message recieved, discarded")
+                println("Channel purpose change message received, discarded")
             default:
                 println("Message event was received by channel, but not incorporated")
             }
