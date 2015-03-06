@@ -56,7 +56,11 @@ struct Event: Equatable {
         
         var timestamp = Timestamp()
         
-        if let timestampString = eventJSON["event_ts"].string {
+        if let timestampString = eventJSON["message"]["ts"].string {
+            // This is for message changed events
+            // We just use the timestamp of the original message
+            timestamp = Timestamp(fromString: timestampString)
+        } else if let timestampString = eventJSON["event_ts"].string {
             timestamp = Timestamp(fromString: timestampString)
         } else if let timestampString = eventJSON["ts"].string {
             timestamp = Timestamp(fromString: timestampString)
@@ -102,7 +106,7 @@ struct Event: Equatable {
     
     func eventByIncorporatingAttachmentImage(attachmentID: Int, image: NSImage) -> Event {
         switch self.eventType {
-        case .MessageEvent(let message):
+        case .MessageEvent(var message):
             return Event(eventType: .MessageEvent(message.incorporateAttachmentImage(attachmentID, image: image)), timestamp: self.timestamp)
         default:
             return self
@@ -111,7 +115,7 @@ struct Event: Equatable {
     
     func eventByIncorporatingAuthorIcon(attachmentID: Int, icon: NSImage) -> Event {
         switch self.eventType {
-        case .MessageEvent(let message):
+        case .MessageEvent(var message):
             return Event(eventType: .MessageEvent(message.incorporateAuthorIcon(attachmentID, icon: icon)), timestamp: self.timestamp)
         default:
             return self
@@ -120,7 +124,7 @@ struct Event: Equatable {
     
     func eventByIncorporatingFileThumbnail(file: File, thumbnail: NSImage) -> Event {
         switch self.eventType {
-        case .MessageEvent(let message):
+        case .MessageEvent(var message):
             switch message.subtype {
             case .FileShare(let oldFile, let sharedOnUpload):
                 return Event(eventType: .MessageEvent(message.incorporateFileThumbnail(file, thumbnail: thumbnail)), timestamp: self.timestamp)

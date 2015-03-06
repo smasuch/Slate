@@ -16,7 +16,7 @@ enum MessageSubtype {
     case Bot(String, String?)
         // Bot ID, username
     case Me
-    case Changed(Event)
+    case Changed
     case Deleted(Timestamp)
         // Timestamp of the deleted message
     case ChannelJoin(String?)
@@ -48,7 +48,7 @@ enum MessageSubtype {
     case FileMention(File)
 }
 
-class Message {
+struct Message {
     let text: String?
     let attributedText: NSAttributedString?
     let userID: String?
@@ -79,14 +79,10 @@ class Message {
             self.editedAt = editedAt
     }
     
-    class func messageFromJSON(messageJSON: JSON) -> (Message?, String?) {
+    static func messageFromJSON(messageJSON: JSON) -> (Message?, String?) {
         var errorMessage: String?
         
-        let text = messageJSON["text"].stringValue
-        
-        let attributedText = NSAttributedString.attributedSlackString(messageJSON["text"].stringValue)
-        
-        let userID = messageJSON["user"].string
+        var message: Message?
         
         var subtype = MessageSubtype.None
         
@@ -97,12 +93,11 @@ class Message {
             case "me_message":
                 subtype = .Me
             case "message_changed":
-                let (event, eventError) = Event.eventFromJSON(messageJSON["message"])
-                if event != nil {
-                    subtype = MessageSubtype.Changed(event!)
-                } else {
-                    errorMessage = eventError
-                }
+                // Take most of this message's data from the nested message
+                let (submessage, error) = messageFromJSON(messageJSON["message"])
+                message = submessage
+                message?.subtype = .Changed
+                errorMessage = error
             case "message_deleted":
                 subtype = .Deleted(Timestamp(fromString: messageJSON["deleted_ts"].string!))
             case "channel_join":
@@ -134,28 +129,37 @@ class Message {
         } else {
             subtype = .None
         }
-        let hidden = messageJSON["hidden"].boolValue
-        let channelID = messageJSON["channel"].string
         
-        let editedBy = messageJSON["edited"]["user"].string
-        var editedAt: Timestamp?
-        if let editedTimeString = messageJSON["edited"]["ts"].string {
-            editedAt = Timestamp(fromString: editedTimeString)
-        }
-        
-        var attachments = [Attachment]()
-        
-        if let attachmentsArray = messageJSON["attachments"].array {
-            println("Attachments from message:")
-            for attachmentJSON in attachmentsArray {
-                attachments.append(Attachment(attachmentJSON: attachmentJSON))
+        if message == nil {
+            let text = messageJSON["text"].stringValue
+            
+            let attributedText = NSAttributedString.attributedSlackString(messageJSON["text"].stringValue)
+            
+            let userID = messageJSON["user"].string
+            
+            let editedBy = messageJSON["edited"]["user"].string
+            var editedAt: Timestamp?
+            if let editedTimeString = messageJSON["edited"]["ts"].string {
+                editedAt = Timestamp(fromString: editedTimeString)
             }
+            
+            var attachments = [Attachment]()
+            
+            if let attachmentsArray = messageJSON["attachments"].array {
+                println("Attachments from message:")
+                for attachmentJSON in attachmentsArray {
+                    attachments.append(Attachment(attachmentJSON: attachmentJSON))
+                }
+            }
+            
+            message = Message(text: text,
+                attributedText: attributedText,
+                userID: userID, attachments: attachments, subtype: subtype, hidden: false, channelID: "", editedBy: editedBy, editedAt: editedAt)
         }
         
-        let message = Message(text: text,
-            attributedText: attributedText,
-            userID: userID, attachments: attachments, subtype: subtype, hidden: hidden, channelID: channelID, editedBy: editedBy, editedAt: editedAt)
-        
+        message?.hidden = messageJSON["hidden"].boolValue
+        message?.channelID = messageJSON["channel"].string
+
         return (message, errorMessage)
     }
     
@@ -188,7 +192,7 @@ class Message {
         return (selectedAttachment, index)
     }
     
-    func incorporateAttachmentImage(attachmentID: Int, image: NSImage) -> Message {
+    mutating func incorporateAttachmentImage(attachmentID: Int, image: NSImage) -> Message {
         var index = 0
         var chosenAttachment: Attachment?
         
@@ -210,7 +214,7 @@ class Message {
         return self
     }
     
-    func incorporateAuthorIcon(attachmentID: Int, icon: NSImage) -> Message {
+    mutating func incorporateAuthorIcon(attachmentID: Int, icon: NSImage) -> Message {
         var index = 0
         var chosenAttachment: Attachment?
         
@@ -232,7 +236,7 @@ class Message {
         return self
     }
     
-    func incorporateFileThumbnail(file: File, thumbnail: NSImage) -> Message {
+    mutating func incorporateFileThumbnail(file: File, thumbnail: NSImage) -> Message {
         switch subtype {
         case .FileShare(var oldFile, let sharedOnUpload):
             if oldFile.id == file.id {

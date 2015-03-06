@@ -80,10 +80,20 @@ struct Channel {
                 }
                 
                 eventTimeline.insert(event, atIndex: index)
-            case .Changed(let changedEvent):
-                if let index = find(eventTimeline, changedEvent) {
+            case .Changed:
+                if let index = find(eventTimeline, event) {
+                    let eventToReplace = eventTimeline[index]
+                    var shouldReplace = true
+                    switch eventToReplace.eventType {
+                    case .MessageEvent(let messageToReplace):
+                        if let lastEditedTimestamp = messageToReplace.editedAt {
+                            shouldReplace = message.editedAt >= lastEditedTimestamp
+                        }
+                    default:
+                        println("Yes, associated events probably weren't the best way to do this")
+                    }
                     eventTimeline.removeAtIndex(index)
-                    eventTimeline.insert(changedEvent, atIndex: index)
+                    eventTimeline.insert(event, atIndex: index)
                 }
             case .FileShare(let file, let sharedAtUpload):
                 var index = 0

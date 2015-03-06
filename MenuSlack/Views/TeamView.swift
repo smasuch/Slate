@@ -57,8 +57,11 @@ class TeamView: NSView {
                     paragraphStyles.lineSpacing = 1.0
                     paragraphStyles.maximumLineHeight = fontSize + 2.0
                     
-                    
-                    slackString.addAttribute(NSFontAttributeName, value: NSFont(name: "Lato", size: fontSize)!, range:NSMakeRange(0, slackString.length))
+                    var font = NSFont(name: "Lato", size: fontSize)
+                    if font == nil {
+                        font = NSFont.boldSystemFontOfSize(fontSize)
+                    }
+                    slackString.addAttribute(NSFontAttributeName, value: font!, range:NSMakeRange(0, slackString.length))
                     slackString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyles, range:NSMakeRange(0, slackString.length))
                     
                     slackString.enumerateAttribute(SlackAttributeUser, inRange: NSMakeRange(0, slackString.length), options: NSAttributedStringEnumerationOptions.Reverse, usingBlock: {attribute, range, stop in
@@ -91,11 +94,19 @@ class TeamView: NSView {
                             let attributesDictionary = attribute as Dictionary
                             
                             if attributesDictionary[SlackAttributeBoldFont] != nil {
-                                slackString.addAttribute(NSFontAttributeName, value: NSFont(name: "Lato-Bold", size: fontSize)!, range: range)
+                                var font = NSFont(name: "Lato-Bold", size: fontSize)
+                                if font == nil {
+                                    font = NSFont.boldSystemFontOfSize(fontSize)
+                                }
+                                slackString.addAttribute(NSFontAttributeName, value: font!, range: range)
                             }
                             
                             if attributesDictionary[SlackAttributeItalicFont] != nil {
-                                slackString.addAttribute(NSFontAttributeName, value: NSFont(name: "Lato-Italic", size: fontSize)!, range: range)
+                                var font = NSFont(name: "Lato-Italic", size: fontSize)
+                                if font == nil {
+                                    font = NSFont.boldSystemFontOfSize(fontSize)
+                                }
+                                slackString.addAttribute(NSFontAttributeName, value: font!, range: range)
                             }
                         })
                     

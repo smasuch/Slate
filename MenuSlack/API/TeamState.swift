@@ -63,18 +63,6 @@ struct TeamState {
                 }
             
                 switch message.subtype {
-                case .Changed(let event):
-                    switch event.eventType {
-                    case .MessageEvent(let editedMessage):
-                        for attachment in editedMessage.attachments {
-                            requests.append(SlackRequest.AttachmentImage(message.channelID!, event.timestamp, attachment))
-                            if attachment.authorIconURL != nil {
-                                requests.append(SlackRequest.AuthorIcon(message.channelID!, event.timestamp, attachment))
-                            }
-                        }
-                    default:
-                        println("Message changed, but changed event isn't a message event?")
-                    }
                 case .FileShare(let file, let sharedOnUpload):
                     if let thumbURL = file.thumb360 {
                         requests.append(SlackRequest.FileThumbnail(file))

@@ -74,12 +74,21 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
         
         // So this is an event, not a type, since there wasn't an id
         
+        func createEvent(json: JSON) -> SlackResult {
+            let (event, errorString) = Event.eventFromJSON(json)
+            if let event = event {
+                return SlackResult.EventResult(event)
+            } else {
+                return SlackResult.ErrorResult("Could not parse this JSON, but did get a type: " + json["type"].string! + ". Error: " + errorString!);
+            }
+        }
+        
         // Is this a message?
         if let type = json["type"].string {
             switch type {
             case "message":
                 let (message, errorString) = Message.messageFromJSON(json)
-                if let message = message {
+                if var message = message {
                     if let actualRequest = request {
                         switch actualRequest {
                         case .ChannelHistory(let channel, _, _, _, _):
@@ -87,10 +96,12 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
                         default:
                             println("Request doesn't seem to have useful info to combo with this message")
                         }
+                        let messageEvent = EventType.MessageEvent(message)
+                        result = SlackResult.EventResult(Event(eventType: messageEvent, timestamp: Timestamp(fromString: json["ts"].string!)))
+                    } else {
+                        result = createEvent(json)
                     }
-                    
-                    let messageEvent = EventType.MessageEvent(message)
-                    result = SlackResult.EventResult(Event(eventType: messageEvent, timestamp: Timestamp(fromString: json["ts"].string!)))
+                   
                 } else {
                     result = SlackResult.ErrorResult("Could not parse this JSON.  " + errorString!);
                 }
@@ -99,12 +110,7 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
                 result = SlackResult.ChannelMarkedResult(json["channel"].string!, Timestamp(fromString:json["ts"].string!))
 
             default:
-                let (event, errorString) = Event.eventFromJSON(json)
-                if let event = event {
-                    result = SlackResult.EventResult(event)
-                } else {
-                    result = SlackResult.ErrorResult("Could not parse this JSON, but did get a type: " + type + ". Error: " + errorString!);
-                }
+                result = createEvent(json)
             }
         }
     }
