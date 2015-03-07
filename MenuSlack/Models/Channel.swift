@@ -68,7 +68,7 @@ struct Channel {
         switch event.eventType  {
         case .MessageEvent(let message):
             switch message.subtype {
-            case .None:  // A basic plain message
+            case .None, .Me:
                 var index = 0
                 
                 for existingEvent in eventTimeline {

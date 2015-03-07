@@ -4,7 +4,9 @@
 //
 //  Created by Steven Masuch on 2015-02-02.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
-//
+
+//  TeamView isn't very complex right now, really: it makes a view that
+//  just has a bunch of other views that display the messages and channels.
 
 import Cocoa
 
@@ -31,89 +33,100 @@ class TeamView: NSView {
             }
         }
         
+        func labelForAttributedString(string: NSAttributedString, width: CGFloat) -> NSTextField {
+            let label = NSTextField(frame: NSRect(origin: CGPoint.zeroPoint, size: CGSize.zeroSize))
+            label.attributedStringValue = string
+            label.bordered = false
+            label.selectable = true
+            label.editable = false
+            label.allowsEditingTextAttributes = true
+            label.frame.size = label.attributedStringValue.boundingRectWithSize(NSSize(width: width - 10.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
+            label.frame.size.width += 10.0
+            
+            label.backgroundColor = NSColor.clearColor()
+            
+            return label
+        }
+        
+        func visuallyFormattedSlackString(string: NSAttributedString, withFontSize fontSize: CGFloat) -> NSAttributedString {
+            
+            var slackString = NSMutableAttributedString(attributedString: string)
+            
+            let paragraphStyles = NSMutableParagraphStyle()
+            paragraphStyles.lineSpacing = 1.0
+            paragraphStyles.maximumLineHeight = fontSize + 2.0
+            
+            var font = NSFont(name: "Lato", size: fontSize)
+            if font == nil {
+                font = NSFont.boldSystemFontOfSize(fontSize)
+            }
+            slackString.addAttribute(NSFontAttributeName, value: font!, range:NSMakeRange(0, slackString.length))
+            slackString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyles, range:NSMakeRange(0, slackString.length))
+            
+            slackString.enumerateAttribute(SlackAttributeUser, inRange: NSMakeRange(0, slackString.length), options: NSAttributedStringEnumerationOptions.Reverse, usingBlock: {attribute, range, stop in
+                
+                if attribute != nil {
+                    let userID = attribute as! String
+                    
+                    if let user = teamState.users[userID], let username = user.name {
+                        slackString.replaceCharactersInRange(range, withString: username)
+                    }
+                }
+                
+            })
+            
+            slackString.enumerateAttribute(SlackAttributeChannel, inRange: NSMakeRange(0, slackString.length), options: NSAttributedStringEnumerationOptions.Reverse, usingBlock: {attribute, range, stop in
+                
+                if attribute != nil {
+                    let channelID = attribute as! String
+                    
+                    if let channel = teamState.channels[channelID], let channelName = channel.name {
+                        slackString.replaceCharactersInRange(range, withString: channelName)
+                    }
+                }
+                
+            })
+            
+            slackString.enumerateAttributesInRange(NSMakeRange(0, slackString.length), options:NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock:
+                {attribute, range, stop in
+                    
+                    let attributesDictionary = attribute as Dictionary
+                    
+                    if attributesDictionary[SlackAttributeBoldFont] != nil {
+                        var font = NSFont(name: "Lato-Bold", size: fontSize)
+                        if font == nil {
+                            font = NSFont.boldSystemFontOfSize(fontSize)
+                        }
+                        slackString.addAttribute(NSFontAttributeName, value: font!, range: range)
+                    }
+                    
+                    if attributesDictionary[SlackAttributeItalicFont] != nil {
+                        var font = NSFont(name: "Lato-Italic", size: fontSize)
+                        if font == nil {
+                            font = NSFont.boldSystemFontOfSize(fontSize)
+                        }
+                        slackString.addAttribute(NSFontAttributeName, value: font!, range: range)
+                    }
+            })
+            
+            return slackString
+        }
+        
+        let smallTextParagraphStyles = NSMutableParagraphStyle()
+        smallTextParagraphStyles.lineSpacing = 1.0
+        smallTextParagraphStyles.maximumLineHeight = 16.0
+        
+        let smallTextAttributes = [NSFontAttributeName: NSFont(name: "AvenirNext-Medium", size: 13.0)!, NSParagraphStyleAttributeName: smallTextParagraphStyles]
+        
+        // The creation process goes like this, since we layout bottom to top:
+        // For each channel (we don't have a set channel order)
+            // which the user is a member of
+            // in reverse order, display the messages by
+                // add views for any attachments
+                // show the message text, if it wasn't redundant
+        
         for channel in teamState.channels.values {
             if channel.isMember {
-                
-                func labelForAttributedString(string: NSAttributedString, width: CGFloat) -> NSTextField {
-                    let label = NSTextField(frame: NSRect(origin: CGPoint.zeroPoint, size: CGSize.zeroSize))
-                    label.attributedStringValue = string
-                    label.bordered = false
-                    label.selectable = true
-                    label.editable = false
-                    label.allowsEditingTextAttributes = true
-                    label.frame.size = label.attributedStringValue.boundingRectWithSize(NSSize(width: width - 10.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
-                    label.frame.size.width += 10.0
-                    
-                    label.backgroundColor = NSColor.clearColor()
-                    
-                    return label
-                }
-                
-                func visuallyFormattedSlackString(string: NSAttributedString, withFontSize fontSize: CGFloat) -> NSAttributedString {
-                    
-                    var slackString = NSMutableAttributedString(attributedString: string)
-                    
-                    let paragraphStyles = NSMutableParagraphStyle()
-                    paragraphStyles.lineSpacing = 1.0
-                    paragraphStyles.maximumLineHeight = fontSize + 2.0
-                    
-                    var font = NSFont(name: "Lato", size: fontSize)
-                    if font == nil {
-                        font = NSFont.boldSystemFontOfSize(fontSize)
-                    }
-                    slackString.addAttribute(NSFontAttributeName, value: font!, range:NSMakeRange(0, slackString.length))
-                    slackString.addAttribute(NSParagraphStyleAttributeName, value: paragraphStyles, range:NSMakeRange(0, slackString.length))
-                    
-                    slackString.enumerateAttribute(SlackAttributeUser, inRange: NSMakeRange(0, slackString.length), options: NSAttributedStringEnumerationOptions.Reverse, usingBlock: {attribute, range, stop in
-                        
-                        if attribute != nil {
-                            let userID = attribute as! String
-                            
-                            if let user = teamState.users[userID], let username = user.name {
-                                slackString.replaceCharactersInRange(range, withString: username)
-                            }
-                        }
-                        
-                    })
-                    
-                    slackString.enumerateAttribute(SlackAttributeChannel, inRange: NSMakeRange(0, slackString.length), options: NSAttributedStringEnumerationOptions.Reverse, usingBlock: {attribute, range, stop in
-                        
-                        if attribute != nil {
-                            let channelID = attribute as! String
-                            
-                            if let channel = teamState.channels[channelID], let channelName = channel.name {
-                                slackString.replaceCharactersInRange(range, withString: channelName)
-                            }
-                        }
-                        
-                    })
-                    
-                    slackString.enumerateAttributesInRange(NSMakeRange(0, slackString.length), options:NSAttributedStringEnumerationOptions.LongestEffectiveRangeNotRequired, usingBlock:
-                        {attribute, range, stop in
-                            
-                            let attributesDictionary = attribute as Dictionary
-                            
-                            if attributesDictionary[SlackAttributeBoldFont] != nil {
-                                var font = NSFont(name: "Lato-Bold", size: fontSize)
-                                if font == nil {
-                                    font = NSFont.boldSystemFontOfSize(fontSize)
-                                }
-                                slackString.addAttribute(NSFontAttributeName, value: font!, range: range)
-                            }
-                            
-                            if attributesDictionary[SlackAttributeItalicFont] != nil {
-                                var font = NSFont(name: "Lato-Italic", size: fontSize)
-                                if font == nil {
-                                    font = NSFont.boldSystemFontOfSize(fontSize)
-                                }
-                                slackString.addAttribute(NSFontAttributeName, value: font!, range: range)
-                            }
-                        })
-                    
-                    return slackString
-                }
-                
-                
                 for event in channel.eventTimeline.reverse() {
                     switch event.eventType {
                     case .MessageEvent(let message):
@@ -137,9 +150,9 @@ class TeamView: NSView {
                                 }
                             }
                             
-                            // Do we have anything besides the fallback text to show?
-                            
                             var attachmentHeightIncrease: CGFloat = 10.0
+                            
+                            // Do we have anything besides the fallback text to show?
                             
                             if attachment.hasOnlyFallbackText {
                                 // If not, display the fallback text
@@ -184,7 +197,7 @@ class TeamView: NSView {
                                     if let image = attachment.image {
                                         imageView.image = image
                                     } else {
-                                        // display a loading animation
+                                        // TODO: display a loading animation
                                     }
                                 
                                     if let imageLink = imageLink {
@@ -194,12 +207,6 @@ class TeamView: NSView {
                                         imageView.imageURL = NSURL(string:imageLink)
                                     }
                                 }
-                                
-                                let smallTextParagraphStyles = NSMutableParagraphStyle()
-                                smallTextParagraphStyles.lineSpacing = 1.0
-                                smallTextParagraphStyles.maximumLineHeight = 16.0
-                                
-                                let smallTextAttributes = [NSFontAttributeName: NSFont(name: "AvenirNext-Medium", size: 13.0)!, NSParagraphStyleAttributeName: smallTextParagraphStyles]
                                 
                                 if let text = attachment.text {
                                     let textLabel = labelForAttributedString(NSAttributedString(string: text, attributes:smallTextAttributes), messageViewSize.width - messageLabelOrigin.x - 30.0)
@@ -254,6 +261,29 @@ class TeamView: NSView {
                         }
                         
                         switch message.subtype {
+                        case .Me:
+                            let messageLabel = NSTextField(frame: NSRect(origin: messageLabelOrigin, size: CGSize.zeroSize))
+                            if let userID = message.userID, let name = teamState.users[userID]?.name, let messageText = message.text {
+                                messageLabel.stringValue = name + " " + messageText
+                            }
+                            messageLabel.alignment = NSTextAlignment.CenterTextAlignment
+                            messageLabel.font = NSFont(name: "AvenirNext-Italic", size: 14.0)
+                            messageLabel.bordered = false
+                            messageLabel.selectable = true
+                            messageLabel.allowsEditingTextAttributes = true
+                            messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
+                            messageLabel.frame.size.width += 10.0
+                            messageLabel.backgroundColor = NSColor.clearColor()
+                            if event.timestamp <=   channel.lastRead {
+                                messageLabel.alphaValue = 0.5
+                            }
+                            self.addSubview(messageLabel)
+                            
+                            let messageViewHeightIncrease = messageLabel.frame.size.height + 8.0;
+                            messageLabelOrigin.y += messageViewHeightIncrease
+                            messageViewSize.height += messageViewHeightIncrease
+                            userPicOrigin.y += messageViewHeightIncrease
+                            
                         case .FileShare(let file, let sharedOnUpload):
                             var imageFrame = NSRect(origin: messageLabelOrigin, size: NSSize.zeroSize)
                             var imageLink: String?
@@ -309,7 +339,7 @@ class TeamView: NSView {
                                 messageLabel.frame.size = messageLabel.attributedStringValue.boundingRectWithSize(NSSize(width: messageViewSize.width - messageLabelOrigin.x - 30.0, height: 300.0), options: NSStringDrawingOptions.UsesLineFragmentOrigin).size
                                 messageLabel.frame.size.width += 10.0
                                 messageLabel.backgroundColor = NSColor.clearColor()
-                                if event.timestamp < channel.lastRead {
+                                if event.timestamp <= channel.lastRead {
                                     messageLabel.alphaValue = 0.5
                                 }
                                 self.addSubview(messageLabel)
