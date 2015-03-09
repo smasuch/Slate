@@ -8,6 +8,7 @@
 
 import Cocoa
 import XCTest
+import SwiftyJSON
 
 class MenuSlackTests: XCTestCase {
     
@@ -33,4 +34,18 @@ class MenuSlackTests: XCTestCase {
         }
     }
     
+}
+
+class SlackParserTests: XCTestCase  {
+    
+    func testParseOrdinaryMessage() {
+        var messageJSON = JSON(["type":"message",
+            "channel":"C024GEW14",
+            "user":"U03M5RUSG",
+            "text":"hello",
+            "ts":"1425767574.000002",
+            "team":"T024GEW0Y"])
+        let result = parseJSONFromRequest(messageJSON, nil)
+        
+    }
 }

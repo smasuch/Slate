@@ -22,7 +22,7 @@ class SlackParser {
     weak var delegate: SlackParserDelegate?
     let operationQueue: NSOperationQueue = NSOperationQueue()
     
-    init(delegate: SlackParserDelegate) {
+    init(delegate: SlackParserDelegate?) {
         self.delegate = delegate
     }
     
@@ -41,7 +41,6 @@ class SlackParser {
         parseResultFromRequest(json, request: nil)
     }
 }
-
 
 func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
     
@@ -105,14 +104,14 @@ func parseJSONFromRequest(json: JSON, request: SlackRequest?) -> SlackResult {
                     } else {
                         result = createEvent(json)
                     }
-                   
+                    
                 } else {
                     result = SlackResult.ErrorResult("Could not parse this JSON.  " + errorString!);
                 }
                 
             case "channel_marked":
                 result = SlackResult.ChannelMarkedResult(json["channel"].string!, Timestamp(fromString:json["ts"].string!))
-
+                
             default:
                 result = createEvent(json)
             }

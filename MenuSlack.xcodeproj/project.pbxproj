@@ -25,7 +25,6 @@
 		604507901A82C4670029CC20 /* OptionsPanelController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6045078E1A82C4670029CC20 /* OptionsPanelController.xib */; };
 		604E1E391A636F9C0025CF28 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E381A636F9C0025CF28 /* AppDelegate.swift */; };
 		604E1E3B1A636F9C0025CF28 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 604E1E3A1A636F9C0025CF28 /* Images.xcassets */; };
-		604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 604E1E3C1A636F9C0025CF28 /* MainMenu.xib */; };
 		604E1E4A1A636F9C0025CF28 /* MenuSlackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E491A636F9C0025CF28 /* MenuSlackTests.swift */; };
 		604E1E701A6648E40025CF28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E6F1A6648E40025CF28 /* Foundation.framework */; };
 		604E1E721A6648EB0025CF28 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E711A6648EB0025CF28 /* CFNetwork.framework */; };
@@ -52,6 +51,26 @@
 		60C87BB21A900D44005ED592 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 60C87BB11A900D44005ED592 /* icon.icns */; };
 		60C87BBA1A9035E0005ED592 /* MSImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C87BB91A9035E0005ED592 /* MSImageView.swift */; };
 		60EB3E0F1A80812900C72876 /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EB3E0E1A80812900C72876 /* TeamView.swift */; };
+		60F5FD621AAB996F00B9DB56 /* SlackParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6078A1F41A86A44400BE83A2 /* SlackParser.swift */; };
+		60F5FD631AAB9FD200B9DB56 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 604E1E3C1A636F9C0025CF28 /* MainMenu.xib */; };
+		60F5FD641AABAD1D00B9DB56 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7633BBB41F07396015C8D81C /* Pods.framework */; };
+		60F5FD651AABAE7800B9DB56 /* SlackRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6078A1FA1A86AE2000BE83A2 /* SlackRequest.swift */; };
+		60F5FD661AABAE7A00B9DB56 /* SlackResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6078A1FC1A86AF2700BE83A2 /* SlackResult.swift */; };
+		60F5FD671AABAFC400B9DB56 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60153A091A7836A2008C0F7D /* ConnectionManager.swift */; };
+		60F5FD681AABAFC400B9DB56 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F8B1A798CFA008655DD /* DataManager.swift */; };
+		60F5FD691AABAFD300B9DB56 /* TeamState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F8D1A798E0D008655DD /* TeamState.swift */; };
+		60F5FD6A1AABAFD300B9DB56 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F8F1A7990B6008655DD /* User.swift */; };
+		60F5FD6B1AABAFD300B9DB56 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604E1E9A1A66EACA0025CF28 /* Channel.swift */; };
+		60F5FD6C1AABAFD300B9DB56 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7FD11A7C43F3008655DD /* Attachment.swift */; };
+		60F5FD6D1AABAFD300B9DB56 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DC8911A8BEE38007F4AB4 /* File.swift */; };
+		60F5FD6E1AABAFD300B9DB56 /* FileComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DC8931A8BFE11007F4AB4 /* FileComment.swift */; };
+		60F5FD6F1AABAFD300B9DB56 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DC8951A8C0AAF007F4AB4 /* Event.swift */; };
+		60F5FD701AABAFD300B9DB56 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603C7F911A79912F008655DD /* Message.swift */; };
+		60F5FD711AABAFD400B9DB56 /* ChannelEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FEA351A967FB1007AAA9B /* ChannelEvent.swift */; };
+		60F5FD721AABAFD400B9DB56 /* IMEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FEA371A967FC0007AAA9B /* IMEvent.swift */; };
+		60F5FD731AABAFD400B9DB56 /* GroupEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FEA391A967FCC007AAA9B /* GroupEvent.swift */; };
+		60F5FD741AABAFD400B9DB56 /* FileEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FEA3B1A967FDA007AAA9B /* FileEvent.swift */; };
+		60F5FD751AABAFD400B9DB56 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FEA3D1A9691AC007AAA9B /* Item.swift */; };
 		B97E13A2612F68E3484130AC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7633BBB41F07396015C8D81C /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 /* End PBXBuildFile section */
 
@@ -139,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60F5FD641AABAD1D00B9DB56 /* Pods.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,8 +408,8 @@
 				60A366351A9E772300C88B80 /* MenuAuthenticationPrompt.xib in Resources */,
 				60A366601AA2725900C88B80 /* emoji_pretty.json in Resources */,
 				60A565B41A8809DD002B6109 /* icon-Filled-Template.png in Resources */,
+				60F5FD631AAB9FD200B9DB56 /* MainMenu.xib in Resources */,
 				601337A61AA9597C002D1356 /* info_bubble.png in Resources */,
-				604E1E3E1A636F9C0025CF28 /* MainMenu.xib in Resources */,
 				60A3662F1A9BF0D200C88B80 /* AboutPanelController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -488,7 +508,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60F5FD621AAB996F00B9DB56 /* SlackParser.swift in Sources */,
 				604E1E4A1A636F9C0025CF28 /* MenuSlackTests.swift in Sources */,
+				60F5FD661AABAE7A00B9DB56 /* SlackResult.swift in Sources */,
+				60F5FD651AABAE7800B9DB56 /* SlackRequest.swift in Sources */,
+				60F5FD671AABAFC400B9DB56 /* ConnectionManager.swift in Sources */,
+				60F5FD681AABAFC400B9DB56 /* DataManager.swift in Sources */,
+				60F5FD691AABAFD300B9DB56 /* TeamState.swift in Sources */,
+				60F5FD6A1AABAFD300B9DB56 /* User.swift in Sources */,
+				60F5FD6B1AABAFD300B9DB56 /* Channel.swift in Sources */,
+				60F5FD6C1AABAFD300B9DB56 /* Attachment.swift in Sources */,
+				60F5FD6D1AABAFD300B9DB56 /* File.swift in Sources */,
+				60F5FD6E1AABAFD300B9DB56 /* FileComment.swift in Sources */,
+				60F5FD6F1AABAFD300B9DB56 /* Event.swift in Sources */,
+				60F5FD701AABAFD300B9DB56 /* Message.swift in Sources */,
+				60F5FD711AABAFD400B9DB56 /* ChannelEvent.swift in Sources */,
+				60F5FD721AABAFD400B9DB56 /* IMEvent.swift in Sources */,
+				60F5FD731AABAFD400B9DB56 /* GroupEvent.swift in Sources */,
+				60F5FD741AABAFD400B9DB56 /* FileEvent.swift in Sources */,
+				60F5FD751AABAFD400B9DB56 /* Item.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,11 +661,13 @@
 		};
 		604E1E511A636F9C0025CF28 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8C47390C9594902E3B0D0B2 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					$PODS_FRAMEWORK_BUILD_PATH,
 					"$(inherited)",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -643,12 +683,14 @@
 		};
 		604E1E521A636F9C0025CF28 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A2AE037EE0A34A018A6B8351 /* Pods.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(DEVELOPER_FRAMEWORKS_DIR)",
 					"$(inherited)",
+					$PODS_FRAMEWORK_BUILD_PATH,
 				);
 				INFOPLIST_FILE = MenuSlackTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
