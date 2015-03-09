@@ -1,0 +1,737 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		601374151AAE6462001A5899 /* TeamState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD881AAE630800B9DB56 /* TeamState.swift */; };
+		601374161AAE6462001A5899 /* emojiDictionary.plist in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD891AAE630800B9DB56 /* emojiDictionary.plist */; };
+		601374171AAE6462001A5899 /* GroupEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8A1AAE630800B9DB56 /* GroupEvent.swift */; };
+		601374181AAE6462001A5899 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8B1AAE630900B9DB56 /* Channel.swift */; };
+		601374191AAE6462001A5899 /* FileEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8C1AAE630900B9DB56 /* FileEvent.swift */; };
+		6013741A1AAE6462001A5899 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8D1AAE630900B9DB56 /* Item.swift */; };
+		6013741B1AAE6462001A5899 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8E1AAE630900B9DB56 /* Attachment.swift */; };
+		6013741C1AAE6462001A5899 /* ChannelEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8F1AAE630900B9DB56 /* ChannelEvent.swift */; };
+		6013741D1AAE6462001A5899 /* IMEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD901AAE630900B9DB56 /* IMEvent.swift */; };
+		6013741E1AAE6462001A5899 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD911AAE630900B9DB56 /* Message.swift */; };
+		6013741F1AAE6462001A5899 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD921AAE630900B9DB56 /* Event.swift */; };
+		601374201AAE6462001A5899 /* FileComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD931AAE630900B9DB56 /* FileComment.swift */; };
+		601374211AAE6462001A5899 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD941AAE630900B9DB56 /* File.swift */; };
+		601374221AAE6462001A5899 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD951AAE630900B9DB56 /* User.swift */; };
+		6013742C1AAE6479001A5899 /* TeamView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601374231AAE6479001A5899 /* TeamView.swift */; };
+		6013742D1AAE6479001A5899 /* AboutPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601374241AAE6479001A5899 /* AboutPanelController.swift */; };
+		6013742E1AAE6479001A5899 /* MSImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601374251AAE6479001A5899 /* MSImageView.swift */; };
+		6013742F1AAE6479001A5899 /* NSGradientView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601374261AAE6479001A5899 /* NSGradientView.swift */; };
+		601374301AAE6479001A5899 /* OptionsPanelController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601374271AAE6479001A5899 /* OptionsPanelController.swift */; };
+		601374311AAE6479001A5899 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601374281AAE6479001A5899 /* MenuController.swift */; };
+		601374321AAE6479001A5899 /* OptionsPanelController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 601374291AAE6479001A5899 /* OptionsPanelController.xib */; };
+		601374331AAE6479001A5899 /* MenuAuthenticationPrompt.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6013742A1AAE6479001A5899 /* MenuAuthenticationPrompt.xib */; };
+		601374341AAE6479001A5899 /* AboutPanelController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6013742B1AAE6479001A5899 /* AboutPanelController.xib */; };
+		6013743C1AAE649A001A5899 /* info_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 601374351AAE649A001A5899 /* info_bubble@2x.png */; };
+		6013743D1AAE649A001A5899 /* info_bubble.png in Resources */ = {isa = PBXBuildFile; fileRef = 601374361AAE649A001A5899 /* info_bubble.png */; };
+		6013743E1AAE649A001A5899 /* squid_agitated.gif in Resources */ = {isa = PBXBuildFile; fileRef = 601374371AAE649A001A5899 /* squid_agitated.gif */; };
+		6013743F1AAE649A001A5899 /* icon-Filled-Template.png in Resources */ = {isa = PBXBuildFile; fileRef = 601374381AAE649A001A5899 /* icon-Filled-Template.png */; };
+		601374401AAE649A001A5899 /* icon-Filled-Template@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 601374391AAE649A001A5899 /* icon-Filled-Template@2x.png */; };
+		601374411AAE649A001A5899 /* icon-Template@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6013743A1AAE649A001A5899 /* icon-Template@2x.png */; };
+		601374421AAE649A001A5899 /* icon-Template.png in Resources */ = {isa = PBXBuildFile; fileRef = 6013743B1AAE649A001A5899 /* icon-Template.png */; };
+		601374451AAE64AC001A5899 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 601374431AAE64AC001A5899 /* Info.plist */; };
+		601374461AAE64AC001A5899 /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 601374441AAE64AC001A5899 /* icon.icns */; };
+		602DF85C1AAE68730002BC5E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 602DF85A1AAE68730002BC5E /* MainMenu.xib */; };
+		604E1E701A6648E40025CF28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E6F1A6648E40025CF28 /* Foundation.framework */; };
+		604E1E721A6648EB0025CF28 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E711A6648EB0025CF28 /* CFNetwork.framework */; };
+		604E1E741A6648F70025CF28 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E731A6648F70025CF28 /* libicucore.dylib */; };
+		604E1E761A6648FC0025CF28 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 604E1E751A6648FC0025CF28 /* Security.framework */; };
+		60F5FD641AABAD1D00B9DB56 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7633BBB41F07396015C8D81C /* Pods.framework */; };
+		60F5FD781AAE628600B9DB56 /* SlateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD761AAE627100B9DB56 /* SlateTests.swift */; };
+		60F5FD7B1AAE62A500B9DB56 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD791AAE62A500B9DB56 /* AppDelegate.swift */; };
+		60F5FD7D1AAE62B600B9DB56 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 60F5FD7C1AAE62B600B9DB56 /* Images.xcassets */; };
+		60F5FD831AAE62FA00B9DB56 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD7E1AAE62FA00B9DB56 /* DataManager.swift */; };
+		60F5FD841AAE62FA00B9DB56 /* SlackParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD7F1AAE62FA00B9DB56 /* SlackParser.swift */; };
+		60F5FD851AAE62FA00B9DB56 /* SlackRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD801AAE62FA00B9DB56 /* SlackRequest.swift */; };
+		60F5FD861AAE62FA00B9DB56 /* SlackResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD811AAE62FA00B9DB56 /* SlackResult.swift */; };
+		60F5FD871AAE62FA00B9DB56 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD821AAE62FA00B9DB56 /* ConnectionManager.swift */; };
+		60F5FD961AAE630900B9DB56 /* TeamState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD881AAE630800B9DB56 /* TeamState.swift */; };
+		60F5FD971AAE630900B9DB56 /* emojiDictionary.plist in Resources */ = {isa = PBXBuildFile; fileRef = 60F5FD891AAE630800B9DB56 /* emojiDictionary.plist */; };
+		60F5FD981AAE630900B9DB56 /* GroupEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8A1AAE630800B9DB56 /* GroupEvent.swift */; };
+		60F5FD991AAE630900B9DB56 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8B1AAE630900B9DB56 /* Channel.swift */; };
+		60F5FD9A1AAE630900B9DB56 /* FileEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8C1AAE630900B9DB56 /* FileEvent.swift */; };
+		60F5FD9B1AAE630900B9DB56 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8D1AAE630900B9DB56 /* Item.swift */; };
+		60F5FD9C1AAE630900B9DB56 /* Attachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8E1AAE630900B9DB56 /* Attachment.swift */; };
+		60F5FD9D1AAE630900B9DB56 /* ChannelEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD8F1AAE630900B9DB56 /* ChannelEvent.swift */; };
+		60F5FD9E1AAE630900B9DB56 /* IMEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD901AAE630900B9DB56 /* IMEvent.swift */; };
+		60F5FD9F1AAE630900B9DB56 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD911AAE630900B9DB56 /* Message.swift */; };
+		60F5FDA01AAE630900B9DB56 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD921AAE630900B9DB56 /* Event.swift */; };
+		60F5FDA11AAE630900B9DB56 /* FileComment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD931AAE630900B9DB56 /* FileComment.swift */; };
+		60F5FDA21AAE630900B9DB56 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD941AAE630900B9DB56 /* File.swift */; };
+		60F5FDA31AAE630900B9DB56 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD951AAE630900B9DB56 /* User.swift */; };
+		60F5FDA41AAE632B00B9DB56 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD7E1AAE62FA00B9DB56 /* DataManager.swift */; };
+		60F5FDA51AAE632B00B9DB56 /* SlackParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD7F1AAE62FA00B9DB56 /* SlackParser.swift */; };
+		60F5FDA61AAE632B00B9DB56 /* SlackRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD801AAE62FA00B9DB56 /* SlackRequest.swift */; };
+		60F5FDA71AAE632B00B9DB56 /* SlackResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD811AAE62FA00B9DB56 /* SlackResult.swift */; };
+		60F5FDA81AAE632B00B9DB56 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F5FD821AAE62FA00B9DB56 /* ConnectionManager.swift */; };
+		B97E13A2612F68E3484130AC /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7633BBB41F07396015C8D81C /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		604E1E441A636F9C0025CF28 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 604E1E2B1A636F9C0025CF28 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 604E1E321A636F9C0025CF28;
+			remoteInfo = MenuSlack;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		601374231AAE6479001A5899 /* TeamView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamView.swift; path = Slate/Views/TeamView.swift; sourceTree = SOURCE_ROOT; };
+		601374241AAE6479001A5899 /* AboutPanelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AboutPanelController.swift; path = Slate/Views/AboutPanelController.swift; sourceTree = SOURCE_ROOT; };
+		601374251AAE6479001A5899 /* MSImageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MSImageView.swift; path = Slate/Views/MSImageView.swift; sourceTree = SOURCE_ROOT; };
+		601374261AAE6479001A5899 /* NSGradientView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NSGradientView.swift; path = Slate/Views/NSGradientView.swift; sourceTree = SOURCE_ROOT; };
+		601374271AAE6479001A5899 /* OptionsPanelController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OptionsPanelController.swift; path = Slate/Views/OptionsPanelController.swift; sourceTree = SOURCE_ROOT; };
+		601374281AAE6479001A5899 /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MenuController.swift; path = Slate/Views/MenuController.swift; sourceTree = SOURCE_ROOT; };
+		601374291AAE6479001A5899 /* OptionsPanelController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OptionsPanelController.xib; path = Slate/Views/OptionsPanelController.xib; sourceTree = SOURCE_ROOT; };
+		6013742A1AAE6479001A5899 /* MenuAuthenticationPrompt.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MenuAuthenticationPrompt.xib; path = Slate/Views/MenuAuthenticationPrompt.xib; sourceTree = SOURCE_ROOT; };
+		6013742B1AAE6479001A5899 /* AboutPanelController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboutPanelController.xib; path = Slate/Views/AboutPanelController.xib; sourceTree = SOURCE_ROOT; };
+		601374351AAE649A001A5899 /* info_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "info_bubble@2x.png"; path = "Slate/Images/info_bubble@2x.png"; sourceTree = SOURCE_ROOT; };
+		601374361AAE649A001A5899 /* info_bubble.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = info_bubble.png; path = Slate/Images/info_bubble.png; sourceTree = SOURCE_ROOT; };
+		601374371AAE649A001A5899 /* squid_agitated.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = squid_agitated.gif; path = Slate/Images/squid_agitated.gif; sourceTree = SOURCE_ROOT; };
+		601374381AAE649A001A5899 /* icon-Filled-Template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Filled-Template.png"; path = "Slate/Images/icon-Filled-Template.png"; sourceTree = SOURCE_ROOT; };
+		601374391AAE649A001A5899 /* icon-Filled-Template@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Filled-Template@2x.png"; path = "Slate/Images/icon-Filled-Template@2x.png"; sourceTree = SOURCE_ROOT; };
+		6013743A1AAE649A001A5899 /* icon-Template@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Template@2x.png"; path = "Slate/Images/icon-Template@2x.png"; sourceTree = SOURCE_ROOT; };
+		6013743B1AAE649A001A5899 /* icon-Template.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-Template.png"; path = "Slate/Images/icon-Template.png"; sourceTree = SOURCE_ROOT; };
+		601374431AAE64AC001A5899 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Slate/Info.plist; sourceTree = SOURCE_ROOT; };
+		601374441AAE64AC001A5899 /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = icon.icns; path = Slate/icon.icns; sourceTree = SOURCE_ROOT; };
+		602DF85B1AAE68730002BC5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Slate/Base.lproj/MainMenu.xib; sourceTree = SOURCE_ROOT; };
+		604E1E331A636F9C0025CF28 /* Slate.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Slate.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		604E1E431A636F9C0025CF28 /* SlateTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SlateTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		604E1E481A636F9C0025CF28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		604E1E6F1A6648E40025CF28 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		604E1E711A6648EB0025CF28 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		604E1E731A6648F70025CF28 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		604E1E751A6648FC0025CF28 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		60F5FD761AAE627100B9DB56 /* SlateTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlateTests.swift; path = SlateTests/SlateTests.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD791AAE62A500B9DB56 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = Slate/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD7A1AAE62A500B9DB56 /* Slate-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "Slate-Bridging-Header.h"; path = "Slate/Slate-Bridging-Header.h"; sourceTree = SOURCE_ROOT; };
+		60F5FD7C1AAE62B600B9DB56 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Slate/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		60F5FD7E1AAE62FA00B9DB56 /* DataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataManager.swift; path = Slate/API/DataManager.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD7F1AAE62FA00B9DB56 /* SlackParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlackParser.swift; path = Slate/API/SlackParser.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD801AAE62FA00B9DB56 /* SlackRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlackRequest.swift; path = Slate/API/SlackRequest.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD811AAE62FA00B9DB56 /* SlackResult.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SlackResult.swift; path = Slate/API/SlackResult.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD821AAE62FA00B9DB56 /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConnectionManager.swift; path = Slate/API/ConnectionManager.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD881AAE630800B9DB56 /* TeamState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TeamState.swift; path = Slate/Models/TeamState.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD891AAE630800B9DB56 /* emojiDictionary.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = emojiDictionary.plist; path = Slate/Models/emojiDictionary.plist; sourceTree = SOURCE_ROOT; };
+		60F5FD8A1AAE630800B9DB56 /* GroupEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GroupEvent.swift; path = Slate/Models/GroupEvent.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD8B1AAE630900B9DB56 /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Channel.swift; path = Slate/Models/Channel.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD8C1AAE630900B9DB56 /* FileEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileEvent.swift; path = Slate/Models/FileEvent.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD8D1AAE630900B9DB56 /* Item.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Item.swift; path = Slate/Models/Item.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD8E1AAE630900B9DB56 /* Attachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Attachment.swift; path = Slate/Models/Attachment.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD8F1AAE630900B9DB56 /* ChannelEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChannelEvent.swift; path = Slate/Models/ChannelEvent.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD901AAE630900B9DB56 /* IMEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = IMEvent.swift; path = Slate/Models/IMEvent.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD911AAE630900B9DB56 /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Message.swift; path = Slate/Models/Message.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD921AAE630900B9DB56 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Event.swift; path = Slate/Models/Event.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD931AAE630900B9DB56 /* FileComment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FileComment.swift; path = Slate/Models/FileComment.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD941AAE630900B9DB56 /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = File.swift; path = Slate/Models/File.swift; sourceTree = SOURCE_ROOT; };
+		60F5FD951AAE630900B9DB56 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = User.swift; path = Slate/Models/User.swift; sourceTree = SOURCE_ROOT; };
+		7633BBB41F07396015C8D81C /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2AE037EE0A34A018A6B8351 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		F8C47390C9594902E3B0D0B2 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		604E1E301A636F9C0025CF28 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				604E1E761A6648FC0025CF28 /* Security.framework in Frameworks */,
+				604E1E741A6648F70025CF28 /* libicucore.dylib in Frameworks */,
+				604E1E721A6648EB0025CF28 /* CFNetwork.framework in Frameworks */,
+				604E1E701A6648E40025CF28 /* Foundation.framework in Frameworks */,
+				B97E13A2612F68E3484130AC /* Pods.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604E1E401A636F9C0025CF28 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				60F5FD641AABAD1D00B9DB56 /* Pods.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		60153A041A783624008C0F7D /* API */ = {
+			isa = PBXGroup;
+			children = (
+				60F5FD7E1AAE62FA00B9DB56 /* DataManager.swift */,
+				60F5FD7F1AAE62FA00B9DB56 /* SlackParser.swift */,
+				60F5FD801AAE62FA00B9DB56 /* SlackRequest.swift */,
+				60F5FD811AAE62FA00B9DB56 /* SlackResult.swift */,
+				60F5FD821AAE62FA00B9DB56 /* ConnectionManager.swift */,
+			);
+			name = API;
+			sourceTree = "<group>";
+		};
+		604E1E2A1A636F9C0025CF28 = {
+			isa = PBXGroup;
+			children = (
+				604E1E731A6648F70025CF28 /* libicucore.dylib */,
+				604E1E751A6648FC0025CF28 /* Security.framework */,
+				604E1E711A6648EB0025CF28 /* CFNetwork.framework */,
+				604E1E6F1A6648E40025CF28 /* Foundation.framework */,
+				604E1E351A636F9C0025CF28 /* Slate */,
+				604E1E461A636F9C0025CF28 /* SlateTests */,
+				604E1E341A636F9C0025CF28 /* Products */,
+				DEC45D59DCB8F81D6697A25C /* Pods */,
+				CE32536E201704DDC0D874E1 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		604E1E341A636F9C0025CF28 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				604E1E331A636F9C0025CF28 /* Slate.app */,
+				604E1E431A636F9C0025CF28 /* SlateTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		604E1E351A636F9C0025CF28 /* Slate */ = {
+			isa = PBXGroup;
+			children = (
+				602DF85A1AAE68730002BC5E /* MainMenu.xib */,
+				60F5FD7C1AAE62B600B9DB56 /* Images.xcassets */,
+				60F5FD791AAE62A500B9DB56 /* AppDelegate.swift */,
+				60F5FD7A1AAE62A500B9DB56 /* Slate-Bridging-Header.h */,
+				60153A041A783624008C0F7D /* API */,
+				604E1E561A6371980025CF28 /* Models */,
+				604E1E531A6371630025CF28 /* Views & Controllers */,
+				604E1E361A636F9C0025CF28 /* Supporting Files */,
+			);
+			name = Slate;
+			path = MenuSlack;
+			sourceTree = "<group>";
+		};
+		604E1E361A636F9C0025CF28 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				601374431AAE64AC001A5899 /* Info.plist */,
+				601374441AAE64AC001A5899 /* icon.icns */,
+				60A565A81A880604002B6109 /* Images */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		604E1E461A636F9C0025CF28 /* SlateTests */ = {
+			isa = PBXGroup;
+			children = (
+				60F5FD761AAE627100B9DB56 /* SlateTests.swift */,
+				604E1E471A636F9C0025CF28 /* Supporting Files */,
+			);
+			name = SlateTests;
+			path = MenuSlackTests;
+			sourceTree = "<group>";
+		};
+		604E1E471A636F9C0025CF28 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				604E1E481A636F9C0025CF28 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		604E1E531A6371630025CF28 /* Views & Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				601374231AAE6479001A5899 /* TeamView.swift */,
+				601374241AAE6479001A5899 /* AboutPanelController.swift */,
+				601374251AAE6479001A5899 /* MSImageView.swift */,
+				601374261AAE6479001A5899 /* NSGradientView.swift */,
+				601374271AAE6479001A5899 /* OptionsPanelController.swift */,
+				601374281AAE6479001A5899 /* MenuController.swift */,
+				601374291AAE6479001A5899 /* OptionsPanelController.xib */,
+				6013742A1AAE6479001A5899 /* MenuAuthenticationPrompt.xib */,
+				6013742B1AAE6479001A5899 /* AboutPanelController.xib */,
+			);
+			name = "Views & Controllers";
+			sourceTree = "<group>";
+		};
+		604E1E561A6371980025CF28 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				60F5FD881AAE630800B9DB56 /* TeamState.swift */,
+				60F5FD891AAE630800B9DB56 /* emojiDictionary.plist */,
+				60F5FD8A1AAE630800B9DB56 /* GroupEvent.swift */,
+				60F5FD8B1AAE630900B9DB56 /* Channel.swift */,
+				60F5FD8C1AAE630900B9DB56 /* FileEvent.swift */,
+				60F5FD8D1AAE630900B9DB56 /* Item.swift */,
+				60F5FD8E1AAE630900B9DB56 /* Attachment.swift */,
+				60F5FD8F1AAE630900B9DB56 /* ChannelEvent.swift */,
+				60F5FD901AAE630900B9DB56 /* IMEvent.swift */,
+				60F5FD911AAE630900B9DB56 /* Message.swift */,
+				60F5FD921AAE630900B9DB56 /* Event.swift */,
+				60F5FD931AAE630900B9DB56 /* FileComment.swift */,
+				60F5FD941AAE630900B9DB56 /* File.swift */,
+				60F5FD951AAE630900B9DB56 /* User.swift */,
+			);
+			name = Models;
+			sourceTree = "<group>";
+		};
+		60A565A81A880604002B6109 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				601374351AAE649A001A5899 /* info_bubble@2x.png */,
+				601374361AAE649A001A5899 /* info_bubble.png */,
+				601374371AAE649A001A5899 /* squid_agitated.gif */,
+				601374381AAE649A001A5899 /* icon-Filled-Template.png */,
+				601374391AAE649A001A5899 /* icon-Filled-Template@2x.png */,
+				6013743A1AAE649A001A5899 /* icon-Template@2x.png */,
+				6013743B1AAE649A001A5899 /* icon-Template.png */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		CE32536E201704DDC0D874E1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7633BBB41F07396015C8D81C /* Pods.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DEC45D59DCB8F81D6697A25C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F8C47390C9594902E3B0D0B2 /* Pods.debug.xcconfig */,
+				A2AE037EE0A34A018A6B8351 /* Pods.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		604E1E321A636F9C0025CF28 /* Slate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 604E1E4D1A636F9C0025CF28 /* Build configuration list for PBXNativeTarget "Slate" */;
+			buildPhases = (
+				A9E84B3AAD55937D9958C0EE /* Check Pods Manifest.lock */,
+				604E1E2F1A636F9C0025CF28 /* Sources */,
+				604E1E301A636F9C0025CF28 /* Frameworks */,
+				604E1E311A636F9C0025CF28 /* Resources */,
+				220C4CB1788EC5C9A6D0FC05 /* Copy Pods Resources */,
+				5C2D645FAD45F92D9A08B6EA /* Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Slate;
+			productName = MenuSlack;
+			productReference = 604E1E331A636F9C0025CF28 /* Slate.app */;
+			productType = "com.apple.product-type.application";
+		};
+		604E1E421A636F9C0025CF28 /* SlateTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 604E1E501A636F9C0025CF28 /* Build configuration list for PBXNativeTarget "SlateTests" */;
+			buildPhases = (
+				604E1E3F1A636F9C0025CF28 /* Sources */,
+				604E1E401A636F9C0025CF28 /* Frameworks */,
+				604E1E411A636F9C0025CF28 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				604E1E451A636F9C0025CF28 /* PBXTargetDependency */,
+			);
+			name = SlateTests;
+			productName = MenuSlackTests;
+			productReference = 604E1E431A636F9C0025CF28 /* SlateTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		604E1E2B1A636F9C0025CF28 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = Zanopan;
+				TargetAttributes = {
+					604E1E321A636F9C0025CF28 = {
+						CreatedOnToolsVersion = 6.1;
+					};
+					604E1E421A636F9C0025CF28 = {
+						CreatedOnToolsVersion = 6.1;
+						TestTargetID = 604E1E321A636F9C0025CF28;
+					};
+				};
+			};
+			buildConfigurationList = 604E1E2E1A636F9C0025CF28 /* Build configuration list for PBXProject "Slate" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 604E1E2A1A636F9C0025CF28;
+			productRefGroup = 604E1E341A636F9C0025CF28 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				604E1E321A636F9C0025CF28 /* Slate */,
+				604E1E421A636F9C0025CF28 /* SlateTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		604E1E311A636F9C0025CF28 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				601374341AAE6479001A5899 /* AboutPanelController.xib in Resources */,
+				6013743D1AAE649A001A5899 /* info_bubble.png in Resources */,
+				60F5FD971AAE630900B9DB56 /* emojiDictionary.plist in Resources */,
+				601374401AAE649A001A5899 /* icon-Filled-Template@2x.png in Resources */,
+				60F5FD7D1AAE62B600B9DB56 /* Images.xcassets in Resources */,
+				601374461AAE64AC001A5899 /* icon.icns in Resources */,
+				6013743C1AAE649A001A5899 /* info_bubble@2x.png in Resources */,
+				601374451AAE64AC001A5899 /* Info.plist in Resources */,
+				601374331AAE6479001A5899 /* MenuAuthenticationPrompt.xib in Resources */,
+				601374411AAE649A001A5899 /* icon-Template@2x.png in Resources */,
+				601374421AAE649A001A5899 /* icon-Template.png in Resources */,
+				602DF85C1AAE68730002BC5E /* MainMenu.xib in Resources */,
+				6013743F1AAE649A001A5899 /* icon-Filled-Template.png in Resources */,
+				601374321AAE6479001A5899 /* OptionsPanelController.xib in Resources */,
+				6013743E1AAE649A001A5899 /* squid_agitated.gif in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604E1E411A636F9C0025CF28 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		220C4CB1788EC5C9A6D0FC05 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5C2D645FAD45F92D9A08B6EA /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods/Pods-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A9E84B3AAD55937D9958C0EE /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		604E1E2F1A636F9C0025CF28 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				60F5FD861AAE62FA00B9DB56 /* SlackResult.swift in Sources */,
+				60F5FD851AAE62FA00B9DB56 /* SlackRequest.swift in Sources */,
+				6013742F1AAE6479001A5899 /* NSGradientView.swift in Sources */,
+				60F5FD9F1AAE630900B9DB56 /* Message.swift in Sources */,
+				60F5FD981AAE630900B9DB56 /* GroupEvent.swift in Sources */,
+				6013742C1AAE6479001A5899 /* TeamView.swift in Sources */,
+				60F5FD9D1AAE630900B9DB56 /* ChannelEvent.swift in Sources */,
+				601374311AAE6479001A5899 /* MenuController.swift in Sources */,
+				60F5FDA21AAE630900B9DB56 /* File.swift in Sources */,
+				60F5FD9C1AAE630900B9DB56 /* Attachment.swift in Sources */,
+				60F5FD9B1AAE630900B9DB56 /* Item.swift in Sources */,
+				60F5FD7B1AAE62A500B9DB56 /* AppDelegate.swift in Sources */,
+				60F5FD841AAE62FA00B9DB56 /* SlackParser.swift in Sources */,
+				60F5FDA31AAE630900B9DB56 /* User.swift in Sources */,
+				60F5FD961AAE630900B9DB56 /* TeamState.swift in Sources */,
+				60F5FDA01AAE630900B9DB56 /* Event.swift in Sources */,
+				60F5FD831AAE62FA00B9DB56 /* DataManager.swift in Sources */,
+				6013742E1AAE6479001A5899 /* MSImageView.swift in Sources */,
+				6013742D1AAE6479001A5899 /* AboutPanelController.swift in Sources */,
+				60F5FD9A1AAE630900B9DB56 /* FileEvent.swift in Sources */,
+				60F5FDA11AAE630900B9DB56 /* FileComment.swift in Sources */,
+				60F5FD991AAE630900B9DB56 /* Channel.swift in Sources */,
+				60F5FD9E1AAE630900B9DB56 /* IMEvent.swift in Sources */,
+				601374301AAE6479001A5899 /* OptionsPanelController.swift in Sources */,
+				60F5FD871AAE62FA00B9DB56 /* ConnectionManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		604E1E3F1A636F9C0025CF28 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				601374151AAE6462001A5899 /* TeamState.swift in Sources */,
+				601374161AAE6462001A5899 /* emojiDictionary.plist in Sources */,
+				601374171AAE6462001A5899 /* GroupEvent.swift in Sources */,
+				601374181AAE6462001A5899 /* Channel.swift in Sources */,
+				601374191AAE6462001A5899 /* FileEvent.swift in Sources */,
+				6013741A1AAE6462001A5899 /* Item.swift in Sources */,
+				6013741B1AAE6462001A5899 /* Attachment.swift in Sources */,
+				6013741C1AAE6462001A5899 /* ChannelEvent.swift in Sources */,
+				6013741D1AAE6462001A5899 /* IMEvent.swift in Sources */,
+				6013741E1AAE6462001A5899 /* Message.swift in Sources */,
+				6013741F1AAE6462001A5899 /* Event.swift in Sources */,
+				601374201AAE6462001A5899 /* FileComment.swift in Sources */,
+				601374211AAE6462001A5899 /* File.swift in Sources */,
+				601374221AAE6462001A5899 /* User.swift in Sources */,
+				60F5FD781AAE628600B9DB56 /* SlateTests.swift in Sources */,
+				60F5FDA41AAE632B00B9DB56 /* DataManager.swift in Sources */,
+				60F5FDA51AAE632B00B9DB56 /* SlackParser.swift in Sources */,
+				60F5FDA61AAE632B00B9DB56 /* SlackRequest.swift in Sources */,
+				60F5FDA71AAE632B00B9DB56 /* SlackResult.swift in Sources */,
+				60F5FDA81AAE632B00B9DB56 /* ConnectionManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		604E1E451A636F9C0025CF28 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 604E1E321A636F9C0025CF28 /* Slate */;
+			targetProxy = 604E1E441A636F9C0025CF28 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		602DF85A1AAE68730002BC5E /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				602DF85B1AAE68730002BC5E /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		604E1E4B1A636F9C0025CF28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Slate/Slate-Bridging-Header.h";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "Slate/Slate-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		604E1E4C1A636F9C0025CF28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OBJC_BRIDGING_HEADER = "Slate/Slate-Bridging-Header.h";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "Slate/Slate-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Release;
+		};
+		604E1E4E1A636F9C0025CF28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8C47390C9594902E3B0D0B2 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Slate/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = Slate;
+			};
+			name = Debug;
+		};
+		604E1E4F1A636F9C0025CF28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A2AE037EE0A34A018A6B8351 /* Pods.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = Slate/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				PRODUCT_NAME = Slate;
+			};
+			name = Release;
+		};
+		604E1E511A636F9C0025CF28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8C47390C9594902E3B0D0B2 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					$PODS_FRAMEWORK_BUILD_PATH,
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = SlateTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = SlateTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Slate.app/Contents/MacOS/Slate";
+			};
+			name = Debug;
+		};
+		604E1E521A636F9C0025CF28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A2AE037EE0A34A018A6B8351 /* Pods.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+					$PODS_FRAMEWORK_BUILD_PATH,
+				);
+				INFOPLIST_FILE = SlateTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_NAME = SlateTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Slate.app/Contents/MacOS/Slate";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		604E1E2E1A636F9C0025CF28 /* Build configuration list for PBXProject "Slate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604E1E4B1A636F9C0025CF28 /* Debug */,
+				604E1E4C1A636F9C0025CF28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		604E1E4D1A636F9C0025CF28 /* Build configuration list for PBXNativeTarget "Slate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604E1E4E1A636F9C0025CF28 /* Debug */,
+				604E1E4F1A636F9C0025CF28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		604E1E501A636F9C0025CF28 /* Build configuration list for PBXNativeTarget "SlateTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				604E1E511A636F9C0025CF28 /* Debug */,
+				604E1E521A636F9C0025CF28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 604E1E2B1A636F9C0025CF28 /* Project object */;
+}
