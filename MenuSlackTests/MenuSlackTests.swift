@@ -10,35 +10,9 @@ import Cocoa
 import XCTest
 import SwiftyJSON
 
-class MenuSlackTests: XCTestCase {
-    
-    override func setUp() {
-        super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-    
-    override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-        super.tearDown()
-    }
-    
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
-}
-
 class SlackParserTests: XCTestCase  {
     
-    func testParseOrdinaryMessage() {
+    func testParsingOfOrdinaryMessage() {
         var messageJSON = JSON(["type":"message",
             "channel":"C024GEW14",
             "user":"U03M5RUSG",
@@ -47,5 +21,25 @@ class SlackParserTests: XCTestCase  {
             "team":"T024GEW0Y"])
         let result = parseJSONFromRequest(messageJSON, nil)
         
+        // This is another example of how keeping a lot of stuff as associated enums is a clumsy idea
+        
+        switch result {
+        case .EventResult(let event):
+            XCTAssert(true, "Result should be of event type")
+            switch event.eventType {
+            case .MessageEvent(let message):
+                XCTAssert(true, "Result's event should be of message type")
+                switch message.subtype {
+                case .None:
+                    XCTAssert(true, "Result's event's message should have no subtype")
+                default:
+                    XCTAssert(false, "Result's event's message should have no subtype")
+                }
+            default:
+                XCTAssert(false, "Result's event should be of message type")
+            }
+        default:
+            XCTAssert(false, "Result should be of event type")
+        }
     }
 }
