@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7515.2"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="AboutPanelController" customModule="MenuSlack" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="AboutPanelController" customModule="Slate" customModuleProvider="target">
             <connections>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -16,7 +16,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="196" y="240" width="480" height="270"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="777"/>
             <view key="contentView" id="se5-gp-TjO">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -30,9 +30,10 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e4n-BV-jYR">
-                        <rect key="frame" x="18" y="93" width="444" height="40"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Not created by, affiliated with, or supported by Slack Technologies, Inc." id="tbX-gf-1Lh">
+                        <rect key="frame" x="39" y="93" width="403" height="40"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" id="tbX-gf-1Lh">
                             <font key="font" metaFont="smallSystem"/>
+                            <string key="title">Not created by, affiliated with, or supported by Slack Technologies, Inc. Glitch characters created by Tiny Speck, from http://glitchthegame.com.</string>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>

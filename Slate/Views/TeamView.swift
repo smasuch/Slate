@@ -8,6 +8,8 @@
 //  TeamView isn't very complex right now, really: it makes a view that
 //  just has a bunch of other views that display the messages and channels.
 
+//  TODO: Clean up all of this
+
 import Cocoa
 
 class TeamView: NSView {

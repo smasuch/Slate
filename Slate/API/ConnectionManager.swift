@@ -147,6 +147,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
         if pingArray.count > 6 {
             println("Server has not responded to over 6 pongs.")
             connectionDelegate?.connectionStatusChanged(self, status: .ServerNotResponding)
+            // TODO: handle this better, maybe start a reconnection timer
         } else {
             connectionDelegate?.connectionStatusChanged(self, status: .SocketConnected)
         }
@@ -167,6 +168,7 @@ class ConnectionManager: NSObject, SRWebSocketDelegate, SlackRequestHandler, Sla
     func webSocket(webSocket: SRWebSocket!, didFailWithError error: NSError!) {
         println(error.description)
         if error.code == 57 {
+            // 57 means socket not connected, I believe
             webSocket.close()
             startReconnectionTimer()
             connectionDelegate?.connectionStatusChanged(self, status: .SocketFailed)
