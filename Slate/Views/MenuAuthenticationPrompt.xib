@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="7515.2"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="MenuController" customModule="MenuSlack" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="MenuController" customModule="Slate" customModuleProvider="target">
             <connections>
                 <outlet property="authView" destination="c22-O7-iKe" id="cum-EU-SFY"/>
             </connections>
