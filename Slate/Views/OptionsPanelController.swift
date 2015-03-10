@@ -54,7 +54,6 @@ class OptionsPanelController: NSWindowController {
         :param: sender The object that sent this message.
     */
     @IBAction func cancel (sender: AnyObject) {
-        self.dismissController(sender)
+        close()
     }
-    
 }
