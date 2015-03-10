@@ -1,6 +1,6 @@
 //
 //  NSGradientView.swift
-//  MenuSlack
+//  Slate
 //
 //  Created by Steven Masuch on 2015-02-09.
 //  Copyright (c) 2015 Zanopan. All rights reserved.

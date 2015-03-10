@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Zanopan. All rights reserved.
 //
 
-#ifndef MenuSlack_MenuSlack_Bridging_Header_h
-#define MenuSlack_MenuSlack_Bridging_Header_h
+#ifndef Slate_Slate_Bridging_Header_h
+#define Slate_Slate_Bridging_Header_h
 
 #endif

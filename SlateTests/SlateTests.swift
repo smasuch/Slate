@@ -1,6 +1,6 @@
 //
-//  MenuSlackTests.swift
-//  MenuSlackTests
+//  SlateTests.swift
+//  SlateTests
 //
 //  Created by Steven Masuch on 2015-01-11.
 //  Copyright (c) 2015 Zanopan. All rights reserved.

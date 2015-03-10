@@ -1,6 +1,6 @@
 //
 //  OptionsPanelController.swift
-//  MenuSlack
+//  Slate
 //
 //  Created by Steven Masuch on 2015-02-04.
 //  Copyright (c) 2015 Zanopan. All rights reserved.

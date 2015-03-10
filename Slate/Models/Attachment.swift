@@ -1,6 +1,6 @@
 //
 //  Attachment.swift
-//  MenuSlack
+//  Slate
 //
 //  Created by Steven Masuch on 2015-01-30.
 //  Copyright (c) 2015 Zanopan. All rights reserved.

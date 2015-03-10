@@ -1,6 +1,6 @@
 //
 //  ConnectionManager.swift
-//  MenuSlack
+//  Slate
 //
 //  Created by Steven Masuch on 2015-01-27.
 //  Copyright (c) 2015 Zanopan. All rights reserved.
