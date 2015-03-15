@@ -258,7 +258,6 @@ class TeamView: NSView {
                             }
                             
                             messageLabelOrigin.y += attachmentHeightIncrease
-                            messageViewSize.height += attachmentHeightIncrease
                         }
                         
                         switch message.subtype {
@@ -282,7 +281,6 @@ class TeamView: NSView {
                             
                             let messageViewHeightIncrease = messageLabel.frame.size.height + 8.0;
                             messageLabelOrigin.y += messageViewHeightIncrease
-                            messageViewSize.height += messageViewHeightIncrease
                             
                         case .FileShare(let file, let sharedOnUpload):
                             var imageFrame = NSRect(origin: messageLabelOrigin, size: NSSize.zeroSize)
@@ -323,7 +321,6 @@ class TeamView: NSView {
                             }
                             
                             messageLabelOrigin.y += attachmentHeightIncrease
-                            messageViewSize.height += attachmentHeightIncrease
 
                         default:
                             if displayText && message.attributedText != nil {
@@ -345,7 +342,6 @@ class TeamView: NSView {
                                 
                                 let messageViewHeightIncrease = messageLabel.frame.size.height + 8.0;
                                 messageLabelOrigin.y += messageViewHeightIncrease
-                                messageViewSize.height += messageViewHeightIncrease
                             }
                         }
 
@@ -365,7 +361,6 @@ class TeamView: NSView {
                                 
                                 let messageViewHeightIncrease = commentLabel.frame.size.height + 10.0;
                                 messageLabelOrigin.y += messageViewHeightIncrease
-                                messageViewSize.height += messageViewHeightIncrease
                             }
                         default:
                             println("Had a file event to display in the view, but no way to incorporate it")
@@ -402,11 +397,10 @@ class TeamView: NSView {
                 
                 let messageViewHeightIncrease = gradientView.frame.size.height + 7.0;
                 messageLabelOrigin.y += messageViewHeightIncrease
-                messageViewSize.height += messageViewHeightIncrease
             }
         }
         
-        messageViewSize.height -= 10.0
+        messageViewSize.height = messageLabelOrigin.y
         
         self.frame.size = messageViewSize
     }
