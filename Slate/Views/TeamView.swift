@@ -19,7 +19,7 @@ class TeamView: NSView {
         super.init(frame: NSRect.zeroRect)
         var messageViewSize = NSSize(width: 400.0, height: 5.0)
         var messageLabelOrigin = CGPoint(x: 49.0, y: 8.0)
-        var userPicOrigin = CGPoint(x: 11.0, y: -20.0)
+        let userPicXOrigin: CGFloat = 11.0
         var previousUserID: String?
         
         let rightMargin: CGFloat = 30.0
@@ -27,7 +27,7 @@ class TeamView: NSView {
         let maximumImageHeight: CGFloat = 300.0
         
         func addUserPic(userID: String) {
-            let imageView = NSImageView(frame: NSRect(origin: userPicOrigin, size: CGSize(width: 24.0, height: 24.0)))
+            let imageView = NSImageView(frame: NSRect(origin: CGPoint(x: userPicXOrigin, y: messageLabelOrigin.y - 28.0), size: CGSize(width: 24.0, height: 24.0)))
             self.addSubview(imageView)
             
             if let image = teamState.users[userID]?.image48Image {
@@ -259,7 +259,6 @@ class TeamView: NSView {
                             
                             messageLabelOrigin.y += attachmentHeightIncrease
                             messageViewSize.height += attachmentHeightIncrease
-                            userPicOrigin.y += attachmentHeightIncrease
                         }
                         
                         switch message.subtype {
@@ -284,7 +283,6 @@ class TeamView: NSView {
                             let messageViewHeightIncrease = messageLabel.frame.size.height + 8.0;
                             messageLabelOrigin.y += messageViewHeightIncrease
                             messageViewSize.height += messageViewHeightIncrease
-                            userPicOrigin.y += messageViewHeightIncrease
                             
                         case .FileShare(let file, let sharedOnUpload):
                             var imageFrame = NSRect(origin: messageLabelOrigin, size: NSSize.zeroSize)
@@ -326,7 +324,6 @@ class TeamView: NSView {
                             
                             messageLabelOrigin.y += attachmentHeightIncrease
                             messageViewSize.height += attachmentHeightIncrease
-                            userPicOrigin.y += attachmentHeightIncrease
 
                         default:
                             if displayText && message.attributedText != nil {
@@ -349,7 +346,6 @@ class TeamView: NSView {
                                 let messageViewHeightIncrease = messageLabel.frame.size.height + 8.0;
                                 messageLabelOrigin.y += messageViewHeightIncrease
                                 messageViewSize.height += messageViewHeightIncrease
-                                userPicOrigin.y += messageViewHeightIncrease
                             }
                         }
 
@@ -370,7 +366,6 @@ class TeamView: NSView {
                                 let messageViewHeightIncrease = commentLabel.frame.size.height + 10.0;
                                 messageLabelOrigin.y += messageViewHeightIncrease
                                 messageViewSize.height += messageViewHeightIncrease
-                                userPicOrigin.y += messageViewHeightIncrease
                             }
                         default:
                             println("Had a file event to display in the view, but no way to incorporate it")
@@ -396,7 +391,7 @@ class TeamView: NSView {
                 gradientView.bottomColor = NSColor(calibratedRed: 202.0/255.0, green: 250.0/255.0, blue: 179.0/255.0, alpha: 1.0)
                 self.addSubview(gradientView)
                 
-                let channelTitleView = NSTextField(frame: NSRect(x: userPicOrigin.x, y: messageLabelOrigin.y, width: messageViewSize.width, height: 26.0))
+                let channelTitleView = NSTextField(frame: NSRect(x: userPicXOrigin, y: messageLabelOrigin.y, width: messageViewSize.width, height: 26.0))
                 channelTitleView.font = NSFont(name: "AvenirNext-Bold", size: 15.0)
                 channelTitleView.stringValue = channel.name!
                 channelTitleView.bordered = false
@@ -408,7 +403,6 @@ class TeamView: NSView {
                 let messageViewHeightIncrease = gradientView.frame.size.height + 7.0;
                 messageLabelOrigin.y += messageViewHeightIncrease
                 messageViewSize.height += messageViewHeightIncrease
-                userPicOrigin.y += messageViewHeightIncrease
             }
         }
         
